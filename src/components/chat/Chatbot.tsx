@@ -1,0 +1,754 @@
+import React, { useState, useRef, useEffect } from 'react';
+import { motion, AnimatePresence, useDragControls } from 'framer-motion';
+import { X, Send, Sparkles, Mic, Square, Paperclip, Trash2, Minus } from 'lucide-react';
+
+// Webhook URL
+const WEBHOOK_URL = 'https://n8n.frostrek.com/webhook/cac2fab9-d171-4d67-8587-9ac8d834f436';
+
+// --- ID Helpers ---
+function getOrCreateUserId(): string {
+    let userId = localStorage.getItem('user_id');
+    if (!userId) {
+        userId = 'UID-' + crypto.randomUUID();
+        localStorage.setItem('user_id', userId);
+    }
+    return userId;
+}
+
+function getOrCreateSessionId(): string {
+    let sessionId = sessionStorage.getItem('session_id');
+    if (!sessionId) {
+        sessionId = crypto.randomUUID();
+        sessionStorage.setItem('session_id', sessionId);
+    }
+    return sessionId;
+}
+
+// Color Scheme - AI Copilot Theme
+const COLORS = {
+    primary: '#A67C52', // Brown/Tan
+    primaryDark: '#8B6741',
+    primaryLight: '#C9987A',
+    accent: '#A67C52', // Teal/Cyan
+    accentLight: '#A67C52',
+    background: '#F8F6F0', // Light beige
+    text: '#1a1a1a',
+    textLight: '#666666',
+    white: '#FFFFFF',
+};
+
+const Chatbot: React.FC = () => {
+    const [isOpen, setIsOpen] = useState(false);
+    const [message, setMessage] = useState('');
+    const [messages, setMessages] = useState<Array<{ type: 'user' | 'bot', content: string, image?: string }>>([]);
+    const [isLoading, setIsLoading] = useState(false);
+    const [selectedFile, setSelectedFile] = useState<File | null>(null);
+
+    // Persistent IDs
+    const [userId] = useState<string>(() => getOrCreateUserId());
+    const [sessionId] = useState<string>(() => getOrCreateSessionId());
+    const [conversationId, setConversationId] = useState<string>(() => crypto.randomUUID());
+
+    // Audio Recording State
+    const [isRecording, setIsRecording] = useState(false);
+    const mediaRecorderRef = useRef<MediaRecorder | null>(null);
+    const audioChunksRef = useRef<Blob[]>([]);
+    const fileInputRef = useRef<HTMLInputElement | null>(null);
+
+    const messagesEndRef = useRef<HTMLDivElement>(null);
+    const chatContainerRef = useRef<HTMLDivElement>(null);
+    const dragControls = useDragControls();
+
+
+    const scrollToBottom = () => {
+        messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+    };
+
+    useEffect(() => {
+        scrollToBottom();
+    }, [messages]);
+
+    useEffect(() => {
+        if (isOpen) {
+            document.body.style.overflow = 'hidden';
+        } else {
+            document.body.style.overflow = '';
+        }
+
+        return () => {
+            document.body.style.overflow = '';
+        };
+    }, [isOpen]);
+
+
+    const toggleChat = () => setIsOpen(!isOpen);
+
+    const clearChat = () => {
+        setMessages([]);
+        setMessage('');
+        setSelectedFile(null);
+        setConversationId(crypto.randomUUID()); // New conversation
+
+        setTimeout(() => {
+            messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+        }, 100);
+    };
+
+
+    const handleFileSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const file = e.target.files?.[0];
+
+        if (!file) return;
+
+        // 20MB size limit
+        const MAX_SIZE = 20 * 1024 * 1024; // 20MB in bytes
+
+        if (file.size > MAX_SIZE) {
+            setMessages(prev => [
+                ...prev,
+                {
+                    type: 'bot',
+                    content: `⚠️ File too large. Maximum allowed size is 20MB. Your file size: ${(file.size / (1024 * 1024)).toFixed(2)}MB`
+                }
+            ]);
+
+            // Reset input so user can reselect
+            if (fileInputRef.current) {
+                fileInputRef.current.value = "";
+            }
+
+            return;
+        }
+
+        setSelectedFile(file);
+
+        setMessages(prev => [
+            ...prev,
+            { type: 'user', content: `📎 File selected: ${file.name}` }
+        ]);
+    };
+
+
+    const startRecording = async () => {
+        try {
+            const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+            const mediaRecorder = new MediaRecorder(stream, { mimeType: 'audio/webm' });
+
+            mediaRecorderRef.current = mediaRecorder;
+            audioChunksRef.current = [];
+
+            mediaRecorder.ondataavailable = (event) => {
+                if (event.data.size > 0) {
+                    audioChunksRef.current.push(event.data);
+                }
+            };
+
+            mediaRecorder.onstop = () => {
+                const audioBlob = new Blob(audioChunksRef.current, { type: 'audio/webm' });
+                handleSendMessage(undefined, audioBlob);
+                stream.getTracks().forEach(track => track.stop());
+            };
+
+            mediaRecorder.start();
+            setIsRecording(true);
+        } catch (error) {
+            console.error('Error accessing microphone:', error);
+            alert('Cannot access microphone. Please check permissions.');
+        }
+    };
+
+    const stopRecording = () => {
+        if (mediaRecorderRef.current && isRecording) {
+            mediaRecorderRef.current.stop();
+            setIsRecording(false);
+        }
+    };
+
+    const handleSendMessage = async (textInput?: string, audioBlob?: Blob) => {
+        if (!textInput && !audioBlob && !selectedFile) return;
+
+        setIsLoading(true);
+
+        if (textInput) {
+            setMessages(prev => [...prev, { type: 'user', content: textInput }]);
+            setMessage('');
+        } else if (audioBlob) {
+            setMessages(prev => [...prev, { type: 'user', content: '🎤 Audio Message Sent' }]);
+        }
+
+        try {
+            let response;
+            const messageId = crypto.randomUUID();
+
+            if (audioBlob) {
+                // Voice: multipart/form-data
+                const formData = new FormData();
+                formData.append('audio', audioBlob, 'voice-message.webm');
+                formData.append('user_id', userId);
+                formData.append('session_id', sessionId);
+                formData.append('conversation_id', conversationId);
+                formData.append('message_id', messageId);
+                formData.append('message', '[Voice message]');
+                formData.append('type', 'voice');
+
+                response = await fetch(WEBHOOK_URL, {
+                    method: 'POST',
+                    body: formData,
+                });
+            } else if (selectedFile) {
+                // Image: multipart/form-data
+                const formData = new FormData();
+                formData.append('image', selectedFile);
+                formData.append('user_id', userId);
+                formData.append('session_id', sessionId);
+                formData.append('conversation_id', conversationId);
+                formData.append('message_id', messageId);
+                formData.append('message', textInput || '[Image]');
+                formData.append('type', 'image');
+
+                response = await fetch(WEBHOOK_URL, {
+                    method: 'POST',
+                    body: formData,
+                });
+            } else {
+                // Text: application/json
+                const payload = {
+                    user_id: userId,
+                    session_id: sessionId,
+                    conversation_id: conversationId,
+                    message_id: messageId,
+                    message: textInput || '',
+                    type: 'text',
+                };
+
+                console.log('Sending JSON payload:', payload);
+                response = await fetch(WEBHOOK_URL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload),
+                });
+            }
+
+            if (!response.ok) {
+                const errorText = await response.text();
+                throw new Error(errorText);
+            }
+            // hello 
+            const contentType = response.headers.get('content-type') || '';
+
+            if (contentType.includes('audio/')) {
+                const audioBlob = await response.blob();
+                const audioUrl = URL.createObjectURL(audioBlob);
+
+                setMessages(prev => [
+                    ...prev,
+                    { type: 'bot', content: '🔊 Playing voice response…' }
+                ]);
+
+                // const audio = new Audio()  ;
+                // audio.src = audioUrl;
+                // audio.preload = 'auto';
+
+                // audio.oncanplaythrough = () => {
+                //     audio.play().catch(err => {
+                //         console.error('Autoplay blocked:', err);
+                //     });
+                // };
+
+                // audio.onerror = (e) => {
+                //     console.error('Audio playback error', e);
+                // };
+
+                const audio = new Audio(audioUrl);
+                audio.preload = 'auto';
+
+                try {
+                    await audio.play(); // user already interacted → autoplay allowed
+                } catch (err) {
+                    console.error('Audio play failed:', err);
+                }
+
+                return;
+            } else if (contentType.includes('image/')) {
+                const imageBlob = await response.blob();
+                const imageUrl = URL.createObjectURL(imageBlob);
+
+                setMessages(prev => [
+                    ...prev,
+                    { type: 'bot', content: 'Here is the generated image:', image: imageUrl }
+                ]);
+
+                return;
+            }
+            else {
+                const rawText = await response.text();
+                console.log('Raw Server Response:', rawText);
+
+                if (!rawText) {
+                    setMessages(prev => [
+                        ...prev,
+                        { type: 'bot', content: textInput ? '✅ Message received.' : '✅ Voice received. Processing…' }
+                    ]);
+                    return;
+                }
+
+                let data: any;
+
+                try {
+                    data = JSON.parse(rawText);
+                    console.log('=== FULL PARSED RESPONSE ===');
+                    console.log('Type:', typeof data);
+                    console.log('Is Array:', Array.isArray(data));
+                    console.log('Data:', JSON.stringify(data, null, 2));
+                    if (Array.isArray(data)) {
+                        console.log('Array Length:', data.length);
+                        console.log('First Item:', data[0]);
+                    }
+                    console.log('Keys:', Object.keys(data));
+                    console.log('===========================');
+                } catch {
+                    console.log('Could not parse JSON, displaying raw text');
+                    setMessages(prev => [
+                        ...prev,
+                        { type: 'bot', content: rawText }
+                    ]);
+                    return;
+                }
+
+                // Try to extract the bot response from various possible structures
+                let botText: string | undefined;
+
+                // Handle array response (n8n often returns arrays)
+                if (Array.isArray(data)) {
+                    const firstItem = data[0];
+                    if (firstItem) {
+                        console.log('First array item keys:', Object.keys(firstItem));
+                        botText =
+                            firstItem.reply ||
+                            firstItem.output ||
+                            firstItem.text ||
+                            firstItem.message ||
+                            firstItem.response ||
+                            firstItem.content ||
+                            (firstItem.body && (firstItem.body.message || firstItem.body.output || firstItem.body.text)) ||
+                            (typeof firstItem === 'string' ? firstItem : undefined);
+                    }
+                } else {
+                    // Handle object response
+                    botText =
+                        data.reply ||
+                        data.output ||
+                        data.text ||
+                        data.message ||
+                        data.response ||
+                        data.content ||
+                        (data.body && (data.body.message || data.body.output || data.body.text));
+                }
+
+                // Fallback to raw JSON if nothing found
+                if (!botText) {
+                    console.warn('Could not extract text from response, showing raw JSON');
+                    botText = JSON.stringify(data, null, 2);
+                }
+
+                console.log('Extracted botText:', botText);
+
+                setMessages(prev => [
+                    ...prev,
+                    { type: 'bot', content: botText }
+                ]);
+            }
+        } catch (error) {
+            console.error('Error sending message:', error);
+            setMessages(prev => [...prev, { type: 'bot', content: "Sorry, I'm having trouble connecting right now." }]);
+        } finally {
+            setIsLoading(false);
+            setSelectedFile(null);
+        }
+    };
+
+    const onSubmit = (e: React.FormEvent) => {
+        e.preventDefault();
+        if (message.trim() || selectedFile) {
+            handleSendMessage(message);
+        }
+    };
+
+    return (
+        <>
+            <style>{`
+                .ai-copilot-chat {
+                    touch-action: pan-y !important;
+                    pointer-events: auto !important;
+                }
+                .ai-copilot-button:hover {
+                    background-color: ${COLORS.primaryDark} !important;
+                }
+                .ai-copilot-suggestion {
+                    background-color: white;
+                    border: 1.5px solid ${COLORS.primary};
+                    color: ${COLORS.text};
+                    border-radius: 20px;
+                    padding: 8px 14px;
+                    font-size: 12px;
+                    font-weight: 500;
+                    cursor: pointer;
+                    transition: all 0.3s ease;
+                }
+                .ai-copilot-suggestion:hover {
+                    background-color: ${COLORS.primary};
+                    color: white;
+                    transform: translateY(-2px);
+                }
+                /* Custom Scrollbar Styling */
+                .ai-copilot-chat::-webkit-scrollbar {
+                    width: 8px;
+                }
+                .ai-copilot-chat::-webkit-scrollbar-track {
+                    background: ${COLORS.background};
+                    border-radius: 10px;
+                }
+                .ai-copilot-chat::-webkit-scrollbar-thumb {
+                    background: ${COLORS.accent};
+                    border-radius: 10px;
+                    transition: all 0.3s ease;
+                }
+                .ai-copilot-chat::-webkit-scrollbar-thumb:hover {
+                    background: ${COLORS.accentLight};
+                }
+                /* Firefox Scrollbar */
+                .ai-copilot-chat {
+                    scrollbar-color: ${COLORS.accent} ${COLORS.background};
+                    scrollbar-width: thin;
+                }
+            `}</style>
+
+            {/* Trigger Button - Always Visible */}
+            <motion.button
+                initial={{ scale: 0, opacity: 0 }}
+                animate={{ scale: 1, opacity: 1 }}
+                whileHover={{ scale: 1.1 }}
+                whileTap={{ scale: 0.9 }}
+                onClick={toggleChat}
+                style={{
+                    position: 'fixed',
+                    bottom: '24px',
+                    right: '24px',
+                    zIndex: 10000,
+                    backgroundColor: isOpen ? '#f0f0f0' : COLORS.primary,
+                }}
+                className={`p-2 rounded-full shadow-2xl transition-all duration-300 ai-copilot-button ${isOpen ? 'rotate-90' : ''}`}
+            >
+                {isOpen ? (
+                    <X className="w-6 h-6" style={{ color: COLORS.text }} />
+                ) : (
+                    <div className="w-10 h-10 relative flex items-center justify-center overflow-hidden">
+                        <img
+                            src="/robo2.gif"
+                            alt="Chat"
+                            className="w-full h-full object-cover scale-150"
+                        />
+                    </div>
+                )}
+            </motion.button>
+
+            {/* Chat Sidebar Overlay */}
+            <AnimatePresence>
+                {isOpen && (
+                    <>
+                        {/* Backdrop for mobile */}
+                        <motion.div
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            exit={{ opacity: 0 }}
+                            onClick={toggleChat}
+                            className="fixed inset-0 bg-black/40 z-[9998] backdrop-blur-sm md:hidden"
+                        />
+
+                        {/* Draggable Sidebar Panel */}
+                        <motion.div
+                            ref={chatContainerRef}
+                            drag
+                            dragControls={dragControls}
+                            dragElastic={0.15}
+                            dragMomentum={false}
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            exit={{ opacity: 0 }}
+                            transition={{ type: 'spring', damping: 25, stiffness: 200 }}
+                            className="fixed bottom-[90px] right-4 md:right-6 
+                                        w-[380px] max-w-[95vw] h-[600px] max-h-[80vh] 
+                                        rounded-2xl shadow-2xl border border-gray-200
+                                        overflow-hidden flex flex-col z-[9999]"
+                            style={{ backgroundColor: COLORS.white }}
+                        >
+
+                            {/* Header - Draggable Area */}
+                            <div
+                                className="p-4 flex items-center justify-between text-white rounded-t-2xl cursor-grab active:cursor-grabbing select-none touch-none"
+                                style={{ backgroundColor: COLORS.primary }} onPointerDown={(e) => dragControls.start(e)}
+                            >
+                                <div className="flex items-center gap-3 pointer-events-none">
+                                    <div className="w-12 h-12 bg-white rounded-full flex items-center justify-center">
+                                        <img src="/robo2.gif" className="w-10 h-10" alt="Robot" />
+                                    </div>
+                                    <div>
+                                        <h3 className="font-semibold text-sm">Frostrek Assistant</h3>
+                                        <p className="text-xs opacity-90">Online • Ready to help</p>
+                                    </div>
+                                </div>
+                                <div className="flex items-center gap-2 pointer-events-auto">
+
+                                    {/* Show Clear Chat Button ONLY if chat exists */}
+                                    <AnimatePresence>
+                                        {messages.length > 0 && (
+                                            <motion.button
+                                                initial={{ opacity: 0, scale: 0.8 }}
+                                                animate={{ opacity: 1, scale: 1 }}
+                                                exit={{ opacity: 0, scale: 0.8 }}
+                                                onClick={clearChat}
+                                                title="Clear Chat"
+                                                className="p-1.5 rounded-lg transition-all duration-200 
+                           hover:bg-red-500/20 group"
+                                            >
+                                                <Trash2 className="w-5 h-5 text-white/80 group-hover:text-red-400 transition" />
+                                            </motion.button>
+                                        )}
+                                    </AnimatePresence>
+
+                                    {/* Close Chat Button */}
+                                    <button
+                                        onClick={toggleChat}
+                                        title="Close Chat"
+                                        className="p-1.5 rounded-lg transition-all duration-200 hover:bg-white/20"
+                                    >
+                                        <Minus className="w-5 h-5 text-white" />
+                                    </button>
+                                </div>
+                            </div>
+                            {/* Chat Body (Messages) */}
+                            <div
+                                className="ai-copilot-chat flex-1 overflow-y-auto p-6 flex flex-col gap-4"
+                                style={{
+                                    backgroundColor: COLORS.background,
+                                    overscrollBehavior: 'contain',
+                                    touchAction: 'pan-y',
+                                    pointerEvents: 'auto'
+                                }}
+
+                                onWheel={(e) => {
+                                    e.stopPropagation();
+                                }}
+
+                                onTouchMove={(e) => {
+                                    e.stopPropagation();
+                                }}
+                            >
+                                <AnimatePresence>
+                                    {messages.length === 0 && (
+                                        <motion.div
+                                            initial={{ opacity: 1 }}
+                                            exit={{ opacity: 0 }}
+                                            transition={{ duration: 0.5 }}
+                                            className="text-center px-6 py-6"
+                                        >
+                                            <img src="/robo2.gif" className="w-32 mx-auto mb-4" alt="Robot" />
+                                            <h4 className="text-lg font-semibold" style={{ color: COLORS.text }}>
+                                                Hi, I'm Frostry 👋
+                                            </h4>
+                                            <p className="text-sm mt-2" style={{ color: COLORS.textLight }}>
+                                                Ask me anything about your business, support, or innovation.
+                                            </p>
+
+                                            <div className="flex flex-wrap justify-center gap-2 mt-4">
+                                                <button className="ai-copilot-suggestion">💡 Get ideas</button>
+                                                <button className="ai-copilot-suggestion">📊 Analytics</button>
+                                                <button className="ai-copilot-suggestion">🛠 Support</button>
+                                            </div>
+                                        </motion.div>
+                                    )}
+                                </AnimatePresence>
+
+
+                                {messages.map((msg, idx) => (
+                                    <div
+                                        key={idx}
+                                        className={`flex gap-3 max-w-[85%] ${msg.type === 'user' ? 'self-end flex-row-reverse' : ''}`}
+                                    >
+                                        <div
+                                            className={`w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 overflow-hidden ${msg.type === 'user' ? 'text-xs font-bold' : ''}`}
+                                            style={{
+                                                backgroundColor: msg.type === 'user' ? '#e8e8e8' : COLORS.accent + '20',
+                                                color: msg.type === 'user' ? COLORS.text : COLORS.accent,
+                                            }}
+                                        >
+                                            {msg.type === 'user' ? (
+                                                <span>You</span>
+                                            ) : (
+                                                <img src="/robo2.gif" alt="Bot" className="w-6 h-6 object-contain" />
+                                            )}
+                                        </div>
+                                        <div
+                                            className={`p-4 rounded-2xl shadow-sm text-sm leading-relaxed whitespace-pre-wrap ${msg.type === 'user' ? 'text-white rounded-br-sm' : 'text-gray-700 rounded-bl-sm border'}`}
+                                            style={{
+                                                backgroundColor: msg.type === 'user' ? COLORS.primary : COLORS.white,
+                                                color: msg.type === 'user' ? COLORS.white : COLORS.text,
+                                                borderColor: msg.type === 'user' ? 'transparent' : '#e0e0e0',
+                                            }}
+                                        >
+                                            {msg.content && (
+                                                <div className="whitespace-pre-wrap">
+                                                    {msg.content.split(/(https?:\/\/[^\s]+)/g).map((part, i) => {
+                                                        if (part.match(/https?:\/\/[^\s]+/)) {
+                                                            return (
+                                                                <a
+                                                                    key={i}
+                                                                    href={part}
+                                                                    target="_blank"
+                                                                    rel="noopener noreferrer"
+                                                                    className={`underline hover:opacity-80 break-all ${msg.type === 'user' ? 'text-white' : 'text-blue-600'}`}
+                                                                    onClick={(e) => e.stopPropagation()}
+                                                                >
+                                                                    {part}
+                                                                </a>
+                                                            );
+                                                        }
+                                                        return part;
+                                                    })}
+                                                </div>
+                                            )}
+                                            {msg.image && (
+                                                <div className="mt-2 rounded-lg overflow-hidden border border-gray-200">
+                                                    <img src={msg.image} alt="Generated" className="w-full h-auto" />
+                                                </div>
+                                            )}
+                                        </div>
+                                    </div>
+                                ))}
+
+                                {/* Typing Indicator Style */}
+                                <style>{`
+                                        @keyframes blink {
+                                            0% { opacity: 0.2; }
+                                            20% { opacity: 1; }
+                                            100% { opacity: 0.2; }
+                                        }
+                                        .typing-dot {
+                                            animation: blink 1.4s infinite both;
+                                            height: 6px;
+                                            width: 6px;
+                                            border-radius: 50%;
+                                            background-color: ${COLORS.primary};
+                                            display: inline-block;
+                                        }
+                                        .typing-dot:nth-child(2) { animation-delay: 0.2s; }
+                                        .typing-dot:nth-child(3) { animation-delay: 0.4s; }
+                                    `}</style>
+
+                                {isLoading && (
+                                    <div className="flex gap-3 max-w-[85%]">
+                                        <div
+                                            className="w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 border"
+                                            style={{
+                                                backgroundColor: COLORS.accent + '20',
+                                                borderColor: COLORS.accent,
+                                            }}
+                                        >
+                                            <Sparkles className="w-4 h-4" style={{ color: COLORS.accent }} />
+                                        </div>
+                                        <div className="p-4 rounded-2xl rounded-tl-none shadow-sm border flex items-center" style={{ backgroundColor: COLORS.white, borderColor: '#e0e0e0' }}>
+                                            <div className="flex gap-1">
+                                                <span className="typing-dot"></span>
+                                                <span className="typing-dot"></span>
+                                                <span className="typing-dot"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                )}
+                                <div ref={messagesEndRef} />
+                            </div>
+
+                            {/* Footer (Input) */}
+                            <div className="p-4 border-t" style={{ backgroundColor: COLORS.white, borderColor: '#e0e0e0' }}>
+                                {selectedFile && (
+                                    <div className="text-xs mb-2 flex items-center gap-2" style={{ color: COLORS.textLight }}>
+                                        <span>📎 {selectedFile.name}</span>
+                                        <button
+                                            onClick={() => setSelectedFile(null)}
+                                            className="text-red-500 text-xs hover:underline"
+                                        >
+                                            Remove
+                                        </button>
+                                    </div>
+                                )}
+
+                                <form onSubmit={onSubmit} className="flex items-center gap-2 rounded-full px-3 py-2 shadow-sm border" style={{ backgroundColor: COLORS.background, borderColor: '#d0d0d0' }}>
+                                    {/* Hidden File Input */}
+                                    <input
+                                        type="file"
+                                        ref={fileInputRef}
+                                        onChange={handleFileSelect}
+                                        className="hidden"
+                                    />
+
+                                    {/* Upload Button */}
+                                    <button
+                                        type="button"
+                                        onClick={() => fileInputRef.current?.click()}
+                                        className="p-2 rounded-lg transition-all duration-200"
+                                        style={{
+                                            backgroundColor: COLORS.primary + '20',
+                                            color: COLORS.primary,
+                                        }}
+                                        title="Upload file"
+                                    >
+                                        <Paperclip className="w-5 h-5" />
+                                    </button>
+
+                                    {/* Mic Button */}
+                                    <button
+                                        type="button"
+                                        onClick={isRecording ? stopRecording : startRecording}
+                                        className={`p-2 rounded-lg transition-all duration-200 ${isRecording ? 'animate-pulse' : ''}`}
+                                        style={{
+                                            backgroundColor: isRecording ? '#ff4444' : COLORS.primary + '20',
+                                            color: isRecording ? 'white' : COLORS.primary,
+                                        }}
+                                        title={isRecording ? "Stop Recording" : "Start Recording"}
+                                    >
+                                        {isRecording ? <Square className="w-5 h-5 fill-current" /> : <Mic className="w-5 h-5" />}
+                                    </button>
+
+                                    <input
+                                        type="text"
+                                        value={message}
+                                        onChange={(e) => setMessage(e.target.value)}
+                                        placeholder={isRecording ? "Listening..." : "Type your message..."}
+                                        disabled={isRecording || isLoading}
+                                        className="flex-1 bg-transparent outline-none text-sm px-2"
+                                        style={{ color: COLORS.text }}
+                                    />
+
+                                    <button
+                                        type="submit"
+                                        disabled={!message.trim() || isLoading || isRecording}
+                                        className="w-9 h-9 text-white rounded-full flex items-center justify-center hover:shadow-lg transition-shadow disabled:opacity-50"
+                                        style={{ backgroundColor: COLORS.primary }}
+                                    >
+                                        <Send className="w-4 h-4" />
+                                    </button>
+                                </form>
+
+                                <div className="text-center mt-2">
+                                    <p className="text-[10px]" style={{ color: COLORS.textLight }}>Powered by Frostrek AI</p>
+                                </div>
+                            </div>
+                        </motion.div>
+                    </>
+                )}
+            </AnimatePresence>
+        </>
+    );
+};
+
+export default Chatbot;
