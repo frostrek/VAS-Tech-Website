@@ -6,12 +6,12 @@ import TestimonialsSection from '../components/home/TestimonialsSection';
 import FAQSection from '../components/home/FAQSection';
 import CTASection from '../components/home/CTASection';
 
-import CuteBackground from '../components/ui/CuteBackground';
+import GlowBackground from '../components/ui/GlowBackground';
 
 const Home = () => {
     return (
-        <div className="min-h-screen relative">
-            <CuteBackground />
+        <div className="min-h-screen relative bg-dark-bg text-dark-text">
+            <GlowBackground />
             <HeroSection />
             <AISolutionsShowcase />
             <TrustedBySection />

@@ -9,19 +9,25 @@ import { ImpactMetrics } from '../components/product/ImpactMetrics';
 import { WorkflowBuilder } from '../components/product/WorkflowBuilder';
 import { CapabilitiesSystem } from '../components/product/CapabilitiesSystem';
 import ProductHero from '../components/product/ProductHero';
-import AllProductsSection from '../components/product/AllProductsSection';
 import { useTheme } from '../context/ThemeContext';
 import CTASection from '../components/home/CTASection';
+import ProductsPage from './ProductsPage';
 
 const ProductPage = () => {
     const { theme } = useTheme();
     const location = useLocation();
-    const product = PRODUCT_DATA[location.pathname] || PRODUCT_DATA['generic'];
     const [openFaqIndex, setOpenFaqIndex] = useState<number | null>(null);
 
     useEffect(() => {
         window.scrollTo(0, 0);
     }, [location.pathname]);
+
+    // Render the new branded products page for /products root
+    if (location.pathname === '/products') {
+        return <ProductsPage />;
+    }
+
+    const product = PRODUCT_DATA[location.pathname] || PRODUCT_DATA['generic'];
 
     if (!product) return null;
 
@@ -36,9 +42,6 @@ const ProductPage = () => {
                 description={product.description}
                 tagline={product.tagline}
             />
-
-            {/* 2. All Products Section - Showcases all available products */}
-            {location.pathname === '/products' && <AllProductsSection />}
 
             {/* 2. Stats Section - "Turn Efficiency into Profit" */}
             <section className={`py-24 transition-colors ${theme === 'dark' ? 'bg-dark-card' : 'bg-brand-green-50'}`}>

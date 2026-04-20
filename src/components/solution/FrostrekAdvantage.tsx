@@ -8,7 +8,7 @@ import {
 } from 'lucide-react';
 import { useTheme } from '../../context/ThemeContext';
 
-interface FrostrekAdvantageProps {
+interface VASTechAdvantageProps {
     features?: any[];
 }
 
@@ -19,7 +19,7 @@ const WORKFLOW_STEPS = [
         subtitle: 'Raw inputs & documents',
         icon: Database,
         color: '#6366F1',
-        outcome: { title: 'Smart Data Lake', desc: 'Auto-categorized & searchable.', stat: '99.2%', statLabel: 'Accuracy' }
+        outcome: { title: 'Smart Data Lake', desc: 'Auto-categorized & searchable.', stat: '90%+', statLabel: 'Accuracy' }
     },
     {
         id: 'input-2',
@@ -27,7 +27,7 @@ const WORKFLOW_STEPS = [
         subtitle: 'Anomalies & vulnerabilities',
         icon: Shield,
         color: '#EC4899',
-        outcome: { title: 'Threat Shield', desc: 'Real-time neutralization.', stat: '<500ms', statLabel: 'Response' }
+        outcome: { title: 'Threat Shield', desc: 'Real-time neutralization.', stat: 'Real-time', statLabel: 'Response' }
     },
     {
         id: 'input-3',
@@ -91,7 +91,7 @@ const Confetti = () => (
     </div>
 );
 
-const FrostrekAdvantage = ({ features: _features }: FrostrekAdvantageProps) => {
+const VASTechAdvantage = ({ features: _features }: VASTechAdvantageProps) => {
     const { theme } = useTheme();
     const [processedIds, setProcessedIds] = useState<string[]>([]);
     const [processingId, setProcessingId] = useState<string | null>(null);
@@ -153,7 +153,7 @@ const FrostrekAdvantage = ({ features: _features }: FrostrekAdvantageProps) => {
                         viewport={{ once: true }}
                         className={`text-2xl md:text-4xl font-bold mb-3 ${theme === 'dark' ? 'text-dark-text' : 'text-[#2D241E]'}`}
                     >
-                        The Frostrek <span className="bg-gradient-to-r from-[#B07552] to-[#8A5A35] bg-clip-text text-transparent">Advantage</span>
+                        The VAS Tech <span className="bg-gradient-to-r from-[#B07552] to-[#8A5A35] bg-clip-text text-transparent">Advantage</span>
                     </motion.h2>
 
                     <motion.p
@@ -511,9 +511,9 @@ const FrostrekAdvantage = ({ features: _features }: FrostrekAdvantageProps) => {
                         className="mt-10 flex flex-wrap justify-center gap-6 md:gap-12"
                     >
                         {[
-                            { icon: Zap, label: 'Processing', value: '<50ms' },
-                            { icon: Star, label: 'Accuracy', value: '99.7%' },
-                            { icon: Rocket, label: 'Uptime', value: '99.99%' },
+                            { icon: Zap, label: 'Processing', value: 'Ultra-low' },
+                            { icon: Star, label: 'Accuracy', value: '90%+' },
+                            { icon: Rocket, label: 'Uptime', value: '99%+' },
                         ].map((stat, i) => (
                             <motion.div
                                 key={i}
@@ -536,4 +536,4 @@ const FrostrekAdvantage = ({ features: _features }: FrostrekAdvantageProps) => {
     );
 };
 
-export default FrostrekAdvantage;
+export default VASTechAdvantage;

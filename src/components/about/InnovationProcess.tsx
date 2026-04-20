@@ -1,333 +1,210 @@
 "use client";
 
-import { useEffect, useRef, useState, useCallback } from "react";
-import {
-    Lightbulb,
-    Code2,
-    TestTube2,
-    Rocket,
-    TrendingUp,
-    type LucideIcon,
-} from "lucide-react";
+import { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { Lightbulb, Code2, TestTube2, Rocket, TrendingUp, type LucideIcon } from "lucide-react";
 
-interface ProcessNode {
+interface Phase {
     id: string;
     label: string;
+    tagline: string;
     description: string;
     icon: LucideIcon;
-    x: number;
-    y: number;
     color: string;
+    delay: number;
 }
 
-const PROCESS_NODES: ProcessNode[] = [
+const PHASES: Phase[] = [
     {
         id: "research",
-        label: "Research",
-        description: "Deep analysis",
+        label: "Research & Strategy",
+        tagline: "Mapping the neural pathways",
+        description: "We audit your infrastructure to identify high-ROI automation targets. No guesswork, just pure data-driven blueprinting.",
         icon: Lightbulb,
-        x: -30,
-        y: -30,
-        color: "#B07552" // Bronze
+        color: "#FBBF24", // amber-400
+        delay: 0,
     },
     {
-        id: "develop",
-        label: "Development",
-        description: "Build robust AI",
+        id: "development",
+        label: "Architecture & Dev",
+        tagline: "Constructing the core engine",
+        description: "We build highly modular, scalable agentic systems using our proprietary stack, tailoring LLMs to your specific enterprise data.",
         icon: Code2,
-        x: 30,
-        y: -30,
-        color: "#D4BB75" // Gold
+        color: "#F97316", // orange-500
+        delay: 0.1,
     },
     {
-        id: "test",
-        label: "Testing",
-        description: "Review quality",
+        id: "testing",
+        label: "Validation & Testing",
+        tagline: "Stress-testing under pressure",
+        description: "Rigorous quality assurance, hallucination rate testing, and edge-case simulation to guarantee 99.9% enterprise reliability.",
         icon: TestTube2,
-        x: 30,
-        y: 25,
-        color: "#8A5A35" // Dark Brown
+        color: "#EAB308", // yellow-500
+        delay: 0.2,
     },
     {
-        id: "deploy",
-        label: "Deployment",
-        description: "Integration",
+        id: "deployment",
+        label: "Deployment & Scaling",
+        tagline: "Activating the neural grid",
+        description: "Seamless integration into your live environments with continuous monitoring, latency reduction, and self-improving feedback loops.",
         icon: Rocket,
-        x: -30,
-        y: 25,
-        color: "#C48F71" // Light Bronze
-    },
+        color: "#FDE047", // yellow-300
+        delay: 0.3,
+    }
 ];
 
 const InnovationProcess = () => {
-    const containerRef = useRef<HTMLDivElement>(null);
-    const [nodePositions, setNodePositions] = useState<Record<string, { x: number; y: number }>>({});
-    const [hoveredNode, setHoveredNode] = useState<string | null>(null);
-    const [draggedNode, setDraggedNode] = useState<string | null>(null);
-    const [floatingNodes, setFloatingNodes] = useState<Set<string>>(new Set());
-    const [isAnimated, setIsAnimated] = useState(false);
-    const dragStartRef = useRef<{ x: number; y: number; nodeX: number; nodeY: number } | null>(null);
-    const resetTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+    const [activeId, setActiveId] = useState<string>(PHASES[0].id);
 
-    // Calculate target positions
-    const getTargetPositions = useCallback(() => {
-        const formation: Record<string, { x: number; y: number }> = {};
-        PROCESS_NODES.forEach((node) => {
-            formation[node.id] = { x: node.x, y: node.y };
-        });
-        return formation;
-    }, []);
-
-    // Initialize with scattered positions, then animate to formation
-    useEffect(() => {
-        const scattered: Record<string, { x: number; y: number }> = {};
-        PROCESS_NODES.forEach((node) => {
-            scattered[node.id] = {
-                x: (Math.random() - 0.5) * 120, // Reduced scatter range to keep visible
-                y: (Math.random() - 0.5) * 120,
-            };
-        });
-        setNodePositions(scattered);
-
-        const timer = setTimeout(() => {
-            setNodePositions(getTargetPositions());
-            setIsAnimated(true);
-        }, 500); // Slightly longer delay for "suffer" effect
-
-        return () => clearTimeout(timer);
-    }, [getTargetPositions]);
-
-    // Auto-reshuffle (reset) after interaction
-    const scheduleReset = useCallback(() => {
-        if (resetTimerRef.current) clearTimeout(resetTimerRef.current);
-        resetTimerRef.current = setTimeout(() => {
-            setNodePositions(getTargetPositions());
-            setFloatingNodes(new Set());
-        }, 3000); // 3 seconds auto-reset
-    }, [getTargetPositions]);
-
-    // Get node position
-    const getNodePos = useCallback((nodeId: string) => {
-        return nodePositions[nodeId] || { x: 0, y: 0 };
-    }, [nodePositions]);
-
-    // Handle pointer down (start drag)
-    const handlePointerDown = useCallback((e: React.PointerEvent, nodeId: string) => {
-        e.preventDefault();
-        e.stopPropagation();
-        e.currentTarget.setPointerCapture(e.pointerId);
-
-        if (resetTimerRef.current) clearTimeout(resetTimerRef.current);
-
-        const pos = getNodePos(nodeId);
-        dragStartRef.current = {
-            x: e.clientX,
-            y: e.clientY,
-            nodeX: pos.x,
-            nodeY: pos.y,
-        };
-        setDraggedNode(nodeId);
-    }, [getNodePos]);
-
-    // Handle pointer move (dragging)
-    const handlePointerMove = useCallback((e: React.PointerEvent) => {
-        if (!draggedNode || !containerRef.current) return;
-
-        const dragStart = dragStartRef.current;
-        if (!dragStart) return;
-
-        const rect = containerRef.current.getBoundingClientRect();
-        const deltaX = ((e.clientX - dragStart.x) / rect.width) * 100;
-        const deltaY = ((e.clientY - dragStart.y) / rect.height) * 100;
-
-        setNodePositions((prev) => ({
-            ...prev,
-            [draggedNode]: {
-                x: dragStart.nodeX + deltaX,
-                y: dragStart.nodeY + deltaY,
-            },
-        }));
-    }, [draggedNode]);
-
-    // Handle pointer up (end drag)
-    const handlePointerUp = useCallback((e: React.PointerEvent) => {
-        e.currentTarget.releasePointerCapture(e.pointerId);
-
-        if (draggedNode) {
-            setFloatingNodes((prev) => new Set([...prev, draggedNode]));
-            scheduleReset(); // Trigger auto-reset
-        }
-
-        setDraggedNode(null);
-        dragStartRef.current = null;
-    }, [draggedNode, scheduleReset]);
-
-    // Calculate SVG path from center to node
-    const getConnectionPath = useCallback((nodeId: string) => {
-        const pos = getNodePos(nodeId);
-        const centerX = 50;
-        const centerY = 50;
-        const nodeX = 50 + pos.x;
-        const nodeY = 50 + pos.y;
-
-        const midX = (centerX + nodeX) / 2;
-        const midY = (centerY + nodeY) / 2;
-        // Dynamic curvature based on distance
-        const dist = Math.sqrt(Math.pow(nodeX - centerX, 2) + Math.pow(nodeY - centerY, 2));
-        const curvature = Math.min(0.3, dist * 0.01);
-
-        const controlX = midX + (nodeY - centerY) * curvature;
-        const controlY = midY - (nodeX - centerX) * curvature;
-
-        return `M ${centerX} ${centerY} Q ${controlX} ${controlY} ${nodeX} ${nodeY}`;
-    }, [getNodePos]);
-
-    const isNodeFloating = (nodeId: string) => floatingNodes.has(nodeId);
+    const activePhase = PHASES.find(p => p.id === activeId) || PHASES[0];
 
     return (
-        <div
-            ref={containerRef}
-            className="relative w-full h-full min-h-[400px] md:min-h-[550px] select-none"
-            onPointerMove={handlePointerMove}
-        >
-            {/* SVG Connection Lines */}
-            <svg
-                className="absolute inset-0 w-full h-full pointer-events-none"
-                viewBox="0 0 100 100"
-                preserveAspectRatio="none"
-            >
-                <defs>
-                    <linearGradient id="innovation-line-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                        <stop offset="0%" stopColor="#B07552" stopOpacity="0.4" />
-                        <stop offset="50%" stopColor="#D4BB75" stopOpacity="0.4" />
-                        <stop offset="100%" stopColor="#8A5A35" stopOpacity="0.1" />
-                    </linearGradient>
-                    <linearGradient id="floating-line-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                        <stop offset="0%" stopColor="#C48F71" stopOpacity="0.6" />
-                        <stop offset="100%" stopColor="#E6D0C6" stopOpacity="0.3" />
-                    </linearGradient>
-                </defs>
+        <div className="w-full flex flex-col items-center">
+            <div className="w-full max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-16 items-center">
+                
+                {/* Control Panel (Left) */}
+                <div className="lg:col-span-5 flex flex-col gap-4 relative z-20 w-full">
+                    <div className="hidden lg:block absolute left-[28px] top-8 bottom-8 w-[2px] bg-[#111110] border-l border-zinc-900/50 -z-10" />
+                    
+                    {PHASES.map((phase, i) => {
+                        const isActive = activeId === phase.id;
+                        const Icon = phase.icon;
+                        
+                        return (
+                            <button
+                                key={phase.id}
+                                onClick={() => setActiveId(phase.id)}
+                                onMouseEnter={() => setActiveId(phase.id)}
+                                className={`relative flex items-center gap-6 p-5 rounded-2xl transition-all duration-500 text-left overflow-hidden group w-full
+                                    ${isActive 
+                                        ? 'bg-[#151515] border border-orange-500/30 shadow-[0_10px_30px_rgba(249,115,22,0.1)]' 
+                                        : 'bg-transparent border border-transparent hover:bg-[#111110] hover:border-zinc-800/50'
+                                    }
+                                `}
+                            >
+                                {/* Glowing Active Indicator Background */}
+                                {isActive && (
+                                    <motion.div 
+                                        layoutId="activeTabGlow"
+                                        className="absolute inset-0 bg-gradient-to-r from-orange-500/10 to-transparent pointer-events-none"
+                                        initial={false}
+                                        transition={{ type: "spring", stiffness: 300, damping: 30 }}
+                                    />
+                                )}
+                                
+                                {/* Icon Bubble */}
+                                <div className={`w-14 h-14 shrink-0 rounded-xl flex items-center justify-center transition-all duration-500 relative z-10
+                                    ${isActive 
+                                        ? 'bg-[#1A1A1A] border border-orange-500/50 shadow-[inset_0_2px_10px_rgba(249,115,22,0.2)]' 
+                                        : 'bg-[#0A0A0A] border border-zinc-800/50 text-zinc-500 group-hover:text-zinc-300'
+                                    }`}
+                                >
+                                    <Icon size={24} style={{ color: isActive ? phase.color : undefined }} className="transition-colors duration-500" />
+                                </div>
+                                
+                                {/* Labels */}
+                                <div className="relative z-10">
+                                    <h3 className={`font-bold text-lg mb-1 transition-colors duration-500 ${isActive ? 'text-white' : 'text-zinc-400 group-hover:text-zinc-200'}`}>
+                                        {phase.label}
+                                    </h3>
+                                    <div className="text-xs uppercase tracking-widest font-black text-zinc-600 transition-colors">
+                                        Phase 0{i + 1}
+                                    </div>
+                                </div>
+                                
+                                {/* Right Accent Tracer */}
+                                <div className={`absolute right-6 opacity-0 -translate-x-4 transition-all duration-500 ${isActive ? 'opacity-100 translate-x-0' : ''}`}>
+                                    <div className="w-6 h-[2px] bg-supportiq-button rounded-full" />
+                                </div>
+                            </button>
+                        );
+                    })}
+                </div>
 
-                {/* Connection lines */}
-                {PROCESS_NODES.map((node) => {
-                    const isActive = hoveredNode === node.id || draggedNode === node.id;
-                    const isFloating = isNodeFloating(node.id);
+                {/* Reactor Core (Right) */}
+                <div className="lg:col-span-7 relative h-[500px] lg:h-[600px] w-full flex items-center justify-center">
+                    
+                    {/* SVG Connector Path (Desktop Only) */}
+                    <div className="hidden lg:block absolute -left-12 top-[50%] h-[2px] w-32 bg-gradient-to-r from-orange-500/20 to-orange-500/60 z-0" 
+                         style={{ transform: `translateY(${-50}px)` }} 
+                    />
 
-                    return (
-                        <path
-                            key={`line-${node.id}`}
-                            d={getConnectionPath(node.id)}
-                            fill="none"
-                            stroke={isActive ? node.color : isFloating ? "url(#floating-line-gradient)" : "url(#innovation-line-gradient)"}
-                            strokeWidth={isActive ? 0.6 : 0.4}
-                            strokeLinecap="round"
-                            strokeDasharray={isFloating && !isActive ? "3 3" : "none"}
-                            className="transition-all duration-700"
-                            style={{
-                                opacity: isActive ? 1 : isFloating ? 0.8 : 0.6,
-                                filter: isActive ? `drop-shadow(0 0 4px ${node.color})` : "none",
-                            }}
+                    {/* Outer Core Glass Casing */}
+                    <div className="w-full h-full max-w-[500px] max-h-[500px] rounded-full border border-zinc-800/30 bg-[#0A0A0A]/40 backdrop-blur-3xl shadow-[inset_0_0_100px_rgba(0,0,0,0.8),0_20px_60px_rgba(0,0,0,0.8)] relative flex items-center justify-center p-8 z-10 transition-all duration-700 hover:scale-[1.02] group">
+                        
+                        {/* Dynamic Background Glow representing the energy of the step */}
+                        <div 
+                            className="absolute inset-0 rounded-full blur-[80px] opacity-20 group-hover:opacity-30 transition-all duration-1000 ease-[cubic-bezier(0.16,1,0.3,1)] pointer-events-none"
+                            style={{ backgroundColor: activePhase.color }}
                         />
-                    );
-                })}
-            </svg>
+                        
+                        {/* Rotating Decorative Rings */}
+                        <motion.div 
+                            className="absolute inset-4 rounded-full border border-dashed border-orange-500/20 pointer-events-none opacity-50"
+                            animate={{ rotate: 360 }}
+                            transition={{ duration: 60, repeat: Infinity, ease: "linear" }}
+                        />
+                        <motion.div 
+                            className="absolute inset-8 rounded-full border border-dashed border-yellow-500/10 pointer-events-none opacity-30"
+                            animate={{ rotate: -360 }}
+                            transition={{ duration: 80, repeat: Infinity, ease: "linear" }}
+                        />
 
-            {/* Center Hub - Impact - PREMIUM DESIGN */}
-            <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-20">
-                <div
-                    className="relative bg-white/90 backdrop-blur-xl rounded-full shadow-[0_0_50px_rgba(176,117,82,0.25)] p-6 md:p-8 text-center border-4 border-brand-green-50 group hover:scale-105 transition-transform duration-500"
-                >
-                    <div className="absolute inset-0 bg-gradient-to-br from-brand-green-500/10 to-brand-yellow-500/10 rounded-full animate-pulse-slow"></div>
-                    <TrendingUp className="w-8 h-8 md:w-10 md:h-10 text-brand-green-600 mx-auto mb-2 relative z-10" />
-                    <div className="text-lg md:text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-brand-green-600 to-brand-green-500 relative z-10">Impact</div>
-                    <div className="text-[10px] md:text-xs text-slate-500 font-bold uppercase tracking-widest mt-1 relative z-10">Business Growth</div>
+                        {/* Inner Content Area - Crossfading Elements */}
+                        <div className="relative z-20 text-center w-full px-6">
+                            <AnimatePresence mode="wait">
+                                <motion.div
+                                    key={activePhase.id}
+                                    initial={{ opacity: 0, scale: 0.95, y: 15 }}
+                                    animate={{ opacity: 1, scale: 1, y: 0 }}
+                                    exit={{ opacity: 0, scale: 1.05, y: -15 }}
+                                    transition={{ duration: 0.4, ease: "easeOut" }}
+                                    className="flex flex-col items-center"
+                                >
+                                    <div 
+                                        className="w-20 h-20 rounded-2xl flex items-center justify-center mb-8 shadow-[0_0_30px_rgba(0,0,0,0.5)] bg-[#111110] border"
+                                        style={{ borderColor: `${activePhase.color}40`, boxShadow: `inset 0 2px 20px ${activePhase.color}20` }}
+                                    >
+                                        <activePhase.icon size={36} style={{ color: activePhase.color }} />
+                                    </div>
+                                    
+                                    {/* Using font-serif for alignment! */}
+                                    <h3 
+                                        className="text-3xl md:text-4xl font-serif mb-4 leading-tight bg-clip-text text-transparent"
+                                        style={{ backgroundImage: `linear-gradient(135deg, #ffffff 20%, ${activePhase.color})` }}
+                                    >
+                                        {activePhase.label}
+                                    </h3>
+                                    
+                                    <p className="text-[11px] uppercase tracking-[0.3em] font-black mb-6" style={{ color: activePhase.color }}>
+                                        {activePhase.tagline}
+                                    </p>
+                                    
+                                    <p className="text-zinc-400 text-sm md:text-base leading-relaxed max-w-xs mx-auto">
+                                        {activePhase.description}
+                                    </p>
+                                </motion.div>
+                            </AnimatePresence>
+                        </div>
+                    </div>
                 </div>
             </div>
 
-            {/* Draggable Nodes - PREMIUM GLASSMORPHISM */}
-            {PROCESS_NODES.map((node, index) => {
-                const pos = getNodePos(node.id);
-                const Icon = node.icon;
-                const isDragging = draggedNode === node.id;
-                const isHovered = hoveredNode === node.id;
-                const isFloating = isNodeFloating(node.id);
-                const isActive = isDragging || isHovered;
-
-                return (
-                    <div
-                        key={node.id}
-                        className="absolute z-10 cursor-grab active:cursor-grabbing touch-none"
-                        style={{
-                            left: `calc(50% + ${pos.x}%)`,
-                            top: `calc(50% + ${pos.y}%)`,
-                            transform: `translate(-50%, -50%) scale(${isActive ? 1.15 : isFloating ? 1.05 : 1})`,
-                            transition: isDragging ? "none" : "all 0.8s cubic-bezier(0.34, 1.56, 0.64, 1)",
-                            transitionDelay: !isDragging && isAnimated ? `${index * 50}ms` : "0ms",
-                            zIndex: isDragging ? 30 : isHovered ? 25 : isFloating ? 15 : 10,
-                        }}
-                        onPointerDown={(e) => handlePointerDown(e, node.id)}
-                        onPointerUp={handlePointerUp}
-                        onPointerCancel={handlePointerUp}
-                        onMouseEnter={() => setHoveredNode(node.id)}
-                        onMouseLeave={() => setHoveredNode(null)}
-                    >
-                        <div
-                            className={`
-                                relative overflow-hidden backdrop-blur-md rounded-2xl p-3 md:p-4 flex flex-col items-center gap-2 min-w-[110px] md:min-w-[140px]
-                                transition-all duration-300
-                                ${isActive
-                                    ? "bg-white shadow-2xl ring-2 ring-offset-2 ring-transparent"
-                                    : isFloating
-                                        ? "bg-orange-50/90 shadow-xl border border-orange-200"
-                                        : "bg-white/80 shadow-xl border border-white/60 hover:bg-white hover:shadow-2xl"
-                                }
-                            `}
-                            style={{
-                                boxShadow: isActive
-                                    ? `0 20px 60px -10px ${node.color}40`
-                                    : isFloating
-                                        ? `0 10px 30px -5px rgba(249, 115, 22, 0.2)`
-                                        : '0 10px 30px -5px rgba(0,0,0,0.05)',
-                                borderColor: isActive ? node.color : undefined
-                            }}
-                        >
-                            {/* Color highlight bar */}
-                            <div
-                                className="absolute top-0 left-0 right-0 h-1 opacity-80"
-                                style={{ backgroundColor: node.color }}
-                            />
-
-                            <div
-                                className="w-10 h-10 md:w-12 md:h-12 rounded-2xl flex items-center justify-center transition-colors duration-300 shadow-[inset_0_2px_4px_rgba(0,0,0,0.05)]"
-                                style={{
-                                    backgroundColor: isActive ? node.color : isFloating ? "#fed7aa" : `${node.color}10`,
-                                }}
-                            >
-                                <Icon
-                                    size={20}
-                                    style={{ color: isActive ? "#ffffff" : isFloating ? "#ea580c" : node.color }}
-                                    className="md:w-6 md:h-6 transition-colors duration-300"
-                                />
-                            </div>
-
-                            <div className="text-center">
-                                <span className="block text-sm md:text-base font-bold text-slate-800 mb-0.5">{node.label}</span>
-                                <span className={`text-[10px] md:text-xs text-slate-500 font-medium transition-opacity duration-300 ${isActive ? 'opacity-100' : 'opacity-70'}`}>
-                                    {isActive ? node.description : 'Drag to explore'}
-                                </span>
-                            </div>
-                        </div>
+            {/* Impact Base Sequence */}
+            <div className="w-full max-w-6xl mx-auto mt-0 lg:mt-6 flex flex-col items-center justify-center relative z-0">
+                <div className="w-px h-16 bg-gradient-to-b from-orange-500/40 to-transparent mb-6 hidden lg:block" />
+                <motion.div 
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    className="bg-supportiq-button p-[1px] rounded-full overflow-hidden shadow-[0_10px_40px_rgba(249,115,22,0.2)]"
+                >
+                    <div className="bg-[#050505] px-8 py-3.5 rounded-full flex items-center gap-3">
+                        <TrendingUp size={18} className="text-orange-400" />
+                        <span className="text-sm font-bold text-white tracking-wide uppercase">Deliver Enterprise Impact</span>
                     </div>
-                );
-            })}
-
-            {/* Refresh hint when nodes are floating */}
-            {floatingNodes.size > 0 && (
-                <div className="absolute bottom-6 left-1/2 -translate-x-1/2 text-xs text-slate-500 bg-white/90 backdrop-blur px-4 py-2 rounded-full border border-slate-200 shadow-lg flex items-center gap-2 animate-fade-in">
-                    <span className="w-2 h-2 rounded-full bg-orange-400 animate-pulse"></span>
-                    Auto-aligning in 3s...
-                </div>
-            )}
+                </motion.div>
+            </div>
         </div>
     );
 };

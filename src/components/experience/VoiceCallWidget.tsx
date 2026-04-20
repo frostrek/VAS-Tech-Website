@@ -3,7 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Phone, PhoneOff, Mic, MicOff, Volume2, Loader2 } from 'lucide-react';
 import { useTheme } from '../../context/ThemeContext';
 
-const WEBHOOK_URL = 'https://n8n.frostrek.com/webhook/cac2fab9-d171-4d67-8587-9ac8d834f436';
+const WEBHOOK_URL = 'https://n8n.vastech.com/webhook/cac2fab9-d171-4d67-8587-9ac8d834f436';
 
 interface VoiceCallWidgetProps {
     onCallStateChange?: (isActive: boolean) => void;
@@ -94,7 +94,7 @@ const VoiceCallWidget: React.FC<VoiceCallWidgetProps> = ({ onCallStateChange }) 
             console.log('🎤 Call is now active');
 
             // Initial greeting from AI
-            const greeting = "Hi! I'm Frostrek's AI assistant. How can I help you today?";
+            const greeting = "Hi! I'm VAS Tech's AI assistant. How can I help you today?";
             setAiResponse(greeting);
             setIsSpeaking(true);
             console.log('🎤 Starting speech synthesis...');
@@ -375,7 +375,7 @@ const VoiceCallWidget: React.FC<VoiceCallWidgetProps> = ({ onCallStateChange }) 
                                 {[0, 1, 2].map((i) => (
                                     <div
                                         key={i}
-                                        className="absolute inset-0 rounded-full border-2 border-white/50 animate-ping"
+                                        className="absolute inset-0 rounded-full border-2 border-orange-500/20 animate-ping"
                                         style={{ animationDelay: `${i * 0.3}s` }}
                                     />
                                 ))}

@@ -1,188 +1,325 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { X, ArrowUpRight, Clock, Calendar, User } from 'lucide-react';
-import CuteBackground from '../components/ui/CuteBackground';
-import Button from '../components/ui/Button';
-import Card from '../components/ui/Card';
+import { X, ArrowUpRight, Clock, Calendar, User, BookOpen, Briefcase, Sparkles, ArrowRight, CheckCircle } from 'lucide-react';
 import { CASE_STUDIES, BLOG_POSTS } from '../data/resources';
 import type { CaseStudy, BlogPost } from '../data/resources';
-import { useTheme } from '../context/ThemeContext';
 
-const ResourcesHero = () => {
-    const { theme } = useTheme();
-    return (
-        <section className="relative min-h-[60vh] flex items-center pt-32 pb-20 overflow-hidden">
-            <div className="container mx-auto px-4 md:px-6 relative z-10 text-center">
-                <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.6 }}
-                    className={`inline-flex items-center gap-2 px-4 py-1.5 rounded-full backdrop-blur-md text-sm font-medium mb-8 shadow-sm ${theme === 'dark'
-                        ? 'bg-dark-accent/20 border border-dark-accent/30 text-dark-accent'
-                        : 'bg-brand-green-100/50 border border-brand-green-200 text-brand-green-800'
-                        }`}
-                >
-                    <span className={`flex h-2 w-2 rounded-full animate-pulse ${theme === 'dark' ? 'bg-dark-accent' : 'bg-brand-green-600'}`} />
-                    Knowledge Hub
-                </motion.div>
+/* ─── CASE STUDY CARD ────────────────────────────────────────────────────── */
+const CaseStudyCard = ({ study, onClick, index }: { study: CaseStudy; onClick: () => void; index: number }) => (
+    <motion.div
+        layoutId={`card-${study.id}`}
+        initial={{ opacity: 0, y: 28 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, margin: '-40px' }}
+        transition={{ duration: 0.5, delay: index * 0.07 }}
+        onClick={onClick}
+        className="group cursor-pointer h-full"
+    >
+        <div className="relative h-full flex flex-col rounded-3xl border border-orange-500/15 overflow-hidden transition-all duration-500 hover:-translate-y-2 hover:border-orange-500/35 hover:shadow-[0_20px_60px_rgba(249,115,22,0.12)]"
+            style={{ background: 'linear-gradient(135deg, rgba(249,115,22,0.06), rgba(8,6,4,1))' }}>
+            {/* Top accent bar on hover */}
+            <div className="absolute top-0 left-0 right-0 h-[2px] opacity-0 group-hover:opacity-100 transition-opacity duration-500 bg-gradient-to-r from-orange-500 via-yellow-400 to-orange-500" />
+            {/* Hover glow */}
+            <div className="absolute -top-12 -right-12 w-40 h-40 rounded-full blur-2xl opacity-0 group-hover:opacity-20 transition-opacity duration-700 pointer-events-none bg-orange-500" />
 
-                <motion.h1
-                    initial={{ opacity: 0, y: 30 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.8, delay: 0.1 }}
-                    className={`text-5xl md:text-7xl font-sans font-bold mb-6 tracking-tight ${theme === 'dark' ? 'text-dark-text' : 'text-brand-green-900'}`}
-                >
-                    Insights &amp; <br />
-                    <span className={`text-transparent bg-clip-text ${theme === 'dark'
-                        ? 'bg-gradient-to-r from-dark-accent via-amber-500 to-dark-accent'
-                        : 'bg-gradient-to-r from-brand-yellow-600 via-brand-green-600 to-brand-green-800'
-                        }`}>
-                        Success Stories
-                    </span>
-                </motion.h1>
-
-                <motion.p
-                    initial={{ opacity: 0, y: 30 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.8, delay: 0.2 }}
-                    className={`text-lg md:text-xl mb-10 max-w-2xl mx-auto leading-relaxed ${theme === 'dark' ? 'text-dark-text-muted' : 'text-gray-600'}`}
-                >
-                    Deep dives into how we help enterprises build production-ready AI systems through high-quality data operations.
-                </motion.p>
-            </div>
-
-            {/* Gradient Fade */}
-            <div className={`absolute bottom-0 left-0 right-0 h-24 pointer-events-none ${theme === 'dark'
-                ? 'bg-gradient-to-t from-dark-bg/50 to-transparent'
-                : 'bg-gradient-to-t from-brand-green-50/50 to-transparent'
-                }`} />
-        </section>
-    );
-};
-
-const CaseStudyCard = ({ study, onClick }: { study: CaseStudy; onClick: () => void }) => {
-    const { theme } = useTheme();
-    return (
-        <motion.div
-            layoutId={`card-${study.id}`}
-            whileHover={{ y: -5, transition: { duration: 0.2 } }}
-            onClick={onClick}
-            className="group cursor-pointer h-full"
-        >
-            <Card className={`h-full p-8 border backdrop-blur-md transition-all duration-300 relative overflow-hidden flex flex-col ${theme === 'dark'
-                ? 'border-dark-accent/20 bg-dark-card/60 hover:bg-dark-card/80 hover:shadow-xl hover:border-dark-accent/40'
-                : 'border-white/40 bg-white/60 hover:bg-white/80 hover:shadow-xl hover:border-brand-green-200'
-                }`}>
-                <div className={`absolute top-0 left-0 w-full h-1 opacity-0 group-hover:opacity-100 transition-opacity ${theme === 'dark'
-                    ? 'bg-gradient-to-r from-dark-accent to-amber-500'
-                    : 'bg-gradient-to-r from-brand-green-400 to-brand-yellow-400'
-                    }`} />
-
-                <div className="mb-6 flex justify-between items-start">
-                    <div className={`p-3 rounded-xl transition-colors ${theme === 'dark'
-                        ? 'bg-dark-accent/20 group-hover:bg-dark-accent/30'
-                        : 'bg-brand-green-50 group-hover:bg-brand-green-100'
-                        }`}>
-                        <study.icon className={`w-6 h-6 ${theme === 'dark' ? 'text-dark-accent' : 'text-brand-green-600'}`} />
+            <div className="p-7 flex flex-col flex-1">
+                {/* Header row */}
+                <div className="flex items-start justify-between mb-6">
+                    <div className="w-12 h-12 rounded-2xl flex items-center justify-center border border-orange-500/25 bg-orange-500/10">
+                        <study.icon size={22} className="text-orange-400" />
                     </div>
-                    <span className={`px-3 py-1 text-xs font-semibold tracking-wider uppercase rounded-full border ${theme === 'dark'
-                        ? 'text-dark-accent bg-dark-accent/10 border-dark-accent/30'
-                        : 'text-brand-green-700 bg-brand-green-50 border-brand-green-100'
-                        }`}>
+                    <span className="text-[9.5px] font-black uppercase tracking-[0.25em] px-3 py-1.5 rounded-full border border-orange-500/20 bg-orange-500/08 text-orange-400">
                         {study.category}
                     </span>
                 </div>
 
-                <h3 className={`text-xl font-bold mb-3 transition-colors ${theme === 'dark'
-                    ? 'text-dark-text group-hover:text-dark-accent'
-                    : 'text-gray-900 group-hover:text-brand-green-800'
-                    }`}>
+                <h3 className="text-[17px] font-bold text-white mb-3 group-hover:text-orange-200 transition-colors leading-snug flex-1">
                     {study.title}
                 </h3>
-
-                <p className={`text-sm leading-relaxed mb-6 flex-grow ${theme === 'dark' ? 'text-dark-text-muted' : 'text-gray-600'}`}>
+                <p className="text-[13px] text-zinc-500 leading-relaxed mb-6 line-clamp-3">
                     {study.description}
                 </p>
 
-                <div className={`flex items-center font-semibold text-sm group/btn ${theme === 'dark' ? 'text-dark-accent' : 'text-brand-green-600'}`}>
-                    View Case Study
-                    <ArrowUpRight className="w-4 h-4 ml-1 transition-transform group-hover/btn:translate-x-0.5 group-hover/btn:-translate-y-0.5" />
+                {/* CTA */}
+                <div className="flex items-center gap-1.5 text-[12.5px] font-bold text-orange-400 group-hover:gap-2.5 transition-all">
+                    View Case Study <ArrowUpRight size={14} />
                 </div>
-            </Card>
+            </div>
+        </div>
+    </motion.div>
+);
+
+/* ─── BLOG CARD ──────────────────────────────────────────────────────────── */
+const BlogCard = ({ post, onClick, index }: { post: BlogPost; onClick: () => void; index: number }) => (
+    <motion.div
+        layoutId={`blog-${post.id}`}
+        initial={{ opacity: 0, y: 28 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, margin: '-40px' }}
+        transition={{ duration: 0.5, delay: index * 0.07 }}
+        onClick={onClick}
+        className="group cursor-pointer h-full"
+    >
+        <div className="relative h-full flex flex-col rounded-3xl border border-orange-500/15 overflow-hidden transition-all duration-500 hover:-translate-y-2 hover:border-orange-500/35 hover:shadow-[0_20px_60px_rgba(249,115,22,0.12)]"
+            style={{ background: 'linear-gradient(135deg, rgba(249,115,22,0.05), rgba(8,6,4,1))' }}>
+            <div className="absolute top-0 left-0 right-0 h-[2px] opacity-0 group-hover:opacity-100 transition-opacity duration-500 bg-gradient-to-r from-orange-500 via-yellow-400 to-orange-500" />
+
+            {/* Image */}
+            {post.image && (
+                <div className="relative h-44 overflow-hidden">
+                    <img src={post.image} alt={post.title} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-[#060604] via-black/20 to-transparent" />
+                    <span className="absolute bottom-3 left-4 text-[9.5px] font-black uppercase tracking-[0.25em] px-2.5 py-1 rounded-full border border-orange-500/30 bg-black/70 text-orange-400">
+                        {post.category}
+                    </span>
+                </div>
+            )}
+
+            <div className="p-6 flex flex-col flex-1">
+                <div className="flex items-center gap-4 text-[11px] text-zinc-600 mb-3">
+                    <span className="flex items-center gap-1"><Calendar size={11} /> {post.date}</span>
+                    <span className="flex items-center gap-1"><Clock size={11} /> {post.readTime}</span>
+                </div>
+
+                <h3 className="text-[15px] font-bold text-white mb-2 group-hover:text-orange-200 transition-colors leading-snug line-clamp-2 flex-1">
+                    {post.title}
+                </h3>
+                <p className="text-[12.5px] text-zinc-500 leading-relaxed line-clamp-2 mb-5">
+                    {post.excerpt}
+                </p>
+
+                <div className="flex items-center justify-between pt-4 border-t border-orange-500/10">
+                    <div className="flex items-center gap-2">
+                        <div className="w-6 h-6 rounded-full flex items-center justify-center bg-orange-500/15 border border-orange-500/20">
+                            <User size={11} className="text-orange-400" />
+                        </div>
+                        <span className="text-[11.5px] font-medium text-zinc-400">{post.author}</span>
+                    </div>
+                    <div className="flex items-center gap-1 text-[11.5px] font-bold text-orange-400 opacity-70 group-hover:opacity-100 transition-opacity">
+                        Read <ArrowUpRight size={12} />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </motion.div>
+);
+
+/* ─── EXPAND CTA BANNER ──────────────────────────────────────────────────── */
+const ExpandBanner = ({ count, label, cats, onExpand }: { count: number; label: string; cats: string[]; onExpand: () => void }) => (
+    <motion.div initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }}
+        className="mt-14 relative overflow-hidden rounded-3xl border border-orange-500/20 p-8 md:p-12 flex flex-col md:flex-row items-center gap-8"
+        style={{ background: 'linear-gradient(135deg, rgba(249,115,22,0.08), rgba(8,6,4,1), rgba(251,191,36,0.04))' }}>
+        {/* ambient glow */}
+        <div className="absolute -top-20 -right-20 w-60 h-60 rounded-full blur-[80px] opacity-15 pointer-events-none bg-orange-500" />
+
+        {/* Count badge */}
+        <div className="shrink-0 w-24 h-24 rounded-full border-2 border-orange-500/30 flex flex-col items-center justify-center"
+            style={{ background: 'linear-gradient(135deg, #F97316, #FBBF24)', boxShadow: '0 0 40px rgba(249,115,22,0.3)' }}>
+            <span className="text-3xl font-black text-black leading-none">+{count}</span>
+            <span className="text-[9px] font-black text-black/70 uppercase tracking-wider">{label}</span>
+        </div>
+
+        {/* Copy */}
+        <div className="flex-1 text-center md:text-left">
+            <h3 className="text-2xl md:text-3xl font-serif text-white mb-2">
+                More {label === 'more' ? 'case studies' : 'articles'} available
+            </h3>
+            <p className="text-zinc-400 text-sm mb-5 max-w-md leading-relaxed">
+                Dive into our complete library of AI transformation stories across every industry.
+            </p>
+            <div className="flex flex-wrap justify-center md:justify-start gap-2">
+                {cats.map(c => (
+                    <span key={c} className="text-[10.5px] font-bold px-3 py-1 rounded-full border border-orange-500/20 bg-orange-500/08 text-orange-400">
+                        {c}
+                    </span>
+                ))}
+            </div>
+        </div>
+
+        {/* CTA */}
+        <button onClick={onExpand}
+            className="shrink-0 flex items-center gap-2.5 px-8 py-4 rounded-2xl font-black text-sm text-black transition-all hover:scale-105 hover:shadow-[0_0_32px_rgba(249,115,22,0.4)]"
+            style={{ background: 'linear-gradient(135deg, #F97316, #FBBF24)', boxShadow: '0 0 20px rgba(249,115,22,0.25)' }}>
+            Explore All <ArrowRight size={16} />
+        </button>
+    </motion.div>
+);
+
+/* ─── CASE STUDY MODAL ───────────────────────────────────────────────────── */
+const CaseStudyModal = ({ study, onClose }: { study: CaseStudy; onClose: () => void }) => {
+    const navigate = useNavigate();
+    return (
+        <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
+            className="fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-4 bg-black/80 backdrop-blur-md"
+            onClick={onClose}>
+            <motion.div
+                layoutId={`card-${study.id}`}
+                className="w-full max-w-3xl max-h-[88vh] rounded-[2rem] border border-orange-500/20 shadow-2xl overflow-y-auto"
+                style={{ background: '#0D0A07', WebkitOverflowScrolling: 'touch', overscrollBehavior: 'contain' }}
+                onClick={e => e.stopPropagation()}
+                onWheel={e => e.stopPropagation()}
+                onTouchMove={e => e.stopPropagation()}
+            >
+                {/* Modal header */}
+                <div className="sticky top-0 z-20 flex items-center justify-between p-5 md:p-6 border-b border-orange-500/10"
+                    style={{ background: 'rgba(13, 10, 7, 0.85)', backdropFilter: 'blur(16px)' }}>
+                    <div className="flex items-center gap-3">
+                        <div className="w-10 h-10 rounded-xl flex items-center justify-center bg-orange-500/15 border border-orange-500/25">
+                            <study.icon size={18} className="text-orange-400" />
+                        </div>
+                        <span className="text-[9.5px] font-black uppercase tracking-[0.25em] px-3 py-1 rounded-full border border-orange-500/20 bg-orange-500/08 text-orange-400">
+                            {study.category}
+                        </span>
+                    </div>
+                    <button onClick={onClose}
+                        className="w-9 h-9 rounded-full flex items-center justify-center bg-white/05 hover:bg-orange-500/20 border border-orange-500/20 hover:border-orange-500/30 transition-all">
+                        <X size={16} className="text-zinc-300" />
+                    </button>
+                </div>
+
+                <div className="p-6 md:p-8">
+                    <h2 className="text-2xl md:text-3xl lg:text-4xl font-serif text-white mb-8 leading-tight">{study.title}</h2>
+
+                    {/* Metadata grid */}
+                    <div className="grid grid-cols-2 md:grid-cols-3 gap-3 mb-10">
+                        {[
+                            { label: 'Client Type', value: study.client },
+                            { label: 'Duration', value: study.duration },
+                            { label: 'Team', value: study.team },
+                        ].map(({ label, value }) => (
+                            <div key={label} className="p-4 rounded-2xl border border-orange-500/12 bg-orange-500/05">
+                                <div className="text-[9px] md:text-[9.5px] font-black uppercase tracking-wider text-orange-400 mb-1">{label}</div>
+                                <div className="text-xs md:text-sm font-semibold text-white">{value}</div>
+                            </div>
+                        ))}
+                    </div>
+
+                    {/* Sections */}
+                    <div className="space-y-8 text-[13.5px] md:text-sm text-zinc-400 leading-relaxed">
+                        {[
+                            { title: 'The Challenge', content: study.challenge },
+                            { title: 'Our Solution', content: study.solution },
+                        ].map(s => (
+                            <section key={s.title}>
+                                <h3 className="text-base md:text-lg font-bold text-white mb-3 flex items-center gap-2">
+                                    <span className="w-1 h-5 rounded-full bg-gradient-to-b from-orange-500 to-yellow-400" />
+                                    {s.title}
+                                </h3>
+                                <p>{s.content}</p>
+                            </section>
+                        ))}
+
+                        <section>
+                            <h3 className="text-base md:text-lg font-bold text-white mb-4 flex items-center gap-2">
+                                <span className="w-1 h-5 rounded-full bg-gradient-to-b from-orange-500 to-yellow-400" />
+                                Key Results
+                            </h3>
+                            <ul className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                                {study.outcome.map((item, i) => (
+                                    <li key={i} className="flex items-start gap-3 p-3.5 rounded-2xl border border-orange-500/12 bg-orange-500/05">
+                                        <CheckCircle size={15} className="text-orange-400 shrink-0 mt-0.5" />
+                                        <span className="text-sm text-white/80">{item}</span>
+                                    </li>
+                                ))}
+                            </ul>
+                        </section>
+                    </div>
+
+                    <div className="mt-10 pt-6 border-t border-orange-500/10 flex justify-end">
+                        <button onClick={() => navigate('/schedule-demo')}
+                            className="flex items-center gap-2 px-6 py-3 rounded-2xl font-black text-[13px] md:text-sm text-black transition-all hover:scale-105"
+                            style={{ background: 'linear-gradient(135deg, #F97316, #FBBF24)', boxShadow: '0 0 24px rgba(249,115,22,0.3)' }}>
+                            Schedule Similar Project <ArrowRight size={15} />
+                        </button>
+                    </div>
+                </div>
+            </motion.div>
         </motion.div>
     );
 };
 
-const BlogCard = ({ post, onClick }: { post: BlogPost; onClick: () => void }) => {
-    const { theme } = useTheme();
-    return (
-        <Card
-            onClick={onClick}
-            className={`group cursor-pointer overflow-hidden border-none shadow-lg hover:shadow-xl transition-all duration-300 flex flex-col h-full ${theme === 'dark' ? 'bg-dark-card' : 'bg-white'}`}
+/* ─── BLOG MODAL ─────────────────────────────────────────────────────────── */
+const BlogModal = ({ post, onClose }: { post: BlogPost; onClose: () => void }) => (
+    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
+        className="fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-4 bg-black/80 backdrop-blur-md"
+        onClick={onClose}>
+        <motion.div
+            layoutId={`blog-${post.id}`}
+            className="w-full max-w-3xl max-h-[88vh] rounded-[2rem] border border-orange-500/20 shadow-[0_40px_120px_rgba(0,0,0,0.9)] overflow-y-auto"
+            style={{ background: '#0D0A07', WebkitOverflowScrolling: 'touch', overscrollBehavior: 'contain' }}
+            onClick={e => e.stopPropagation()}
+            onWheel={e => e.stopPropagation()}
+            onTouchMove={e => e.stopPropagation()}
         >
-            <div className="relative h-48 overflow-hidden">
-                {post.image && (
-                    <img
-                        src={post.image}
-                        alt={post.title}
-                        className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-                    />
-                )}
-                <div className={`absolute top-4 left-4 backdrop-blur-sm px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wide ${theme === 'dark'
-                    ? 'bg-dark-bg/90 text-dark-accent'
-                    : 'bg-white/90 text-brand-green-800'
-                    }`}>
-                    {post.category}
-                </div>
-            </div>
-
-            <div className="p-6 flex flex-col flex-grow">
-                <div className={`flex items-center gap-4 text-xs mb-3 ${theme === 'dark' ? 'text-dark-text-muted' : 'text-gray-500'}`}>
-                    <span className="flex items-center gap-1"><Calendar className="w-3 h-3" /> {post.date}</span>
-                    <span className="flex items-center gap-1"><Clock className="w-3 h-3" /> {post.readTime}</span>
-                </div>
-
-                <h3 className={`text-lg font-bold mb-3 transition-colors line-clamp-2 ${theme === 'dark'
-                    ? 'text-dark-text group-hover:text-dark-accent'
-                    : 'text-gray-900 group-hover:text-brand-green-700'
-                    }`}>
-                    {post.title}
-                </h3>
-
-                <p className={`text-sm mb-6 line-clamp-3 ${theme === 'dark' ? 'text-dark-text-muted' : 'text-gray-600'}`}>
-                    {post.excerpt}
-                </p>
-
-                <div className={`mt-auto flex items-center justify-between pt-4 border-t ${theme === 'dark' ? 'border-dark-accent/20' : 'border-gray-100'}`}>
-                    <div className="flex items-center gap-2">
-                        <div className={`w-6 h-6 rounded-full flex items-center justify-center ${theme === 'dark' ? 'bg-dark-accent/20' : 'bg-brand-green-100'}`}>
-                            <User className={`w-3 h-3 ${theme === 'dark' ? 'text-dark-accent' : 'text-brand-green-600'}`} />
-                        </div>
-                        <span className={`text-xs font-medium ${theme === 'dark' ? 'text-dark-text' : 'text-gray-700'}`}>{post.author}</span>
+            {/* Image hero */}
+            {post.image && (
+                <div className="relative h-56 md:h-72 w-full shrink-0">
+                    <img src={post.image} alt={post.title} className="w-full h-full object-cover" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-[#0D0A07] via-black/30 to-transparent" />
+                    <button onClick={onClose}
+                        className="absolute top-4 right-4 z-10 w-9 h-9 rounded-full flex items-center justify-center bg-black/60 hover:bg-orange-500/25 border border-orange-500/20 transition-all">
+                        <X size={16} className="text-white" />
+                    </button>
+                    <div className="absolute bottom-5 left-5 md:left-6">
+                        <span className="text-[9px] md:text-[9.5px] font-black uppercase tracking-[0.25em] px-3 py-1 rounded-full border border-orange-500/30 bg-black/70 text-orange-400">
+                            {post.category}
+                        </span>
                     </div>
                 </div>
-            </div>
-        </Card>
-    );
-};
+            )}
 
+            <div className="p-6 md:p-8">
+                {/* Meta */}
+                <div className="flex items-center gap-5 text-[11px] md:text-[11.5px] text-zinc-600 mb-5">
+                    <span className="flex items-center gap-1.5"><Calendar size={12} /> {post.date}</span>
+                    <span className="flex items-center gap-1.5"><Clock size={12} /> {post.readTime}</span>
+                </div>
+
+                <h2 className="text-2xl md:text-3xl lg:text-4xl font-serif text-white mb-6 leading-tight">{post.title}</h2>
+
+                {/* Author */}
+                <div className="flex items-center gap-3 p-4 rounded-2xl border border-orange-500/12 bg-orange-500/05 mb-8">
+                    <div className="w-10 h-10 rounded-full flex items-center justify-center bg-orange-500/15 border border-orange-500/25">
+                        <User size={16} className="text-orange-400" />
+                    </div>
+                    <div>
+                        <div className="text-[9px] md:text-[9.5px] font-black uppercase tracking-wider text-orange-400">Written by</div>
+                        <div className="text-xs md:text-sm font-semibold text-white">{post.author}</div>
+                    </div>
+                </div>
+
+                {/* Content */}
+                <div className="space-y-4 md:space-y-5 text-[13.5px] md:text-sm text-zinc-400 leading-relaxed">
+                    <p className="text-[15px] md:text-base text-zinc-300 font-medium leading-relaxed">{post.excerpt}</p>
+                    <p>In the rapidly evolving landscape of artificial intelligence, {post.title} represents a pivotal shift. Enterprises are constantly seeking ways to leverage these advancements to stay ahead of the curve.</p>
+                    <p>This article explores the nuances of {post.category}, diving deep into the methodologies and frameworks that drive success. From data infrastructure to model alignment, every component plays a critical role.</p>
+                    <h3 className="text-xl md:text-2xl font-serif text-white pt-2">The Strategic Imperative</h3>
+                    <p>Understanding the core mechanics is just the beginning. The real value lies in the strategic application of these technologies to solve real-world business problems — whether through enhanced automation, improved decision-making, or novel customer experiences.</p>
+                </div>
+
+                <div className="mt-10 pt-6 border-t border-orange-500/10 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                    <span className="text-[11.5px] text-zinc-600 italic">Posted in <strong className="text-zinc-400">{post.category}</strong></span>
+                    <button onClick={() => window.open('https://medium.com/@yash.saraswat_35534/why-rlhf-is-the-backbone-of-enterprise-ai-safety-and-most-companies-still-dont-understand-it-86ff4b28e690', '_blank')}
+                        className="flex items-center justify-center gap-2 px-6 py-2.5 rounded-full font-bold text-sm border border-orange-500/25 bg-orange-500/08 text-orange-400 hover:bg-orange-500/15 transition-all">
+                        Read on Medium <ArrowUpRight size={14} />
+                    </button>
+                </div>
+            </div>
+        </motion.div>
+    </motion.div>
+);
+
+/* ─── MAIN PAGE ──────────────────────────────────────────────────────────── */
 const ResourcesPage = () => {
-    const { theme } = useTheme();
     const [activeTab, setActiveTab] = useState<'case-studies' | 'blogs'>('case-studies');
     const [selectedStudy, setSelectedStudy] = useState<CaseStudy | null>(null);
     const [selectedBlog, setSelectedBlog] = useState<BlogPost | null>(null);
     const [isExpanded, setIsExpanded] = useState(false);
 
-    useEffect(() => {
-        window.scrollTo(0, 0);
-    }, []);
+    useEffect(() => { window.scrollTo(0, 0); }, []);
+    useEffect(() => { setIsExpanded(false); }, [activeTab]);
 
-    useEffect(() => {
-        setIsExpanded(false);
-    }, [activeTab]);
-
-    // Lock body scroll when modal is open
     useEffect(() => {
         if (selectedStudy || selectedBlog) {
             const scrollY = window.scrollY;
@@ -202,593 +339,106 @@ const ResourcesPage = () => {
         }
     }, [selectedStudy, selectedBlog]);
 
-    const navigate = useNavigate();
-
     return (
-        <div className={`relative min-h-screen pb-20 ${theme === 'dark' ? 'bg-dark-bg' : ''}`}>
-            {theme !== 'dark' && <CuteBackground />}
+        <div className="min-h-screen bg-[#060604] text-white">
 
-            <ResourcesHero />
+            {/* ── HERO ─────────────────────────────────────────────────── */}
+            <div className="relative overflow-hidden pt-32 pb-20">
+                <div className="absolute inset-0 pointer-events-none"
+                    style={{ backgroundImage: 'radial-gradient(rgba(255,255,255,0.02) 1px, transparent 1px)', backgroundSize: '28px 28px' }} />
+                <div className="absolute inset-0 bg-[radial-gradient(ellipse_55%_55%_at_50%_0%,_rgba(249,115,22,0.10)_0%,_transparent_70%)] pointer-events-none" />
+                <motion.div animate={{ scale: [1, 1.08, 1], opacity: [0.08, 0.16, 0.08] }} transition={{ duration: 10, repeat: Infinity }}
+                    className="absolute top-0 left-1/2 -translate-x-1/2 w-[700px] h-[400px] rounded-full blur-[100px] pointer-events-none"
+                    style={{ background: 'radial-gradient(circle, #F97316, transparent)' }} />
 
-            <div className="container mx-auto px-4 md:px-6 relative z-10">
-                {/* Tabs */}
-                <div className="flex justify-center mb-16">
-                    <div className={`backdrop-blur-md p-1.5 rounded-full shadow-sm inline-flex ${theme === 'dark'
-                        ? 'bg-dark-card/50 border border-dark-accent/20'
-                        : 'bg-white/50 border border-brand-green-100'
-                        }`}>
-                        {(['case-studies', 'blogs'] as const).map((tab) => (
-                            <button
-                                key={tab}
-                                onClick={() => setActiveTab(tab)}
-                                className={`px-8 py-3 rounded-full text-sm font-semibold transition-all duration-300 relative ${activeTab === tab
-                                    ? 'text-white'
-                                    : theme === 'dark'
-                                        ? 'text-dark-text-muted hover:text-dark-accent'
-                                        : 'text-gray-600 hover:text-brand-green-700'
-                                    }`}
-                            >
+                <div className="container mx-auto px-4 text-center relative z-10">
+                    <motion.div initial={{ opacity: 0, y: -14 }} animate={{ opacity: 1, y: 0 }}
+                        className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-orange-500/30 bg-orange-500/08 mb-7">
+                        <Sparkles size={12} className="text-orange-400" />
+                        <span className="text-[10.5px] font-black uppercase tracking-[0.28em] text-orange-400">Knowledge Hub</span>
+                    </motion.div>
+
+                    <motion.h1 initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }}
+                        className="text-5xl md:text-7xl font-serif text-white leading-tight tracking-tight mb-5">
+                        Insights &<br />
+                        <span className="bg-gradient-to-r from-orange-400 to-yellow-400 bg-clip-text text-transparent">
+                            Success Stories
+                        </span>
+                    </motion.h1>
+
+                    <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.22 }}
+                        className="text-zinc-400 text-base md:text-lg max-w-xl mx-auto leading-relaxed mb-10">
+                        Deep dives into how we help businesses build production-ready AI systems — real problems, real outcomes, real numbers.
+                    </motion.p>
+
+                    {/* Tab switcher */}
+                    <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.35 }}
+                        className="inline-flex items-center gap-1 p-1.5 rounded-full border border-orange-500/20 bg-black/60 backdrop-blur-xl">
+                        {(['case-studies', 'blogs'] as const).map(tab => (
+                            <button key={tab} onClick={() => setActiveTab(tab)}
+                                className={`relative flex items-center gap-2 px-6 py-2.5 rounded-full text-sm font-bold transition-all duration-300 ${activeTab === tab ? 'text-black' : 'text-zinc-500 hover:text-zinc-300'
+                                    }`}>
                                 {activeTab === tab && (
-                                    <motion.div
-                                        layoutId="activeTab"
-                                        className={`absolute inset-0 rounded-full shadow-md ${theme === 'dark' ? 'bg-dark-accent' : 'bg-brand-green-600'}`}
-                                        transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
-                                    />
+                                    <motion.div layoutId="activeTab"
+                                        className="absolute inset-0 rounded-full"
+                                        style={{ background: 'linear-gradient(135deg, #F97316, #FBBF24)' }}
+                                        transition={{ type: 'spring', bounce: 0.2, duration: 0.5 }} />
                                 )}
-                                <span className="relative z-10 capitalize">
-                                    {tab.replace('-', ' ')}
+                                <span className="relative z-10 flex items-center gap-2">
+                                    {tab === 'case-studies' ? <Briefcase size={14} /> : <BookOpen size={14} />}
+                                    {tab === 'case-studies' ? 'Case Studies' : 'Blogs'}
                                 </span>
                             </button>
                         ))}
-                    </div>
+                    </motion.div>
                 </div>
+            </div>
 
-                {/* Content */}
+            {/* ── CONTENT ──────────────────────────────────────────────── */}
+            <div className="container mx-auto px-4 md:px-8 xl:px-0 max-w-[1280px] pb-28">
                 <AnimatePresence mode="wait">
                     {activeTab === 'case-studies' ? (
-                        <motion.div
-                            key="case-studies"
-                            initial={{ opacity: 0, y: 20 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            exit={{ opacity: 0, y: -20 }}
-                            transition={{ duration: 0.5 }}
-                            className="relative"
-                        >
-                            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                                {(isExpanded ? CASE_STUDIES : CASE_STUDIES.slice(0, 6)).map((study) => (
-                                    <div key={study.id}>
-                                        <CaseStudyCard
-                                            study={study}
-                                            onClick={() => setSelectedStudy(study)}
-                                        />
-                                    </div>
+                        <motion.div key="case-studies"
+                            initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }}
+                            exit={{ opacity: 0, y: -16 }} transition={{ duration: 0.4 }}>
+                            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+                                {(isExpanded ? CASE_STUDIES : CASE_STUDIES.slice(0, 6)).map((study, i) => (
+                                    <CaseStudyCard key={study.id} study={study} index={i} onClick={() => setSelectedStudy(study)} />
                                 ))}
                             </div>
-
-                            {!isExpanded && (
-                                <motion.div
-                                    initial={{ opacity: 0, y: 30 }}
-                                    animate={{ opacity: 1, y: 0 }}
-                                    transition={{ delay: 0.3, duration: 0.6 }}
-                                    className="mt-16"
-                                >
-                                    {/* Innovative CTA Section */}
-                                    <div className={`relative overflow-hidden rounded-[2rem] ${theme === 'dark'
-                                        ? 'bg-gradient-to-br from-dark-card via-dark-bg to-dark-card border border-dark-accent/20'
-                                        : 'bg-gradient-to-br from-white via-brand-green-50/30 to-white border border-brand-green-100'
-                                        }`}>
-                                        {/* Animated background pattern */}
-                                        <div className="absolute inset-0 overflow-hidden">
-                                            <div className={`absolute top-0 right-0 w-96 h-96 rounded-full blur-[100px] opacity-20 animate-pulse ${theme === 'dark' ? 'bg-dark-accent' : 'bg-brand-green-400'}`} />
-                                            <div className={`absolute bottom-0 left-0 w-72 h-72 rounded-full blur-[80px] opacity-15 animate-pulse delay-1000 ${theme === 'dark' ? 'bg-amber-500' : 'bg-brand-yellow-400'}`} />
-                                            {/* Grid pattern overlay */}
-                                            <div className="absolute inset-0 opacity-[0.03]" style={{ backgroundImage: 'radial-gradient(circle, currentColor 1px, transparent 1px)', backgroundSize: '24px 24px' }} />
-                                        </div>
-
-                                        <div className="relative z-10 p-8 md:p-12">
-                                            <div className="flex flex-col lg:flex-row items-center gap-10">
-
-                                                {/* Left: Stacked Cards Preview */}
-                                                <div className="relative w-full lg:w-auto flex-shrink-0">
-                                                    <div className="relative h-48 w-full lg:w-80 flex items-center justify-center">
-                                                        {/* Stacked card previews */}
-                                                        {[2, 1, 0].map((i) => (
-                                                            <motion.div
-                                                                key={i}
-                                                                initial={{ opacity: 0, y: 20 }}
-                                                                animate={{ opacity: 1, y: 0 }}
-                                                                transition={{ delay: 0.4 + i * 0.1 }}
-                                                                className={`absolute rounded-2xl shadow-xl backdrop-blur-sm border ${theme === 'dark'
-                                                                    ? 'bg-dark-card/90 border-dark-accent/30'
-                                                                    : 'bg-white/90 border-brand-green-100'
-                                                                    }`}
-                                                                style={{
-                                                                    width: `${200 - i * 20}px`,
-                                                                    height: `${140 - i * 15}px`,
-                                                                    transform: `translateY(${i * 12}px) rotate(${(i - 1) * 3}deg)`,
-                                                                    zIndex: 3 - i,
-                                                                }}
-                                                            >
-                                                                <div className="p-4 h-full flex flex-col justify-between">
-                                                                    <div className={`w-8 h-8 rounded-lg ${theme === 'dark' ? 'bg-dark-accent/20' : 'bg-brand-green-100'}`} />
-                                                                    <div className="space-y-2">
-                                                                        <div className={`h-2 rounded-full ${theme === 'dark' ? 'bg-dark-accent/30' : 'bg-brand-green-200'}`} style={{ width: `${80 - i * 10}%` }} />
-                                                                        <div className={`h-2 rounded-full ${theme === 'dark' ? 'bg-dark-accent/20' : 'bg-brand-green-100'}`} style={{ width: `${60 - i * 10}%` }} />
-                                                                    </div>
-                                                                </div>
-                                                            </motion.div>
-                                                        ))}
-                                                        {/* Floating count badge */}
-                                                        <motion.div
-                                                            initial={{ scale: 0 }}
-                                                            animate={{ scale: 1 }}
-                                                            transition={{ delay: 0.8, type: 'spring' }}
-                                                            className={`absolute -top-2 -right-2 lg:right-4 w-16 h-16 rounded-full flex items-center justify-center shadow-xl ${theme === 'dark'
-                                                                ? 'bg-gradient-to-br from-dark-accent to-amber-500 text-dark-bg'
-                                                                : 'bg-gradient-to-br from-brand-green-500 to-brand-green-600 text-white'
-                                                                }`}
-                                                        >
-                                                            <span className="text-2xl font-black">+{CASE_STUDIES.length - 6}</span>
-                                                        </motion.div>
-                                                    </div>
-                                                </div>
-
-                                                {/* Center: Content */}
-                                                <div className="flex-1 text-center lg:text-left">
-                                                    <motion.div
-                                                        initial={{ opacity: 0, x: -20 }}
-                                                        animate={{ opacity: 1, x: 0 }}
-                                                        transition={{ delay: 0.5 }}
-                                                    >
-                                                        <h3 className={`text-3xl md:text-4xl font-bold mb-4 ${theme === 'dark' ? 'text-dark-text' : 'text-gray-900'}`}>
-                                                            Unlock All Case Studies
-                                                        </h3>
-                                                        <p className={`text-lg mb-6 ${theme === 'dark' ? 'text-dark-text-muted' : 'text-gray-600'}`}>
-                                                            Dive into our complete library of AI transformation stories across every industry.
-                                                        </p>
-
-                                                        {/* Category Pills */}
-                                                        <div className="flex flex-wrap justify-center lg:justify-start gap-2 mb-6">
-                                                            {['Computer Vision', 'NLP', 'Data Ops', 'Automation'].map((cat, i) => (
-                                                                <motion.span
-                                                                    key={cat}
-                                                                    initial={{ opacity: 0, scale: 0.8 }}
-                                                                    animate={{ opacity: 1, scale: 1 }}
-                                                                    transition={{ delay: 0.6 + i * 0.1 }}
-                                                                    className={`px-3 py-1.5 text-xs font-semibold rounded-full ${theme === 'dark'
-                                                                        ? 'bg-dark-accent/10 text-dark-accent border border-dark-accent/20'
-                                                                        : 'bg-brand-green-50 text-brand-green-700 border border-brand-green-200'
-                                                                        }`}
-                                                                >
-                                                                    {cat}
-                                                                </motion.span>
-                                                            ))}
-                                                        </div>
-                                                    </motion.div>
-                                                </div>
-
-                                                {/* Right: CTA Button */}
-                                                <motion.div
-                                                    initial={{ opacity: 0, scale: 0.9 }}
-                                                    animate={{ opacity: 1, scale: 1 }}
-                                                    transition={{ delay: 0.7 }}
-                                                    className="flex-shrink-0"
-                                                >
-                                                    <motion.button
-                                                        onClick={() => setIsExpanded(true)}
-                                                        whileHover={{ scale: 1.05, boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.25)' }}
-                                                        whileTap={{ scale: 0.98 }}
-                                                        className={`group relative px-8 py-5 rounded-2xl font-bold text-lg transition-all duration-300 ${theme === 'dark'
-                                                            ? 'bg-dark-accent text-dark-bg hover:bg-amber-400'
-                                                            : 'bg-brand-green-600 text-white hover:bg-brand-green-700'
-                                                            }`}
-                                                    >
-                                                        {/* Shimmer effect */}
-                                                        <div className="absolute inset-0 rounded-2xl overflow-hidden">
-                                                            <div className="absolute inset-0 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000 bg-gradient-to-r from-transparent via-white/20 to-transparent" />
-                                                        </div>
-                                                        <span className="relative z-10 flex items-center gap-3">
-                                                            Explore All
-                                                            <motion.div
-                                                                className={`p-2 rounded-xl ${theme === 'dark' ? 'bg-dark-bg/30' : 'bg-white/20'}`}
-                                                                whileHover={{ rotate: 45 }}
-                                                            >
-                                                                <ArrowUpRight className="w-5 h-5" />
-                                                            </motion.div>
-                                                        </span>
-                                                    </motion.button>
-                                                </motion.div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </motion.div>
+                            {!isExpanded && CASE_STUDIES.length > 6 && (
+                                <ExpandBanner
+                                    count={CASE_STUDIES.length - 6} label="more"
+                                    cats={['Computer Vision', 'NLP', 'Data Ops', 'Automation']}
+                                    onExpand={() => setIsExpanded(true)} />
                             )}
                         </motion.div>
                     ) : (
-                        <motion.div
-                            key="blogs"
-                            initial={{ opacity: 0, y: 20 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            exit={{ opacity: 0, y: -20 }}
-                            transition={{ duration: 0.5 }}
-                            className="relative"
-                        >
-                            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-                                {(isExpanded ? BLOG_POSTS : BLOG_POSTS.slice(0, 6)).map((post) => (
-                                    <div key={post.id}>
-                                        <BlogCard
-                                            post={post}
-                                            onClick={() => setSelectedBlog(post)}
-                                        />
-                                    </div>
+                        <motion.div key="blogs"
+                            initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }}
+                            exit={{ opacity: 0, y: -16 }} transition={{ duration: 0.4 }}>
+                            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+                                {(isExpanded ? BLOG_POSTS : BLOG_POSTS.slice(0, 6)).map((post, i) => (
+                                    <BlogCard key={post.id} post={post} index={i} onClick={() => setSelectedBlog(post)} />
                                 ))}
                             </div>
-
                             {!isExpanded && BLOG_POSTS.length > 6 && (
-                                <motion.div
-                                    initial={{ opacity: 0, y: 30 }}
-                                    animate={{ opacity: 1, y: 0 }}
-                                    transition={{ delay: 0.3, duration: 0.6 }}
-                                    className="mt-16"
-                                >
-                                    {/* Innovative CTA Section */}
-                                    <div className={`relative overflow-hidden rounded-[2rem] ${theme === 'dark'
-                                        ? 'bg-gradient-to-br from-dark-card via-dark-bg to-dark-card border border-dark-accent/20'
-                                        : 'bg-gradient-to-br from-white via-brand-green-50/30 to-white border border-brand-green-100'
-                                        }`}>
-                                        {/* Animated background pattern */}
-                                        <div className="absolute inset-0 overflow-hidden">
-                                            <div className={`absolute top-0 right-0 w-96 h-96 rounded-full blur-[100px] opacity-20 animate-pulse ${theme === 'dark' ? 'bg-dark-accent' : 'bg-brand-green-400'}`} />
-                                            <div className={`absolute bottom-0 left-0 w-72 h-72 rounded-full blur-[80px] opacity-15 animate-pulse delay-1000 ${theme === 'dark' ? 'bg-amber-500' : 'bg-brand-yellow-400'}`} />
-                                            {/* Grid pattern overlay */}
-                                            <div className="absolute inset-0 opacity-[0.03]" style={{ backgroundImage: 'radial-gradient(circle, currentColor 1px, transparent 1px)', backgroundSize: '24px 24px' }} />
-                                        </div>
-
-                                        <div className="relative z-10 p-8 md:p-12">
-                                            <div className="flex flex-col lg:flex-row items-center gap-10">
-
-                                                {/* Left: Stacked Cards Preview */}
-                                                <div className="relative w-full lg:w-auto flex-shrink-0">
-                                                    <div className="relative h-48 w-full lg:w-80 flex items-center justify-center">
-                                                        {/* Stacked card previews */}
-                                                        {[2, 1, 0].map((i) => (
-                                                            <motion.div
-                                                                key={i}
-                                                                initial={{ opacity: 0, y: 20 }}
-                                                                animate={{ opacity: 1, y: 0 }}
-                                                                transition={{ delay: 0.4 + i * 0.1 }}
-                                                                className={`absolute rounded-2xl shadow-xl backdrop-blur-sm border ${theme === 'dark'
-                                                                    ? 'bg-dark-card/90 border-dark-accent/30'
-                                                                    : 'bg-white/90 border-brand-green-100'
-                                                                    }`}
-                                                                style={{
-                                                                    width: `${200 - i * 20}px`,
-                                                                    height: `${140 - i * 15}px`,
-                                                                    transform: `translateY(${i * 12}px) rotate(${(i - 1) * 3}deg)`,
-                                                                    zIndex: 3 - i,
-                                                                }}
-                                                            >
-                                                                <div className="p-4 h-full flex flex-col justify-between">
-                                                                    <div className={`w-8 h-8 rounded-lg ${theme === 'dark' ? 'bg-dark-accent/20' : 'bg-brand-green-100'}`} />
-                                                                    <div className="space-y-2">
-                                                                        <div className={`h-2 rounded-full ${theme === 'dark' ? 'bg-dark-accent/30' : 'bg-brand-green-200'}`} style={{ width: `${80 - i * 10}%` }} />
-                                                                        <div className={`h-2 rounded-full ${theme === 'dark' ? 'bg-dark-accent/20' : 'bg-brand-green-100'}`} style={{ width: `${60 - i * 10}%` }} />
-                                                                    </div>
-                                                                </div>
-                                                            </motion.div>
-                                                        ))}
-                                                        {/* Floating count badge */}
-                                                        <motion.div
-                                                            initial={{ scale: 0 }}
-                                                            animate={{ scale: 1 }}
-                                                            transition={{ delay: 0.8, type: 'spring' }}
-                                                            className={`absolute -top-2 -right-2 lg:right-4 w-16 h-16 rounded-full flex items-center justify-center shadow-xl ${theme === 'dark'
-                                                                ? 'bg-gradient-to-br from-dark-accent to-amber-500 text-dark-bg'
-                                                                : 'bg-gradient-to-br from-brand-green-500 to-brand-green-600 text-white'
-                                                                }`}
-                                                        >
-                                                            <span className="text-2xl font-black">+{BLOG_POSTS.length - 6}</span>
-                                                        </motion.div>
-                                                    </div>
-                                                </div>
-
-                                                {/* Center: Content */}
-                                                <div className="flex-1 text-center lg:text-left">
-                                                    <motion.div
-                                                        initial={{ opacity: 0, x: -20 }}
-                                                        animate={{ opacity: 1, x: 0 }}
-                                                        transition={{ delay: 0.5 }}
-                                                    >
-                                                        <h3 className={`text-3xl md:text-4xl font-bold mb-4 ${theme === 'dark' ? 'text-dark-text' : 'text-gray-900'}`}>
-                                                            More Insights Await
-                                                        </h3>
-                                                        <p className={`text-lg mb-6 ${theme === 'dark' ? 'text-dark-text-muted' : 'text-gray-600'}`}>
-                                                            Explore deep technical articles and industry perspectives from our team.
-                                                        </p>
-
-                                                        {/* Category Pills */}
-                                                        <div className="flex flex-wrap justify-center lg:justify-start gap-2 mb-6">
-                                                            {['Trends', 'Technical', 'Best Practices', 'Research'].map((cat, i) => (
-                                                                <motion.span
-                                                                    key={cat}
-                                                                    initial={{ opacity: 0, scale: 0.8 }}
-                                                                    animate={{ opacity: 1, scale: 1 }}
-                                                                    transition={{ delay: 0.6 + i * 0.1 }}
-                                                                    className={`px-3 py-1.5 text-xs font-semibold rounded-full ${theme === 'dark'
-                                                                        ? 'bg-dark-accent/10 text-dark-accent border border-dark-accent/20'
-                                                                        : 'bg-brand-green-50 text-brand-green-700 border border-brand-green-200'
-                                                                        }`}
-                                                                >
-                                                                    {cat}
-                                                                </motion.span>
-                                                            ))}
-                                                        </div>
-                                                    </motion.div>
-                                                </div>
-
-                                                {/* Right: CTA Button */}
-                                                <motion.div
-                                                    initial={{ opacity: 0, scale: 0.9 }}
-                                                    animate={{ opacity: 1, scale: 1 }}
-                                                    transition={{ delay: 0.7 }}
-                                                    className="flex-shrink-0"
-                                                >
-                                                    <motion.button
-                                                        onClick={() => setIsExpanded(true)}
-                                                        whileHover={{ scale: 1.05, boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.25)' }}
-                                                        whileTap={{ scale: 0.98 }}
-                                                        className={`group relative px-8 py-5 rounded-2xl font-bold text-lg transition-all duration-300 ${theme === 'dark'
-                                                            ? 'bg-dark-accent text-dark-bg hover:bg-amber-400'
-                                                            : 'bg-brand-green-600 text-white hover:bg-brand-green-700'
-                                                            }`}
-                                                    >
-                                                        {/* Shimmer effect */}
-                                                        <div className="absolute inset-0 rounded-2xl overflow-hidden">
-                                                            <div className="absolute inset-0 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000 bg-gradient-to-r from-transparent via-white/20 to-transparent" />
-                                                        </div>
-                                                        <span className="relative z-10 flex items-center gap-3">
-                                                            Explore All
-                                                            <motion.div
-                                                                className={`p-2 rounded-xl ${theme === 'dark' ? 'bg-dark-bg/30' : 'bg-white/20'}`}
-                                                                whileHover={{ rotate: 45 }}
-                                                            >
-                                                                <ArrowUpRight className="w-5 h-5" />
-                                                            </motion.div>
-                                                        </span>
-                                                    </motion.button>
-                                                </motion.div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </motion.div>
+                                <ExpandBanner
+                                    count={BLOG_POSTS.length - 6} label="articles"
+                                    cats={['Trends', 'Technical', 'Best Practices', 'Research']}
+                                    onExpand={() => setIsExpanded(true)} />
                             )}
                         </motion.div>
                     )}
                 </AnimatePresence>
             </div>
 
-            {/* Case Study Modal */}
+            {/* ── MODALS ───────────────────────────────────────────────── */}
             <AnimatePresence>
-                {selectedStudy && (
-                    <motion.div
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        exit={{ opacity: 0 }}
-                        className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40 backdrop-blur-sm overflow-hidden touch-none"
-                        onClick={() => setSelectedStudy(null)}
-                        onWheel={(e) => e.stopPropagation()}
-                    >
-                        <motion.div
-                            layoutId={`card-${selectedStudy.id}`}
-                            className={`rounded-2xl shadow-2xl w-full max-w-4xl max-h-[90vh] overflow-y-auto overscroll-contain touch-auto relative ${theme === 'dark' ? 'bg-dark-card' : 'bg-white'}`}
-                            onClick={(e) => e.stopPropagation()}
-                        >
-                            <button
-                                onClick={() => setSelectedStudy(null)}
-                                className={`absolute top-4 right-4 p-2 rounded-full transition-colors z-10 ${theme === 'dark'
-                                    ? 'bg-dark-bg hover:bg-dark-accent/20'
-                                    : 'bg-gray-100 hover:bg-gray-200'
-                                    }`}
-                            >
-                                <X size={20} className={theme === 'dark' ? 'text-dark-text' : 'text-gray-600'} />
-                            </button>
-
-                            <div className="p-8 md:p-12">
-                                <div className="flex items-center gap-3 mb-6">
-                                    <div className={`p-3 rounded-xl ${theme === 'dark' ? 'bg-dark-accent/20' : 'bg-brand-green-50'}`}>
-                                        <selectedStudy.icon className={`w-8 h-8 ${theme === 'dark' ? 'text-dark-accent' : 'text-brand-green-600'}`} />
-                                    </div>
-                                    <span className={`px-3 py-1 text-sm font-semibold tracking-wider uppercase rounded-full border ${theme === 'dark'
-                                        ? 'text-dark-accent bg-dark-accent/10 border-dark-accent/30'
-                                        : 'text-brand-green-700 bg-brand-green-50 border-brand-green-100'
-                                        }`}>
-                                        {selectedStudy.category}
-                                    </span>
-                                </div>
-
-                                <h2 className={`text-3xl md:text-4xl font-bold mb-6 ${theme === 'dark' ? 'text-dark-text' : 'text-gray-900'}`}>
-                                    {selectedStudy.title}
-                                </h2>
-
-                                {/* Metadata Grid */}
-                                <div className={`grid grid-cols-2 md:grid-cols-4 gap-4 mb-10 p-6 rounded-xl border ${theme === 'dark'
-                                    ? 'bg-dark-bg border-dark-accent/20'
-                                    : 'bg-gray-50 border-gray-100'
-                                    }`}>
-                                    <div>
-                                        <div className={`text-xs font-bold uppercase mb-1 ${theme === 'dark' ? 'text-dark-accent' : 'text-brand-green-600'}`}>Client Type</div>
-                                        <div className={`text-sm font-medium ${theme === 'dark' ? 'text-dark-text' : 'text-gray-800'}`}>{selectedStudy.client}</div>
-                                    </div>
-                                    <div>
-                                        <div className={`text-xs font-bold uppercase mb-1 ${theme === 'dark' ? 'text-dark-accent' : 'text-brand-green-600'}`}>Duration</div>
-                                        <div className={`text-sm font-medium ${theme === 'dark' ? 'text-dark-text' : 'text-gray-800'}`}>{selectedStudy.duration}</div>
-                                    </div>
-                                    <div className="col-span-2">
-                                        <div className={`text-xs font-bold uppercase mb-1 ${theme === 'dark' ? 'text-dark-accent' : 'text-brand-green-600'}`}>Project Team</div>
-                                        <div className={`text-sm font-medium ${theme === 'dark' ? 'text-dark-text' : 'text-gray-800'}`}>{selectedStudy.team}</div>
-                                    </div>
-                                </div>
-
-                                <div className={`space-y-8 leading-relaxed text-lg ${theme === 'dark' ? 'text-dark-text-muted' : 'text-gray-700'}`}>
-                                    <section>
-                                        <h3 className={`text-xl font-bold mb-3 flex items-center gap-2 ${theme === 'dark' ? 'text-dark-text' : 'text-gray-900'}`}>
-                                            <span className={`w-1 h-6 rounded-full ${theme === 'dark' ? 'bg-dark-accent' : 'bg-brand-green-500'}`} />
-                                            The Challenge
-                                        </h3>
-                                        <p>{selectedStudy.challenge}</p>
-                                    </section>
-
-                                    <section>
-                                        <h3 className={`text-xl font-bold mb-3 flex items-center gap-2 ${theme === 'dark' ? 'text-dark-text' : 'text-gray-900'}`}>
-                                            <span className={`w-1 h-6 rounded-full ${theme === 'dark' ? 'bg-dark-accent' : 'bg-brand-green-500'}`} />
-                                            Our Solution
-                                        </h3>
-                                        <p>{selectedStudy.solution}</p>
-                                    </section>
-
-                                    <section>
-                                        <h3 className={`text-xl font-bold mb-3 flex items-center gap-2 ${theme === 'dark' ? 'text-dark-text' : 'text-gray-900'}`}>
-                                            <span className={`w-1 h-6 rounded-full ${theme === 'dark' ? 'bg-dark-accent' : 'bg-brand-green-500'}`} />
-                                            Key Results
-                                        </h3>
-                                        <ul className="grid grid-cols-1 md:grid-cols-2 gap-3 mt-4">
-                                            {selectedStudy.outcome.map((item, i) => (
-                                                <li key={i} className={`flex items-start gap-3 p-3 rounded-lg border ${theme === 'dark'
-                                                    ? 'bg-dark-accent/10 border-dark-accent/20'
-                                                    : 'bg-brand-green-50/50 border-brand-green-100'
-                                                    }`}>
-                                                    <div className={`w-5 h-5 rounded-full flex items-center justify-center shrink-0 mt-0.5 ${theme === 'dark' ? 'bg-dark-accent/30' : 'bg-brand-green-200'}`}>
-                                                        <Clock size={12} className={theme === 'dark' ? 'text-dark-accent' : 'text-brand-green-800'} />
-                                                    </div>
-                                                    <span className={`text-sm font-medium ${theme === 'dark' ? 'text-dark-text' : 'text-gray-800'}`}>{item}</span>
-                                                </li>
-                                            ))}
-                                        </ul>
-                                    </section>
-                                </div>
-
-                                <div className={`mt-12 pt-8 border-t flex justify-end ${theme === 'dark' ? 'border-dark-accent/20' : 'border-gray-100'}`}>
-                                    <Button
-                                        onClick={() => navigate('/schedule-demo')}
-                                        className={`rounded-full px-8 ${theme === 'dark'
-                                            ? 'bg-dark-accent hover:bg-dark-accent/90 text-dark-bg'
-                                            : 'bg-brand-green-600 hover:bg-brand-green-700 text-white'
-                                            }`}>
-                                        Schedule Similar Project
-                                    </Button>
-                                </div>
-                            </div>
-                        </motion.div>
-                    </motion.div>
-                )}
+                {selectedStudy && <CaseStudyModal study={selectedStudy} onClose={() => setSelectedStudy(null)} />}
             </AnimatePresence>
-
-            {/* Blog Modal */}
             <AnimatePresence>
-                {selectedBlog && (
-                    <motion.div
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        exit={{ opacity: 0 }}
-                        className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40 backdrop-blur-sm overflow-hidden touch-none"
-                        onClick={() => setSelectedBlog(null)}
-                        onWheel={(e) => e.stopPropagation()}
-                    >
-                        <motion.div
-                            layoutId={`blog-${selectedBlog.id}`}
-                            className={`rounded-2xl shadow-2xl w-full max-w-4xl max-h-[90vh] overflow-y-auto overscroll-contain touch-auto relative ${theme === 'dark' ? 'bg-dark-card' : 'bg-white'}`}
-                            onClick={(e) => e.stopPropagation()}
-                        >
-                            <button
-                                onClick={() => setSelectedBlog(null)}
-                                className={`absolute top-4 right-4 p-2 rounded-full transition-colors z-10 ${theme === 'dark'
-                                    ? 'bg-dark-bg/80 hover:bg-dark-accent/20 text-dark-text'
-                                    : 'bg-white/80 hover:bg-gray-100 text-gray-600'
-                                    }`}
-                            >
-                                <X size={20} />
-                            </button>
-
-                            <div className="relative h-64 md:h-80 w-full">
-                                <img
-                                    src={selectedBlog.image}
-                                    alt={selectedBlog.title}
-                                    className="w-full h-full object-cover"
-                                />
-                                <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
-                                <div className="absolute bottom-6 left-6 md:bottom-8 md:left-8 text-white">
-                                    <div className="flex items-center gap-4 text-sm font-medium mb-3 opacity-90">
-                                        <span className="flex items-center gap-1.5"><Calendar className="w-4 h-4" /> {selectedBlog.date}</span>
-                                        <span className="flex items-center gap-1.5"><Clock className="w-4 h-4" /> {selectedBlog.readTime}</span>
-                                    </div>
-                                    <div className={`inline-block px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wide mb-2 ${selectedBlog.category === 'Industry Trends' ? 'bg-amber-100 text-amber-800' :
-                                        selectedBlog.category === 'Technical Deep Dive' ? 'bg-blue-100 text-blue-800' :
-                                            'bg-green-100 text-green-800'
-                                        }`}>
-                                        {selectedBlog.category}
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div className="p-8 md:p-12">
-                                <h2 className={`text-3xl md:text-4xl font-bold mb-6 ${theme === 'dark' ? 'text-dark-text' : 'text-gray-900'}`}>
-                                    {selectedBlog.title}
-                                </h2>
-
-                                <div className={`flex items-center gap-3 mb-8 p-4 rounded-xl ${theme === 'dark' ? 'bg-dark-bg border border-dark-accent/20' : 'bg-gray-50 border border-gray-100'}`}>
-                                    <div className={`w-10 h-10 rounded-full flex items-center justify-center ${theme === 'dark' ? 'bg-dark-accent/20' : 'bg-brand-green-100'}`}>
-                                        <User className={`w-5 h-5 ${theme === 'dark' ? 'text-dark-accent' : 'text-brand-green-600'}`} />
-                                    </div>
-                                    <div>
-                                        <div className={`text-xs font-bold uppercase ${theme === 'dark' ? 'text-dark-accent' : 'text-gray-500'}`}>Written by</div>
-                                        <div className={`font-medium ${theme === 'dark' ? 'text-dark-text' : 'text-gray-900'}`}>{selectedBlog.author}</div>
-                                    </div>
-                                </div>
-
-                                <div className={`prose max-w-none ${theme === 'dark' ? 'prose-invert text-dark-text-muted' : 'text-gray-700'}`}>
-                                    <p className="text-xl leading-relaxed font-medium mb-8 opacity-90">
-                                        {selectedBlog.excerpt}
-                                    </p>
-                                    <div className="space-y-6 leading-relaxed">
-                                        {/* Placeholder for actual content since resources.ts has '...' */}
-                                        <p>
-                                            In the rapidly evolving landscape of artificial intelligence, {selectedBlog.title} represents a pivotal shift.
-                                            Enterprises are constantly seeking ways to leverage these advancements to stay ahead of the curve.
-                                        </p>
-                                        <p>
-                                            This article explores the nuances of {selectedBlog.category}, diving deep into the methodologies and frameworks
-                                            that drive success. From data infrastructure to model alignment, every component plays a critical role.
-                                        </p>
-                                        <h3 className="text-2xl font-bold mt-8 mb-4">The Strategic Imperative</h3>
-                                        <p>
-                                            Understanding the core mechanics is just the beginning. The real value lies in the strategic application of these
-                                            technologies to solve real-world business problems. Whether it's through enhanced automation, improved decision-making,
-                                            or novel customer experiences, the impact is profound.
-                                        </p>
-                                        <p>
-                                            As we continue to push the boundaries of what's possible, keeping a pulse on these developments is not just beneficial—it's essential
-                                            for long-term viability and growth.
-                                        </p>
-                                    </div>
-                                </div>
-
-                                <div className={`mt-12 pt-8 border-t flex justify-between items-center ${theme === 'dark' ? 'border-dark-accent/20' : 'border-gray-100'}`}>
-                                    <span className={`text-sm italic ${theme === 'dark' ? 'text-dark-text-muted' : 'text-gray-500'}`}>
-                                        Posted in <strong>{selectedBlog.category}</strong>
-                                    </span>
-                                    <Button
-                                        onClick={() => window.open('https://medium.com/@frostrek', '_blank')}
-                                        className={`rounded-full px-6 ${theme === 'dark'
-                                            ? 'bg-dark-accent/10 hover:bg-dark-accent/20 text-dark-accent'
-                                            : 'bg-brand-green-50 hover:bg-brand-green-100 text-brand-green-700'
-                                            }`}>
-                                        Read on Medium <ArrowUpRight size={16} className="ml-2" />
-                                    </Button>
-                                </div>
-                            </div>
-                        </motion.div>
-                    </motion.div>
-                )}
+                {selectedBlog && <BlogModal post={selectedBlog} onClose={() => setSelectedBlog(null)} />}
             </AnimatePresence>
         </div>
     );

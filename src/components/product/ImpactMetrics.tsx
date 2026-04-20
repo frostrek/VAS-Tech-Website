@@ -5,7 +5,7 @@ import { LayoutDashboard, BarChart3, PieChart, ArrowUpRight, Activity } from 'lu
 import { useTheme } from '../../context/ThemeContext';
 
 // Color palette for metrics - clean pie chart colors
-// Color palette for metrics - Frostrek Earthy/Bronze Theme
+// Color palette for metrics - VAS Tech Earthy/Bronze Theme
 const METRIC_COLORS = [
     { fill: '#B07552', light: '#F2E8DF', darkBg: 'rgba(176, 117, 82, 0.2)', name: 'bronze' },  // Main Bronze
     { fill: '#D4BB75', light: '#FAF5E6', darkBg: 'rgba(212, 187, 117, 0.2)', name: 'gold' },    // Gold/Sand
@@ -260,7 +260,7 @@ export const ImpactMetrics = ({ statistics }: { statistics: ProductStatistic[] }
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.8 }}
-                className={`rounded-3xl border shadow-2xl overflow-hidden flex ${theme === 'dark' ? 'bg-dark-navbar/80 backdrop-blur-xl border-dark-accent/20' : 'bg-white/80 backdrop-blur-xl border-white/50'}`}
+                className={`rounded-3xl border shadow-2xl overflow-hidden flex ${theme === 'dark' ? 'bg-dark-navbar/80 backdrop-blur-xl border-dark-accent/20' : 'bg-white/80 backdrop-blur-xl border-orange-500/20'}`}
             >
                 <div className={`w-16 md:w-20 border-r flex flex-col items-center py-6 gap-6 hidden sm:flex ${theme === 'dark' ? 'bg-dark-bg/50 border-dark-accent/20' : 'bg-gray-50/50 border-gray-100'}`}>
                     <div className={`w-8 h-8 rounded-lg flex items-center justify-center font-bold text-xs ${theme === 'dark' ? 'bg-dark-accent text-dark-bg' : 'bg-gray-900 text-white'}`}>F</div>

@@ -38,10 +38,10 @@ export const CASE_STUDIES: CaseStudy[] = [
         team: '40 Annotators | 6 QAs | 1 PM',
         description: 'Delivering high-precision 2D/3D annotation workflows for a leading AV company to enhance object detection and lane segmentation.',
         challenge: 'The client needed to process a massive volume of raw sensor data with extreme precision for their L4 autonomous driving stack. The complexity included navigating varied weather conditions (rain, night) and ensuring temporal consistency across frames.',
-        solution: 'Frostrek deployed a specialized team of 40 annotators trained in LiDAR point-cloud navigation. We established an end-to-end execution pipeline covering: 2D bounding boxes for traffic participants, 3D LiDAR object detection, and precise lane/drivable-area segmentation. Our workflow integrated multi-layer QA to handle complex edge cases.',
+        solution: 'VAS Tech deployed a specialized team of 40 annotators trained in LiDAR point-cloud navigation. We established an end-to-end execution pipeline covering: 2D bounding boxes for traffic participants, 3D LiDAR object detection, and precise lane/drivable-area segmentation. Our workflow integrated multi-layer QA to handle complex edge cases.',
         outcome: [
             'Successfully delivered 1.2M labeled frames with a <6% rejection rate.',
-            'Maintained 92.5% quality accuracy through structured QA workflows.',
+            'Maintained 90%+ quality accuracy through structured QA workflows.',
             'Reduced review turnaround time by 18% via custom escalation paths.',
             'Accurately handled complex edge cases like night-time and hazardous weather.'
         ],
@@ -73,7 +73,7 @@ export const CASE_STUDIES: CaseStudy[] = [
         team: '80 Labelers | 10 QAs | 4 SMEs',
         description: 'Human preference evaluation and feedback loops to align frontier LLMs with safety and helpfulness standards.',
         challenge: 'The client needed to align their foundation model to produce safe, helpful, and non-hallucinated responses. Automated metrics were insufficient for capturing nuance in reasoning and safety.',
-        solution: 'Frostrek established a robust RLHF (Reinforcement Learning from Human Feedback) pipeline. Our SMEs and labelers conducted human preference evaluation, identified response quality gaps, and provided ranked correction suggestions to drive alignment improvements.',
+        solution: 'VAS Tech established a robust RLHF (Reinforcement Learning from Human Feedback) pipeline. Our SMEs and labelers conducted human preference evaluation, identified response quality gaps, and provided ranked correction suggestions to drive alignment improvements.',
         outcome: [
             'Evaluated hundreds of thousands of model-generated responses.',
             'Reduced verbosity and hallucination issues significantly.',
@@ -107,11 +107,11 @@ export const CASE_STUDIES: CaseStudy[] = [
         duration: '5 months',
         team: '40 Annotators | 6 QAs | 1 Lead',
         description: 'Managing a large-scale image and video annotation pipeline for a global AV leader.',
-        challenge: 'The client faced a backlog of raw drive data needing processing under strict production timelines. They required a partner who could scale quickly without compromising the 95% accuracy SLA.',
+        challenge: 'The client faced a backlog of raw drive data needing processing under strict production timelines. They required a partner who could scale quickly without compromising the 90%+ accuracy SLA.',
         solution: 'We set up a dedicated delivery unit handling 2D bounding boxes, polygons, and video object tracking. The program featured a multi-layer QA structure with a dedicated Lead and Project Manager to ensure strict adherence to production schedules.',
         outcome: [
             'Delivered 1M+ annotated frames under strict timelines.',
-            'Achieved 92%+ sustained quality accuracy.',
+            'Achieved 90%+ sustained quality accuracy.',
             'Maintained <2% rejection rate across delivery cycles.',
             'Enabled deployment-ready datasets for downstream model training.'
         ],
@@ -129,7 +129,7 @@ export const CASE_STUDIES: CaseStudy[] = [
         solution: 'Our team of 30 transcription specialists and 12 native translators handled large-scale audio/video processing. Workflows included speaker identification, timestamping, and terminology consistency checks, backed by multi-layer linguistic QA.',
         outcome: [
             'Transcribed and translated 50,000+ minutes of content.',
-            'Achieved 98%+ accuracy in transcription and translation.',
+            'Achieved 90%+ accuracy in transcription and translation.',
             'Delivered consistent quality across 12+ languages.',
             'Met aggressive SLAs for high-volume delivery.'
         ],
@@ -162,9 +162,9 @@ export const CASE_STUDIES: CaseStudy[] = [
         team: '70 Annotators | 12 QAs | 3 Leads',
         description: 'Implementing a third-party QA framework to validate large-scale AI datasets.',
         challenge: 'The client had multiple data vendors but lacked a centralized quality standard. They needed an independent partner to audit datasets and enforce objective quality metrics.',
-        solution: 'Frostrek implemented a multi-layer QA framework. We validated datasets for accuracy, completeness, and consistency, performing root cause analysis on errors. We established SLA-based acceptance criteria and provided daily quality monitoring reports.',
+        solution: 'VAS Tech implemented a multi-layer QA framework. We validated datasets for accuracy, completeness, and consistency, performing root cause analysis on errors. We established SLA-based acceptance criteria and provided daily quality monitoring reports.',
         outcome: [
-            'Maintained 95%+ sustained quality accuracy across all datasets.',
+            'Maintained 90%+ sustained quality accuracy across all datasets.',
             'Reduced rework rates by 30% through structured audits.',
             'Achieved strict SLA compliance across delivery cycles.',
             'Improved consistency across multi-team workflows.'
@@ -182,7 +182,7 @@ export const CASE_STUDIES: CaseStudy[] = [
         challenge: 'The client required a flexible, scalable workforce that could operate across global time zones and handle fluctuating volumes without the administrative burden of direct hiring.',
         solution: 'We deployed a managed team of 85 dedicated annotators and 15 QAs. The model included shift-based coverage for 24/7 operations, rapid scaling protocols to meet volume spikes, and continuity management to ensure knowledge retention.',
         outcome: [
-            'Sustained 95%+ quality accuracy over 9 months.',
+            'Sustained 90%+ quality accuracy over 9 months.',
             'Scaled team size by 2x within 3 weeks with zero productivity loss.',
             'Maintained uninterrupted delivery despite workforce changes.',
             'Enabled long-term, predictable AI data operations.'
@@ -198,11 +198,11 @@ export const CASE_STUDIES: CaseStudy[] = [
         team: '60 Annotators | 10 QAs | 1 Lead',
         description: 'Rapid execution of a 400k+ item backlog under aggressive 6-week timelines.',
         challenge: 'Crucial model release timelines were at risk due to a massive backlog of unlabelled data. The client needed a "sprint" capacity to clear the backlog in just 6 weeks.',
-        solution: 'Frostrek activated a rapid response protocol. We onboarded 60 annotators with accelerated training guidelines and instituted a multi-shift delivery model to maximize throughput. Quality controls were tightened to ensure speed didn\'t compromise accuracy.',
+        solution: 'VAS Tech activated a rapid response protocol. We onboarded 60 annotators with accelerated training guidelines and instituted a multi-shift delivery model to maximize throughput. Quality controls were tightened to ensure speed didn\'t compromise accuracy.',
         outcome: [
             'Delivered 400,000+ labeled data points within 6 weeks.',
             'Met aggressive SLAs without compromising quality.',
-            'Achieved 93%+ acceptance rate on first-pass review.',
+            'Achieved 90%+ acceptance rate on first-pass review.',
             'Enabled the client to meet their critical model release deadline.'
         ],
         icon: Zap
@@ -234,7 +234,7 @@ export const CASE_STUDIES: CaseStudy[] = [
         team: '80 Labelers | 10 QAs | 4 SMEs',
         description: 'Creating golden response datasets for domain-specific model fine-tuning (Code, Math, Science).',
         challenge: 'General-purpose models were failing at specialized tasks like coding (Python/Java), STEM reasoning, and bilingual fluency. The client needed high-quality "golden" data to fine-tune the model for these domains.',
-        solution: 'Frostrek formed SME-led teams to generate SFT (Supervised Fine-Tuning) datasets. We focused on creating domain-specific responses for coding, step-by-step mathematical reasoning, and physics explanations, as well as multilingual enhancement.',
+        solution: 'VAS Tech formed SME-led teams to generate SFT (Supervised Fine-Tuning) datasets. We focused on creating domain-specific responses for coding, step-by-step mathematical reasoning, and physics explanations, as well as multilingual enhancement.',
         outcome: [
             'Improved model coding performance in Python and Java.',
             'Enhanced step-by-step mathematical reasoning capabilities.',
@@ -252,7 +252,7 @@ export const BLOG_POSTS: BlogPost[] = [
         excerpt: 'As AI models evolve from chat-based assistants to autonomous agents, the data infrastructure powering them must fundamentally change. Here’s what the next generation of Data Ops looks like.',
         date: 'Oct 12, 2025',
         readTime: '5 min read',
-        author: 'Frostrek Team',
+        author: 'VAS Tech Team',
         category: 'Industry Trends',
         content: '...',
         image: 'https://images.unsplash.com/photo-1620712943543-bcc4688e7485?q=80&w=1000&auto=format&fit=crop'
@@ -261,8 +261,8 @@ export const BLOG_POSTS: BlogPost[] = [
         id: 'blog-rlhf-explained',
         title: 'Why RLHF is Critical for Enterprise Model Safety',
         excerpt: 'Reinforcement Learning from Human Feedback (RLHF) isn\'t just a buzzword—it\'s the safety valve for deploying LLMs in enterprise environments. We break down the process and its impact.',
-        date: 'Sep 28, 2025',
-        readTime: '6 min read',
+        date: 'April, 2026',
+        readTime: '8 min read',
         author: 'AI Safety Team',
         category: 'Technical Deep Dive',
         content: '...',
@@ -271,7 +271,7 @@ export const BLOG_POSTS: BlogPost[] = [
     {
         id: 'blog-scaling-annotation',
         title: 'Scaling Annotation Teams Without Losing Quality',
-        excerpt: 'The classic dilemma: Speed vs. Accuracy. Discover the frameworks and governance models Frostrek uses to maintain 95%+ quality accuracy while scaling teams by 300%.',
+        excerpt: 'The classic dilemma: Speed vs. Accuracy. Discover the frameworks and governance models VAS Tech uses to maintain 90%+ quality accuracy while scaling teams by 300%.',
         date: 'Aug 15, 2025',
         readTime: '4 min read',
         author: 'Operations Lead',
@@ -329,7 +329,7 @@ export const BLOG_POSTS: BlogPost[] = [
         excerpt: 'Even as models get smarter, human oversight remains critical. We discuss why HITL is the key to handling edge cases and ensuring reliability.',
         date: 'Mar 30, 2025',
         readTime: '5 min read',
-        author: 'Frostrek Team',
+        author: 'VAS Tech Team',
         category: 'industry trends',
         content: '...',
         image: 'https://images.unsplash.com/photo-1531482615713-2afd69097998?q=80&w=1000&auto=format&fit=crop'

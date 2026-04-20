@@ -2,39 +2,43 @@ import { useState, useEffect, useRef, useCallback } from 'react';
 import { useGSAP } from '@gsap/react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { ChevronLeft, ChevronRight, Quote } from 'lucide-react';
+import { ChevronLeft, ChevronRight, Quote, Play, Pause } from 'lucide-react';
 import { useTheme } from '../../context/ThemeContext';
 
 gsap.registerPlugin(ScrollTrigger);
 
 const TESTIMONIALS = [
     {
-        quote: "Frostrek's AI agents transformed our customer support. We went from 4-hour response times to instant resolutions. Our customer satisfaction score jumped from 72% to 94% in just 3 months.",
+        quote: "VAS Tech's AI agents transformed our customer support. We went from 4-hour response times to instant resolutions. Our customer satisfaction score jumped from 72% to 94% in just 3 months.",
         author: "Vikram Patel",
         role: "Co-Founder & CEO",
         image: "/testi1.png",
-        company: "LegalEase"
+        company: "LegalEase",
+        audio: "/Testimonials-Voices/Vikram.mp3"
     },
     {
         quote: "The voice AI integration was seamless. Our sales team can now handle 10x more customer calls while maintaining that personal touch. It's like having 50 expert sales reps working 24/7.",
         author: "Priya Malhotra",
-        role: "Founder & CTO",
+        role: "Managing Director",
         image: "/testi2.png",
-        company: "SkillNest"
+        company: "SkillNest",
+        audio: "/Testimonials-Voices/Priya.mp3"
     },
     {
-        quote: "Implementing Frostrek's WhatsApp automation doubled our conversion rate overnight. The AI understands context so well, our customers don't even realize they're chatting with a bot.",
+        quote: "Implementing VAS Tech's WhatsApp automation doubled our conversion rate overnight. The AI understands context so well, our customers don't even realize they're chatting with a bot.",
         author: "Arjun Kapoor",
         role: "Head of Growth",
         image: "/testi5.png",
-        company: "QuickCart"
+        company: "QuickCart",
+        audio: "/Testimonials-Voices/Arjun.mp3"
     },
     {
-        quote: "Frostrek has been a game-changer for our e-commerce operations. Their AI-powered solutions helped us scale efficiently while maintaining quality. Our order processing time reduced by 60%.",
+        quote: "VAS Tech has been a game-changer for our e-commerce operations. Their AI-powered solutions helped us scale efficiently while maintaining quality. Our order processing time reduced by 60%.",
         author: "Surendra Yadav",
         role: "Founder",
         image: "/testi4.jpg",
-        company: "Crescent Etail"
+        company: "Crescent Etail",
+        audio: "/Testimonials-Voices/Surendra.mp3"
     }
 ];
 
@@ -49,6 +53,12 @@ const TestimonialsSection = () => {
     const cardRef = useRef<HTMLDivElement>(null);
     const imageRef = useRef<HTMLDivElement>(null);
 
+    // Audio state
+    const audioRef = useRef<HTMLAudioElement | null>(null);
+    const [isPlaying, setIsPlaying] = useState(false);
+    const [currentTime, setCurrentTime] = useState(0);
+    const [duration, setDuration] = useState(0);
+
     // Use ref for isPaused to avoid interval recreation
     const isPausedRef = useRef(isPaused);
     isPausedRef.current = isPaused;
@@ -61,8 +71,54 @@ const TestimonialsSection = () => {
             }
         }, ROTATION_INTERVAL);
 
-        return () => clearInterval(interval);
-    }, []); // Empty deps - interval runs once, checks ref
+        return () => {
+            clearInterval(interval);
+            if (audioRef.current) {
+                audioRef.current.pause();
+                audioRef.current = null;
+            }
+        };
+    }, []);
+
+    // Stop audio when testimonial changes
+    useEffect(() => {
+        if (audioRef.current) {
+            audioRef.current.pause();
+            audioRef.current.currentTime = 0;
+            audioRef.current = null; // Important: Clear the ref so the next speaker's audio can be loaded
+            setIsPlaying(false);
+            setCurrentTime(0);
+        }
+    }, [currentIndex]);
+
+    const togglePlay = () => {
+        if (!audioRef.current) {
+            audioRef.current = new Audio(TESTIMONIALS[currentIndex].audio);
+            audioRef.current.addEventListener('timeupdate', () => {
+                setCurrentTime(audioRef.current?.currentTime || 0);
+            });
+            audioRef.current.addEventListener('loadedmetadata', () => {
+                setDuration(audioRef.current?.duration || 0);
+            });
+            audioRef.current.addEventListener('ended', () => {
+                setIsPlaying(false);
+                setCurrentTime(0);
+            });
+        }
+
+        if (isPlaying) {
+            audioRef.current.pause();
+        } else {
+            audioRef.current.play();
+        }
+        setIsPlaying(!isPlaying);
+    };
+
+    const formatTime = (time: number) => {
+        const mins = Math.floor(time / 60);
+        const secs = Math.floor(time % 60);
+        return `${mins}:${secs.toString().padStart(2, '0')}`;
+    };
 
     // Animate on index change
     const animateTransition = useCallback((direction: 'next' | 'prev') => {
@@ -74,7 +130,7 @@ const TestimonialsSection = () => {
         // Animate out
         gsap.to(cardRef.current, {
             opacity: 0,
-            x: -xOffset,
+            y: 20, // Slide down
             duration: 0.3,
             ease: 'power2.in',
             onComplete: () => {
@@ -85,25 +141,25 @@ const TestimonialsSection = () => {
                         : (prev - 1 + TESTIMONIALS.length) % TESTIMONIALS.length
                 );
 
-                // Animate in from opposite side
+                // Animate in from bottom (incoming chat effect)
                 gsap.fromTo(cardRef.current,
-                    { opacity: 0, x: xOffset },
-                    { opacity: 1, x: 0, duration: 0.4, ease: 'power2.out' }
+                    { opacity: 0, y: 30, scale: 0.95 },
+                    { opacity: 1, y: 0, scale: 1, duration: 0.5, ease: 'back.out(1.2)' }
                 );
 
-                // Animate image
+                // Animate image (Contact Profile bounce)
                 gsap.fromTo(imageRef.current,
-                    { opacity: 0, scale: 0.9 },
-                    { opacity: 1, scale: 1, duration: 0.5, ease: 'back.out(1.5)' }
+                    { opacity: 0, scale: 0.8 },
+                    { opacity: 1, scale: 1, duration: 0.6, ease: 'elastic.out(1, 0.7)' }
                 );
 
-                setTimeout(() => setIsAnimating(false), 400);
+                setTimeout(() => setIsAnimating(false), 500);
             }
         });
 
         gsap.to(imageRef.current, {
             opacity: 0,
-            scale: 0.95,
+            scale: 0.9,
             duration: 0.3,
             ease: 'power2.in'
         });
@@ -145,119 +201,163 @@ const TestimonialsSection = () => {
 
     const current = TESTIMONIALS[currentIndex];
 
+    // Animated Voice Waveform Component
+    const VoiceWaveform = () => (
+        <div className="flex items-center justify-center gap-1.5 h-12 mt-6">
+            <span className={`w-1.5 h-4 bg-orange-500/70 rounded-full ${isPlaying ? 'animate-[wave_1.2s_ease-in-out_infinite]' : 'opacity-30'}`} />
+            <span className={`w-1.5 h-8 bg-orange-400/90 rounded-full ${isPlaying ? 'animate-[wave_1.2s_ease-in-out_infinite_0.2s]' : 'opacity-30'}`} />
+            <span className={`w-1.5 h-10 bg-yellow-400 rounded-full ${isPlaying ? 'animate-[wave_1.2s_ease-in-out_infinite_0.4s]' : 'opacity-30'}`} />
+            <span className={`w-1.5 h-6 bg-orange-500/80 rounded-full ${isPlaying ? 'animate-[wave_1.2s_ease-in-out_infinite_0.1s]' : 'opacity-30'}`} />
+            <span className={`w-1.5 h-12 bg-orange-400 rounded-full ${isPlaying ? 'animate-[wave_1.2s_ease-in-out_infinite_0.3s]' : 'opacity-30'}`} />
+            <span className={`w-1.5 h-8 bg-yellow-500/80 rounded-full ${isPlaying ? 'animate-[wave_1.2s_ease-in-out_infinite_0.5s]' : 'opacity-30'}`} />
+            <span className={`w-1.5 h-5 bg-orange-600/70 rounded-full ${isPlaying ? 'animate-[wave_1.2s_ease-in-out_infinite_0.2s]' : 'opacity-30'}`} />
+        </div>
+    );
+
     return (
         <section
             ref={sectionRef}
-            className={`py-16 relative overflow-hidden transition-colors duration-300 ${theme === 'dark' ? 'bg-dark-bg' : 'bg-[#FDFBF7]'}`}
+            className={`py-24 relative overflow-hidden transition-colors duration-300 ${theme === 'dark' ? 'bg-[#030303]' : 'bg-gray-50'}`}
             onMouseEnter={() => setIsPaused(true)}
             onMouseLeave={() => setIsPaused(false)}
         >
-            {/* Decorative Elements - Bronze Theme */}
-            <div className="absolute top-10 left-10 w-32 h-32 rounded-full border-4 border-[#B07552]/20 opacity-60" />
-            <div className="absolute top-20 left-20 w-20 h-20 rounded-full bg-gradient-to-br from-[#E6D0C6] to-[#B07552] opacity-20" />
-            <div className="absolute bottom-20 right-10 w-40 h-40 rounded-full border-4 border-[#B07552]/20 opacity-50" />
-            <div className="absolute bottom-10 right-20 w-24 h-24 rounded-full bg-gradient-to-br from-[#B07552] to-amber-600 opacity-20" />
-            <div className="absolute top-1/2 right-0 w-16 h-16 rounded-full bg-[#B07552] opacity-20 translate-x-1/2" />
+            <style>{`
+                @keyframes wave {
+                    0%, 100% { transform: scaleY(0.5); opacity: 0.5; }
+                    50% { transform: scaleY(1); opacity: 1; }
+                }
+            `}</style>
+
+            {/* Decorative Elements - AI Nodes */}
+            <div className="absolute top-1/4 left-10 w-96 h-96 bg-orange-500/5 rounded-full blur-[100px] pointer-events-none" />
+            <div className="absolute bottom-1/4 right-10 w-[500px] h-[500px] bg-yellow-500/5 rounded-full blur-[120px] pointer-events-none" />
 
             <div className="container mx-auto px-4 md:px-6 relative z-10">
                 {/* Header */}
-                <div className="text-center mb-16">
-                    <h2 className={`text-3xl md:text-4xl font-light transition-colors ${theme === 'dark' ? 'text-dark-text' : 'text-gray-800'}`}>
+                <div className="text-center mb-20">
+                    <h2 className={`text-4xl md:text-5xl font-bold tracking-tight mb-4 ${theme === 'dark' ? 'text-white' : 'text-gray-900'}`}>
                         Don't take our word for it. <br />
-                        <span className={`font-bold italic ${theme === 'dark' ? 'text-dark-accent' : 'text-[#B07552]'}`}>Take theirs...</span>
+                        <span className="bg-gradient-to-r from-yellow-400 to-orange-500 bg-clip-text text-transparent">Take theirs.</span>
                     </h2>
+                    <p className="text-zinc-400 text-lg">See how leading enterprises are scaling with VAS Tech AI.</p>
                 </div>
 
-                {/* Main Testimonial Display */}
+                {/* Main Testimonial Display - Voice AI Layout */}
                 <div className="max-w-5xl mx-auto">
-                    <div className="flex flex-col md:flex-row items-center gap-8 md:gap-16">
-                        {/* Image Side */}
+                    <div className="flex flex-col md:flex-row items-center md:items-stretch gap-8 lg:gap-12 relative">
+
+                        {/* Connecting Line (Desktop) */}
+                        <div className="hidden md:block absolute left-[300px] top-1/2 -translate-y-1/2 w-16 h-px bg-gradient-to-r from-orange-500/50 to-transparent z-0" />
+
+                        {/* Left: Contact/Persona Card */}
                         <div
                             ref={imageRef}
-                            className="relative flex-shrink-0"
+                            className="w-full md:w-[300px] flex-shrink-0 z-10"
                         >
-                            {/* Decorative frame behind image */}
-                            <div className="absolute -inset-4 bg-gradient-to-br from-[#F3E9CD] to-[#E6D0C6] rounded-3xl transform rotate-3" />
-                            <div className="absolute -inset-2 bg-gradient-to-br from-[#B07552]/30 to-[#8A5A35]/30 rounded-3xl transform -rotate-2 opacity-60" />
-
-                            <div className="relative w-48 h-48 md:w-64 md:h-64 rounded-2xl overflow-hidden shadow-2xl">
-                                <img
-                                    src={current.image}
-                                    alt={current.author}
-                                    className="w-full h-full object-cover object-center"
-                                    style={{ objectPosition: 'center top' }}
-                                    width={256}
-                                    height={256}
-                                    loading="lazy"
-                                    decoding="async"
-                                />
-                                {/* Gradient overlay */}
-                                <div className="absolute inset-0 bg-gradient-to-t from-[#B07552]/40 to-transparent" />
+                            <div className="bg-[#0A0A0A]/80 backdrop-blur-xl border border-orange-500/20 rounded-[2rem] p-8 flex flex-col items-center text-center shadow-[0_8px_30px_rgba(0,0,0,0.5)]">
+                                <div className="relative w-32 h-32 rounded-full p-1 bg-gradient-to-b from-orange-400 to-orange-600 mb-6 shadow-xl">
+                                    <img
+                                        src={current.image}
+                                        alt={current.author}
+                                        className="w-full h-full object-cover rounded-full border-[3px] border-black"
+                                        loading="lazy"
+                                    />
+                                    {/* Active status pulse */}
+                                    <div className="absolute bottom-2 right-2 w-4 h-4 bg-green-500 rounded-full border-2 border-black animate-pulse" />
+                                </div>
+                                <h3 className="text-xl font-bold text-white mb-1">{current.author}</h3>
+                                <p className="text-sm font-medium text-zinc-400 mb-3">{current.role}</p>
+                                <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/5 border border-orange-500/20">
+                                    <span className="text-sm font-bold text-orange-400">{current.company}</span>
+                                </div>
                             </div>
                         </div>
 
-                        {/* Content Side */}
-                        <div
-                            ref={cardRef}
-                            className="flex-grow text-center md:text-left"
-                        >
-                            {/* Author Info */}
-                            <div className="mb-6">
-                                <h3 className={`text-xl font-bold ${theme === 'dark' ? 'text-dark-accent' : 'text-[#8A5A35]'}`}>{current.author}</h3>
-                                <p className={`text-sm ${theme === 'dark' ? 'text-dark-text-muted' : 'text-gray-500'}`}>{current.role}</p>
-                                <p className={`text-sm font-semibold mt-1 ${theme === 'dark' ? 'text-dark-accent/80' : 'text-[#B07552]'}`}>{current.company}</p>
-                            </div>
+                        {/* Right: The Chat Bubble / Voice Memo */}
+                        <div className="flex-grow z-10 flex items-center relative w-full">
+                            {/* "Tail" of the chat bubble (Desktop only) */}
+                            <div className="hidden md:block absolute -left-4 top-1/2 -translate-y-1/2 w-8 h-8 bg-[#111111] rotate-45 border-b border-l border-orange-500/20" />
 
-                            {/* Quote */}
-                            <div className="relative">
-                                <Quote className={`absolute -top-4 -left-4 w-8 h-8 opacity-30 ${theme === 'dark' ? 'text-dark-accent' : 'text-[#B07552]'}`} />
-                                <p className={`text-lg md:text-xl leading-relaxed font-medium ${theme === 'dark' ? 'text-dark-text' : 'text-gray-700'}`}>
-                                    {current.quote}
+                            <div
+                                ref={cardRef}
+                                className="w-full bg-[#111111] border border-orange-500/20 rounded-[2rem] md:rounded-l-none p-10 shadow-2xl relative overflow-hidden group"
+                            >
+                                {/* Subtle decorative quote icon */}
+                                <Quote className="absolute -top-4 -right-4 w-32 h-32 text-white/5 -rotate-12 transition-transform duration-700 group-hover:rotate-0" />
+
+                                {/* 5 Star Rating */}
+                                <div className="flex gap-1 mb-6">
+                                    {[1, 2, 3, 4, 5].map(star => (
+                                        <svg key={star} className="w-5 h-5 text-orange-500 drop-shadow-[0_0_8px_rgba(249,115,22,0.5)]" fill="currentColor" viewBox="0 0 20 20">
+                                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                                        </svg>
+                                    ))}
+                                </div>
+
+                                <p className="text-xl md:text-2xl leading-relaxed text-zinc-300 font-medium relative z-10">
+                                    "{current.quote}"
                                 </p>
+
+                                {/* Voice AI Element */}
+                                <div className="mt-8 pt-8 border-t border-orange-500/20 flex items-center gap-6">
+                                    <button
+                                        onClick={togglePlay}
+                                        className="w-12 h-12 rounded-full bg-gradient-to-br from-orange-400 to-yellow-500 flex items-center justify-center flex-shrink-0 shadow-[0_0_15px_rgba(249,115,22,0.3)] hover:scale-110 transition-transform active:scale-95"
+                                    >
+                                        {isPlaying ? (
+                                            <Pause className="w-5 h-5 text-black" fill="currentColor" />
+                                        ) : (
+                                            <Play className="w-5 h-5 text-black ml-1" fill="currentColor" />
+                                        )}
+                                    </button>
+                                    <div className="flex-grow">
+                                        <div className="flex justify-between items-end mb-2">
+                                            <span className="text-xs font-bold tracking-widest text-orange-400 uppercase">
+                                                {isPlaying ? 'Playing Voice Memo' : 'AI Voice Memo'}
+                                            </span>
+                                            <span className="text-xs font-medium text-zinc-500">
+                                                {formatTime(currentTime)} / {formatTime(duration || 14)}
+                                            </span>
+                                        </div>
+                                        <VoiceWaveform />
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
 
                     {/* Navigation */}
-                    <div className="flex items-center justify-center gap-6 mt-12">
-                        {/* Prev Button */}
+                    <div className="flex items-center justify-center gap-6 mt-16 relative z-20">
                         <button
                             onClick={goToPrev}
                             disabled={isAnimating}
-                            className="w-10 h-10 rounded-full border-2 border-[#E6D0C6] flex items-center justify-center text-gray-500 hover:border-[#B07552] hover:text-[#B07552] transition-colors disabled:opacity-50"
-                            aria-label="Previous testimonial"
+                            className="w-12 h-12 rounded-full border border-orange-500/20 bg-[#0A0A0A] flex items-center justify-center text-white hover:border-orange-500 hover:text-orange-400 transition-all hover:scale-110 disabled:opacity-50 shadow-lg"
                         >
-                            <ChevronLeft size={20} />
+                            <ChevronLeft size={24} />
                         </button>
 
-                        {/* Dots */}
-                        <div className="flex gap-2">
+                        <div className="flex gap-3 px-6 py-3 rounded-full bg-[#0A0A0A] border border-orange-500/20 shadow-lg">
                             {TESTIMONIALS.map((_, idx) => (
                                 <button
                                     key={idx}
                                     onClick={() => goToIndex(idx)}
                                     className={`w-2.5 h-2.5 rounded-full transition-all duration-300 ${idx === currentIndex
-                                        ? 'bg-[#B07552] w-8'
-                                        : 'bg-[#E6D0C6] hover:bg-[#B07552]/70'
+                                        ? 'bg-gradient-to-r from-orange-400 to-yellow-400 w-8 shadow-[0_0_10px_rgba(249,115,22,0.5)]'
+                                        : 'bg-zinc-700 hover:bg-zinc-500'
                                         }`}
                                     aria-label={`Go to testimonial ${idx + 1}`}
                                 />
                             ))}
                         </div>
 
-                        {/* Next Button */}
                         <button
                             onClick={goToNext}
                             disabled={isAnimating}
-                            className="w-10 h-10 rounded-full border-2 border-[#E6D0C6] flex items-center justify-center text-gray-500 hover:border-[#B07552] hover:text-[#B07552] transition-colors disabled:opacity-50"
-                            aria-label="Next testimonial"
+                            className="w-12 h-12 rounded-full border border-orange-500/20 bg-[#0A0A0A] flex items-center justify-center text-white hover:border-orange-500 hover:text-orange-400 transition-all hover:scale-110 disabled:opacity-50 shadow-lg"
                         >
-                            <ChevronRight size={20} />
+                            <ChevronRight size={24} />
                         </button>
                     </div>
-
-                    {/* Progress Bar */}
-
                 </div>
             </div>
         </section>

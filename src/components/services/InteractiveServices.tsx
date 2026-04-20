@@ -412,7 +412,7 @@ const InteractiveServicesWorkflow = () => {
                             <div className={`absolute bottom-0 left-0 w-3 h-3 border-b-2 border-l-2 rounded-bl-lg ${isDark ? 'border-dark-accent/40' : 'border-[#B07552]/30'}`} />
                             <div className={`absolute bottom-0 right-0 w-3 h-3 border-b-2 border-r-2 rounded-br-lg ${isDark ? 'border-dark-accent/40' : 'border-[#B07552]/30'}`} />
 
-                            <div className={`text-xl font-bold tracking-tight ${isDark ? 'text-dark-text' : 'text-[#3D2E24]'}`}>Frostrek</div>
+                            <div className={`text-xl font-bold tracking-tight ${isDark ? 'text-dark-text' : 'text-[#3D2E24]'}`}>VAS Tech</div>
                             <div className={`text-[10px] font-bold uppercase tracking-[0.2em] mt-0.5 ${isDark ? 'text-dark-accent' : 'text-[#B07552]'}`}>AI Engine</div>
                         </div>
                     </motion.div>

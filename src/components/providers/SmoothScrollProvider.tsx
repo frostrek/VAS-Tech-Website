@@ -1,4 +1,4 @@
-import { useEffect, useRef, createContext, useContext } from 'react';
+import { useEffect, useRef, createContext } from 'react';
 import Lenis from 'lenis';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
@@ -70,8 +70,3 @@ const SmoothScrollProvider = ({ children }: SmoothScrollProviderProps) => {
 };
 
 export default SmoothScrollProvider;
-
-// Export hook to access Lenis instance
-export const useLenis = () => {
-    return useContext(LenisContext);
-};

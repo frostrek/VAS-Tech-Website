@@ -32,7 +32,7 @@ const MobileCard = ({ challenge, index, total, theme }: { challenge: Challenge; 
                 />
                 <div className="absolute inset-0 bg-gradient-to-br from-[#B07552]/90 to-[#6E4629]/95" />
                 <div className="absolute inset-0 p-4 flex flex-col justify-between">
-                    <span className="self-start font-mono text-xs tracking-wider bg-white/10 px-3 py-1 rounded-full border border-white/20 text-white">
+                    <span className="self-start font-mono text-xs tracking-wider bg-white/10 px-3 py-1 rounded-full border border-orange-500/20 text-white">
                         0{index + 1} / 0{total}
                     </span>
                     <div>
@@ -55,9 +55,9 @@ const MobileCard = ({ challenge, index, total, theme }: { challenge: Challenge; 
                     ))}
                 </div>
                 <div className={`flex justify-between py-3 border-t ${theme === 'dark' ? 'border-dark-accent/30' : 'border-[#E6D0C6]'}`}>
-                    <div className="text-center"><p className={`text-lg font-bold ${theme === 'dark' ? 'text-dark-accent' : 'text-[#B07552]'}`}>60%</p><p className={`text-[10px] ${theme === 'dark' ? 'text-dark-text-muted' : 'text-[#8C7E72]'}`}>Cost Cut</p></div>
+                    <div className="text-center"><p className={`text-lg font-bold ${theme === 'dark' ? 'text-dark-accent' : 'text-[#B07552]'}`}>50%+</p><p className={`text-[10px] ${theme === 'dark' ? 'text-dark-text-muted' : 'text-[#8C7E72]'}`}>Cost Cut</p></div>
                     <div className="text-center"><p className={`text-lg font-bold ${theme === 'dark' ? 'text-dark-accent' : 'text-[#B07552]'}`}>24/7</p><p className={`text-[10px] ${theme === 'dark' ? 'text-dark-text-muted' : 'text-[#8C7E72]'}`}>Uptime</p></div>
-                    <div className="text-center"><p className={`text-lg font-bold ${theme === 'dark' ? 'text-dark-accent' : 'text-[#B07552]'}`}>&lt;1s</p><p className={`text-[10px] ${theme === 'dark' ? 'text-dark-text-muted' : 'text-[#8C7E72]'}`}>Response</p></div>
+                    <div className="text-center"><p className={`text-lg font-bold ${theme === 'dark' ? 'text-dark-accent' : 'text-[#B07552]'}`}>Ultra-fast</p><p className={`text-[10px] ${theme === 'dark' ? 'text-dark-text-muted' : 'text-[#8C7E72]'}`}>Response</p></div>
                 </div>
             </div>
         </div>
@@ -74,13 +74,13 @@ const DesktopCard = ({ challenge, index, total, theme }: { challenge: Challenge;
                     <div className="absolute inset-0 bg-gradient-to-br from-[#B07552]/95 to-[#6E4629]/95" />
                 </div>
                 <div className="relative z-10 flex flex-col h-full p-6">
-                    <span className="self-start font-mono text-xs tracking-wider bg-white/10 px-3 py-1.5 rounded-full border border-white/20 mb-auto">0{index + 1} / 0{total}</span>
+                    <span className="self-start font-mono text-xs tracking-wider bg-white/10 px-3 py-1.5 rounded-full border border-orange-500/20 mb-auto">0{index + 1} / 0{total}</span>
                     <div className="mb-6">
                         <h3 className="text-2xl lg:text-3xl font-bold leading-tight mb-3">{challenge.title}</h3>
                         <div className="w-10 h-0.5 bg-white/50 rounded-full mb-3" />
                         <p className="text-white/90 text-sm leading-relaxed">{challenge.description}</p>
                     </div>
-                    <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-white/30 bg-white/10 text-xs font-semibold uppercase tracking-wider self-start">
+                    <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-orange-500/20 bg-white/10 text-xs font-semibold uppercase tracking-wider self-start">
                         <Zap size={12} className="text-[#E0CC94]" /><span>Challenge</span>
                     </div>
                 </div>
@@ -94,7 +94,7 @@ const DesktopCard = ({ challenge, index, total, theme }: { challenge: Challenge;
                     </div>
                     <p className={`text-xl lg:text-2xl font-light leading-snug mb-5 ${theme === 'dark' ? 'text-dark-text' : 'text-[#2D241E]'}`}>{challenge.solvedBy}</p>
                     <div className="grid grid-cols-2 gap-2 mb-4">
-                        {[{ label: 'Instant Deploy', desc: 'Go live fast' }, { label: 'AI-Powered', desc: 'Smart automation' }, { label: 'Enterprise Secure', desc: 'SOC2 ready' }, { label: 'Real-time', desc: 'Live insights' }].map((tag, i) => (
+                        {[{ label: 'Instant Deploy', desc: 'Go live fast' }, { label: 'AI-Powered', desc: 'Smart automation' }, { label: 'Enterprise Secure', desc: 'ISO certified' }, { label: 'Real-time', desc: 'Live insights' }].map((tag, i) => (
                             <div key={i} className={`p-2.5 rounded-lg border ${theme === 'dark' ? 'bg-dark-bg border-dark-accent/30' : 'bg-white border-[#E6D0C6]'}`}>
                                 <div className="flex items-center gap-1.5 mb-0.5"><div className={`w-1.5 h-1.5 rounded-full ${theme === 'dark' ? 'bg-dark-accent' : 'bg-[#B07552]'}`} /><span className={`font-semibold text-xs ${theme === 'dark' ? 'text-dark-text' : 'text-[#2D241E]'}`}>{tag.label}</span></div>
                                 <p className={`text-[10px] pl-3 ${theme === 'dark' ? 'text-dark-text-muted' : 'text-[#8C7E72]'}`}>{tag.desc}</p>
@@ -102,9 +102,9 @@ const DesktopCard = ({ challenge, index, total, theme }: { challenge: Challenge;
                         ))}
                     </div>
                     <div className={`flex gap-5 py-3 border-y mb-4 ${theme === 'dark' ? 'border-dark-accent/30' : 'border-[#E6D0C6]'}`}>
-                        <div><p className={`text-xl font-bold ${theme === 'dark' ? 'text-dark-accent' : 'text-[#B07552]'}`}>60%</p><p className={`text-[10px] ${theme === 'dark' ? 'text-dark-text-muted' : 'text-[#8C7E72]'}`}>Cost Cut</p></div>
+                        <div><p className={`text-xl font-bold ${theme === 'dark' ? 'text-dark-accent' : 'text-[#B07552]'}`}>50%+</p><p className={`text-[10px] ${theme === 'dark' ? 'text-dark-text-muted' : 'text-[#8C7E72]'}`}>Cost Cut</p></div>
                         <div><p className={`text-xl font-bold ${theme === 'dark' ? 'text-dark-accent' : 'text-[#B07552]'}`}>24/7</p><p className={`text-[10px] ${theme === 'dark' ? 'text-dark-text-muted' : 'text-[#8C7E72]'}`}>Uptime</p></div>
-                        <div><p className={`text-xl font-bold ${theme === 'dark' ? 'text-dark-accent' : 'text-[#B07552]'}`}>&lt;1s</p><p className={`text-[10px] ${theme === 'dark' ? 'text-dark-text-muted' : 'text-[#8C7E72]'}`}>Response</p></div>
+                        <div><p className={`text-xl font-bold ${theme === 'dark' ? 'text-dark-accent' : 'text-[#B07552]'}`}>Ultra-fast</p><p className={`text-[10px] ${theme === 'dark' ? 'text-dark-text-muted' : 'text-[#8C7E72]'}`}>Response</p></div>
                     </div>
                 </div>
             </div>

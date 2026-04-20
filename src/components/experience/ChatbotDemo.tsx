@@ -3,7 +3,7 @@ import { motion } from 'framer-motion';
 import { Send, Sparkles, Mic, Square, MessageSquare } from 'lucide-react';
 import { useTheme } from '../../context/ThemeContext';
 
-const WEBHOOK_URL = 'https://n8n.frostrek.com/webhook/cac2fab9-d171-4d67-8587-9ac8d834f436';
+const WEBHOOK_URL = 'https://n8n.vastech.com/webhook/cac2fab9-d171-4d67-8587-9ac8d834f436';
 
 // --- ID Helpers ---
 function getOrCreateUserId(): string {
@@ -34,7 +34,7 @@ const ChatbotDemo: React.FC = () => {
     const { theme } = useTheme();
     const [message, setMessage] = useState('');
     const [messages, setMessages] = useState<Message[]>([
-        { type: 'bot', content: "Hello! 👋 I'm your AI assistant from Frostrek.\nHow can I help you innovate today?" }
+        { type: 'bot', content: "Hello! 👋 I'm your AI assistant from VAS Tech.\nHow can I help you innovate today?" }
     ]);
     const [isLoading, setIsLoading] = useState(false);
 
@@ -48,10 +48,15 @@ const ChatbotDemo: React.FC = () => {
     const mediaRecorderRef = useRef<MediaRecorder | null>(null);
     const audioChunksRef = useRef<Blob[]>([]);
 
-    const messagesEndRef = useRef<HTMLDivElement>(null);
+    const chatContainerRef = useRef<HTMLDivElement>(null);
 
     const scrollToBottom = () => {
-        messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+        if (chatContainerRef.current) {
+            chatContainerRef.current.scrollTo({
+                top: chatContainerRef.current.scrollHeight,
+                behavior: 'smooth'
+            });
+        }
     };
 
     useEffect(() => {
@@ -205,13 +210,13 @@ const ChatbotDemo: React.FC = () => {
                     <MessageSquare className="w-5 h-5" />
                 </div>
                 <div>
-                    <h3 className="font-bold text-sm">Chat with Frosty</h3>
+                    <h3 className="font-bold text-sm">Chat with VAS Tech AI</h3>
                     <p className={`text-xs opacity-90 ${theme === 'dark' ? 'text-amber-100' : 'text-brand-green-100'}`}>AI-powered assistant</p>
                 </div>
             </div>
 
             {/* Messages */}
-            <div className={`flex-1 overflow-y-auto p-4 flex flex-col gap-3 ${theme === 'dark' ? 'bg-dark-bg' : 'bg-gray-50'}`}>
+            <div ref={chatContainerRef} className={`flex-1 overflow-y-auto p-4 flex flex-col gap-3 ${theme === 'dark' ? 'bg-dark-bg' : 'bg-gray-50'}`}>
                 {messages.map((msg, idx) => (
                     <motion.div
                         key={idx}
@@ -265,7 +270,6 @@ const ChatbotDemo: React.FC = () => {
                         </div>
                     </div>
                 )}
-                <div ref={messagesEndRef} />
             </div>
 
             {/* Input */}

@@ -8,70 +8,73 @@ export default {
     theme: {
         extend: {
             colors: {
-                // Dark theme colors (from reference design)
-                'dark-bg': '#322d27',        // Hero section background
-                'dark-navbar': '#2a2622',    // Navbar background
-                'dark-card': '#373027',      // Card/bubble background
-                'dark-accent': '#bf8440',    // Button/accent color (golden)
+                // Dark theme colors (SupportIQ Style)
+                'dark-bg': '#050505',        // Hero section background
+                'dark-navbar': '#050505',    // Navbar background (transparent/glass mostly)
+                'dark-card': '#111110',      // Card/bubble background
+                'dark-accent': '#FACC15',    // Button/accent color (golden)
                 'dark-text': '#f9fafb',      // Primary text
-                'dark-text-muted': '#A89A8A', // Muted text
+                'dark-text-muted': '#A1A1AA', // Muted text (zinc-400)
 
-                // Brown/Bronze Earthy Theme
-                background: '#FDFBF7', // Warm Eggshell
-                'background-alt': '#F7F5F0', // Slightly darker warm gray
-                navbar: '#FDFBF7',
+                // Updating base theme variables to default to Dark instead of Earthy
+                background: '#050505',       // Pitch Black/Dark Zinc
+                'background-alt': '#0A0A0A', // Darker gray
+                navbar: 'transparent',
 
-                // Text colors (dark for readability)
-                primary: '#2D241E', // Dark Brown/Black
-                secondary: '#5D5046', // Medium Brown
-                muted: '#8C7E72', // Muted Brown-Gray
+                // Text colors
+                primary: '#F9FAFB',          // White/Light Gray
+                secondary: '#D4D4D8',        // Zinc 300
+                muted: '#A1A1AA',            // Zinc 400
 
-                // Primary Accent - Bronze/Copper (Replacing brand-green)
+                // Main Accent - Orange / Gold (Replacing brand-green)
                 'brand-green': {
-                    50: '#FAF6F3',
-                    100: '#F2E8DF',
-                    200: '#E6D0C6',
-                    300: '#D5B09D',
-                    400: '#C48F71',
-                    500: '#B07552', // Main Bronze
-                    600: '#A97142', // Slightly richer for hover
-                    700: '#8A5A35',
-                    800: '#6E4629',
-                    900: '#563621',
+                    50: '#FFFBEB',
+                    100: '#FEF3C7',
+                    200: '#FDE68A',
+                    300: '#FCD34D',
+                    400: '#FBBF24',
+                    500: '#F59E0B',          // Main Orange/Gold
+                    600: '#D97706',
+                    700: '#B45309',
+                    800: '#92400E',
+                    900: '#78350F',
                 },
-                // Secondary Accent - Sand/Gold (Replacing brand-yellow)
+                // Secondary Accent - Deep Blue Glows (Replacing brand-yellow)
                 'brand-yellow': {
-                    50: '#FDFBF5',
-                    100: '#FAF5E6',
-                    200: '#F3E9CD',
-                    300: '#EBDCB3',
-                    400: '#E0CC94',
-                    500: '#D4BB75', // Main Sand/Gold
-                    600: '#BFA45E',
-                    700: '#9E8547',
-                    800: '#7D6836',
-                    900: '#614E29',
+                    50: '#EFF6FF',
+                    100: '#DBEAFE',
+                    200: '#BFDBFE',
+                    300: '#93C5FD',
+                    400: '#60A5FA',
+                    500: '#3B82F6',          // Main Blue
+                    600: '#2563EB',
+                    700: '#1D4ED8',
+                    800: '#1E40AF',
+                    900: '#1E3A8A',
                 },
 
-                // Accent colors - Mapped to new palette
-                'accent-green': '#B07552', // Bronze
-                'accent-yellow': '#D4BB75', // Gold
-                'dark-green': '#8A5A35',
-                'dark-yellow': '#9E8547',
+                // Accent colors mapped
+                'accent-green': '#F59E0B',
+                'accent-yellow': '#3B82F6',
+                'dark-green': '#D97706',
+                'dark-yellow': '#2563EB',
 
-                // Button gradient colors - Mapped
-                'green-bright': '#C48F71',
-                'green-dark': '#B07552',
-                'yellow-bright': '#E0CC94',
-                'yellow-dark': '#D4BB75',
+                // Button gradient colors - SupportIQ specific gradient
+                'green-bright': '#FDE047',   // Yellow 300
+                'green-dark': '#F97316',     // Orange 500
+                'yellow-bright': '#60A5FA',
+                'yellow-dark': '#2563EB',
             },
             fontFamily: {
-                sans: ['Raleway', 'system-ui', 'sans-serif'],
-                body: ['Quicksand', 'system-ui', 'sans-serif'],
+                sans: ['Urbanist', 'system-ui', 'sans-serif'],
+                body: ['Urbanist', 'system-ui', 'sans-serif'],
+                serif: ['Cormorant Garamond', 'serif'],
             },
             backgroundImage: {
-                'hero-gradient': 'linear-gradient(135deg, rgba(169, 113, 66, 0.05) 0%, rgba(138, 90, 53, 0.05) 100%)',
-                'card-gradient': 'linear-gradient(135deg, #FDFBF7 0%, #FAF6F3 100%)',
+                'hero-gradient': 'linear-gradient(135deg, rgba(20,20,20, 1) 0%, rgba(5,5,5,1) 100%)',
+                'card-gradient': 'linear-gradient(135deg, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0.01) 100%)',
+                'glass-border': 'linear-gradient(135deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.02) 100%)',
+                'supportiq-button': 'linear-gradient(135deg, #FDE047 0%, #F97316 100%)',
             },
             animation: {
                 // Marquee animation for trusted section
@@ -147,11 +150,11 @@ export default {
                 },
                 // Pulse glow for core engine
                 pulseGlow: {
-                    '0%, 100%': { 
+                    '0%, 100%': {
                         transform: 'scale(1)',
                         boxShadow: '0 0 20px rgba(176, 117, 82, 0.2)'
                     },
-                    '50%': { 
+                    '50%': {
                         transform: 'scale(1.05)',
                         boxShadow: '0 0 40px rgba(176, 117, 82, 0.4)'
                     },

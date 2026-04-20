@@ -57,7 +57,7 @@ export const PRODUCT_DATA: Record<string, ProductData> = {
     '/products/frosty-ai': {
         id: 'frosty-ai',
         tagline: 'AUTOMATE CUSTOMER SUPPORT',
-        title: 'Frosty AI Agent',
+        title: 'VAS Tech AI AI Agent',
         subtitle: 'Intelligent Conversations, Infinite Scale',
         description: 'Empower your support team with a next-gen AI agent that understands context, sentiment, and intent. Resolve up to 80% of inquiries instantly without human intervention.',
         badge: 'Top Rated Support AI',
@@ -66,7 +66,7 @@ export const PRODUCT_DATA: Record<string, ProductData> = {
         statistics: [
             { value: '80%', label: 'Automated Resolutions', icon: Zap },
             { value: '24/7', label: 'Availability', icon: Clock },
-            { value: '30s', label: 'Avg. Response Time', icon: BarChart },
+            { value: 'Instant', label: 'Avg. Response Time', icon: BarChart },
             { value: '3x', label: 'ROI in Year 1', icon: Database },
         ],
         process: [
@@ -102,12 +102,12 @@ export const PRODUCT_DATA: Record<string, ProductData> = {
         subtitle: 'Human-like Voice Interactions at Scale',
         description: 'Create better customer experiences with less effort. Deploy low-latency voice AI agents that handle inbound support and outbound sales calls with natural, human-like fluidity.',
         badge: 'Low Latency Voice',
-        heroImage: '/optimized/frostrek_VA.webp',
+        heroImage: '/optimized/vastech_VA.webp',
         demoImage: '/vn1.png',
         statistics: [
             { value: '50%', label: 'Reduction in Costs', icon: BarChart },
-            { value: '90%', label: 'Call Automation', icon: Phone },
-            { value: '1.2s', label: 'Ultra-Low Latency', icon: Zap },
+            { value: '90%+', label: 'Call Automation', icon: Phone },
+            { value: 'Ultra-low', label: 'Processing Latency', icon: Zap },
             { value: '40+', label: 'Languages Supported', icon: Globe },
         ],
         process: [
@@ -146,7 +146,7 @@ export const PRODUCT_DATA: Record<string, ProductData> = {
         heroImage: '/wp1.png', // Placeholder
         demoImage: '/wp2.png',
         statistics: [
-            { value: '98%', label: 'Open Rate', icon: Eye },
+            { value: '90%+', label: 'Open Rate', icon: Eye },
             { value: '45%', label: 'Click-Through Rate', icon: MousePointerClick },
             { value: '5x', label: 'Higher Conversion', icon: BarChart },
             { value: '2B+', label: 'Active Users', icon: Users },
@@ -197,7 +197,7 @@ export const PRODUCT_DATA: Record<string, ProductData> = {
                 ]
             },
             {
-                value: '99.9%',
+                value: '99%+',
                 label: 'Uptime SLA',
                 icon: Server,
                 breakdown: [
@@ -224,7 +224,7 @@ export const PRODUCT_DATA: Record<string, ProductData> = {
             { step: '03', title: 'Execute', description: 'Agile implementation and training.' }
         ],
         features: [
-            { title: 'Security First', description: 'ISO 27001 and GDPR compliant architecture.', icon: Shield },
+            { title: 'Security First', description: 'ISO 27001 Certified architecture.', icon: Shield },
             { title: 'Scalable', description: 'Built to handle enterprise-level loads.', icon: Database },
             { title: 'Custom LLMs', description: 'Fine-tune models on your proprietary data.', icon: Brain },
             { title: 'Real-time Analytics', description: 'Track performance with live dashboards and insights.', icon: BarChart },

@@ -3,7 +3,7 @@ import { motion, AnimatePresence, useDragControls } from 'framer-motion';
 import { X, Send, Sparkles, Mic, Square, Paperclip, Trash2, Minus } from 'lucide-react';
 
 // Webhook URL
-const WEBHOOK_URL = 'https://n8n.frostrek.com/webhook/cac2fab9-d171-4d67-8587-9ac8d834f436';
+const WEBHOOK_URL = 'https://n8n.vastech.com/webhook/cac2fab9-d171-4d67-8587-9ac8d834f436';
 
 // --- ID Helpers ---
 function getOrCreateUserId(): string {
@@ -25,16 +25,19 @@ function getOrCreateSessionId(): string {
 }
 
 // Color Scheme - AI Copilot Theme
+// Color Scheme - VAS Tech Pro Theme
 const COLORS = {
-    primary: '#A67C52', // Brown/Tan
-    primaryDark: '#8B6741',
-    primaryLight: '#C9987A',
-    accent: '#A67C52', // Teal/Cyan
-    accentLight: '#A67C52',
-    background: '#F8F6F0', // Light beige
-    text: '#1a1a1a',
-    textLight: '#666666',
+    primary: '#F97316', // Orange
+    primaryDark: '#EA580C',
+    primaryLight: '#FDBA74',
+    accent: '#FACC15', // Yellow
+    accentLight: '#FEF08A',
+    background: '#050505', // Pitch Black
+    card: '#111111',       // Dark Gray
+    text: '#F9FAFB',
+    textLight: '#A1A1AA',
     white: '#FFFFFF',
+    border: 'rgba(255, 255, 255, 0.1)',
 };
 
 const Chatbot: React.FC = () => {
@@ -385,20 +388,27 @@ const Chatbot: React.FC = () => {
                     background-color: ${COLORS.primaryDark} !important;
                 }
                 .ai-copilot-suggestion {
-                    background-color: white;
-                    border: 1.5px solid ${COLORS.primary};
-                    color: ${COLORS.text};
-                    border-radius: 20px;
-                    padding: 8px 14px;
-                    font-size: 12px;
-                    font-weight: 500;
+                    background-color: rgba(255, 255, 255, 0.05);
+                    backdrop-filter: blur(8px);
+                    border: 1px solid rgba(249, 115, 22, 0.3);
+                    color: white;
+                    border-radius: 12px;
+                    padding: 8px 16px;
+                    font-size: 11.5px;
+                    font-weight: 600;
                     cursor: pointer;
-                    transition: all 0.3s ease;
+                    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+                    display: flex;
+                    align-items: center;
+                    gap: 6px;
+                    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
                 }
                 .ai-copilot-suggestion:hover {
                     background-color: ${COLORS.primary};
-                    color: white;
-                    transform: translateY(-2px);
+                    border-color: ${COLORS.primary};
+                    color: black;
+                    transform: translateY(-2px) scale(1.02);
+                    box-shadow: 0 10px 20px ${COLORS.primary}40;
                 }
                 /* Custom Scrollbar Styling */
                 .ai-copilot-chat::-webkit-scrollbar {
@@ -423,11 +433,11 @@ const Chatbot: React.FC = () => {
                 }
             `}</style>
 
-            {/* Trigger Button - Always Visible */}
+            {/* Trigger Button - Truly 'Small & Cute' Scale */}
             <motion.button
                 initial={{ scale: 0, opacity: 0 }}
                 animate={{ scale: 1, opacity: 1 }}
-                whileHover={{ scale: 1.1 }}
+                whileHover={{ scale: 1.1, rotate: 5 }}
                 whileTap={{ scale: 0.9 }}
                 onClick={toggleChat}
                 style={{
@@ -435,18 +445,20 @@ const Chatbot: React.FC = () => {
                     bottom: '24px',
                     right: '24px',
                     zIndex: 10000,
-                    backgroundColor: isOpen ? '#f0f0f0' : COLORS.primary,
+                    background: isOpen ? '#000000' : `linear-gradient(135deg, ${COLORS.accent}, ${COLORS.primary})`,
+                    boxShadow: isOpen ? '0 8px 20px rgba(0,0,0,0.4)' : `0 6px 20px ${COLORS.primary}40`,
+                    border: isOpen ? '1px solid rgba(255,255,255,0.2)' : 'none'
                 }}
-                className={`p-2 rounded-full shadow-2xl transition-all duration-300 ai-copilot-button ${isOpen ? 'rotate-90' : ''}`}
+                className={`w-12 h-12 rounded-full flex items-center justify-center shadow-xl transition-all duration-300 ai-copilot-button ${isOpen ? '' : 'animate-pulse-subtle'}`}
             >
                 {isOpen ? (
-                    <X className="w-6 h-6" style={{ color: COLORS.text }} />
+                    <X className="w-5 h-5 text-white" />
                 ) : (
-                    <div className="w-10 h-10 relative flex items-center justify-center overflow-hidden">
+                    <div className="w-[70%] h-[70%] relative flex items-center justify-center p-0.5">
                         <img
-                            src="/robo2.gif"
+                            src="/bot.png"
                             alt="Chat"
-                            className="w-full h-full object-cover scale-150"
+                            className="w-full h-full object-contain filter drop-shadow-md"
                         />
                     </div>
                 )}
@@ -476,11 +488,11 @@ const Chatbot: React.FC = () => {
                             animate={{ opacity: 1 }}
                             exit={{ opacity: 0 }}
                             transition={{ type: 'spring', damping: 25, stiffness: 200 }}
-                            className="fixed bottom-[90px] right-4 md:right-6 
-                                        w-[380px] max-w-[95vw] h-[600px] max-h-[80vh] 
-                                        rounded-2xl shadow-2xl border border-gray-200
-                                        overflow-hidden flex flex-col z-[9999]"
-                            style={{ backgroundColor: COLORS.white }}
+                            className="fixed bottom-[85px] right-4 md:right-6 
+                                        w-[360px] max-w-[95vw] h-[580px] max-h-[75vh] 
+                                        rounded-[24px] shadow-[0_25px_60px_-15px_rgba(0,0,0,0.6)] border border-orange-500/20
+                                        overflow-hidden flex flex-col z-[9999] backdrop-blur-xl"
+                            style={{ backgroundColor: 'rgba(11, 11, 11, 0.95)' }}
                         >
 
                             {/* Header - Draggable Area */}
@@ -489,11 +501,11 @@ const Chatbot: React.FC = () => {
                                 style={{ backgroundColor: COLORS.primary }} onPointerDown={(e) => dragControls.start(e)}
                             >
                                 <div className="flex items-center gap-3 pointer-events-none">
-                                    <div className="w-12 h-12 bg-white rounded-full flex items-center justify-center">
-                                        <img src="/robo2.gif" className="w-10 h-10" alt="Robot" />
+                                    <div className="w-12 h-12 bg-black/40 backdrop-blur-md rounded-full flex items-center justify-center border border-orange-500/20 shadow-lg">
+                                        <img src="/bot.png" className="w-9 h-9 object-contain" alt="Robot" />
                                     </div>
                                     <div>
-                                        <h3 className="font-semibold text-sm">Frostrek Assistant</h3>
+                                        <h3 className="font-semibold text-sm">VAS Tech Assistant</h3>
                                         <p className="text-xs opacity-90">Online • Ready to help</p>
                                     </div>
                                 </div>
@@ -552,12 +564,12 @@ const Chatbot: React.FC = () => {
                                             transition={{ duration: 0.5 }}
                                             className="text-center px-6 py-6"
                                         >
-                                            <img src="/robo2.gif" className="w-32 mx-auto mb-4" alt="Robot" />
-                                            <h4 className="text-lg font-semibold" style={{ color: COLORS.text }}>
-                                                Hi, I'm Frostry 👋
+                                            <img src="/bot.png" className="w-32 mx-auto mb-4 object-contain" alt="Robot" />
+                                            <h4 className="text-lg font-bold" style={{ color: COLORS.text }}>
+                                                Hi, I'm VAS Tech AI 👋
                                             </h4>
-                                            <p className="text-sm mt-2" style={{ color: COLORS.textLight }}>
-                                                Ask me anything about your business, support, or innovation.
+                                            <p className="text-sm mt-2 font-medium" style={{ color: COLORS.textLight }}>
+                                                I can help you with customized AI solutions, operations, and business automation.
                                             </p>
 
                                             <div className="flex flex-wrap justify-center gap-2 mt-4">
@@ -585,15 +597,14 @@ const Chatbot: React.FC = () => {
                                             {msg.type === 'user' ? (
                                                 <span>You</span>
                                             ) : (
-                                                <img src="/robo2.gif" alt="Bot" className="w-6 h-6 object-contain" />
+                                                <img src="/bot.png" alt="Bot" className="w-7 h-7 object-contain" />
                                             )}
                                         </div>
                                         <div
-                                            className={`p-4 rounded-2xl shadow-sm text-sm leading-relaxed whitespace-pre-wrap ${msg.type === 'user' ? 'text-white rounded-br-sm' : 'text-gray-700 rounded-bl-sm border'}`}
+                                            className={`p-3.5 rounded-2xl shadow-xl text-[12.5px] leading-relaxed whitespace-pre-wrap font-medium ${msg.type === 'user' ? 'text-black rounded-br-none' : 'text-zinc-100 rounded-bl-none border border-orange-500/20'}`}
                                             style={{
-                                                backgroundColor: msg.type === 'user' ? COLORS.primary : COLORS.white,
-                                                color: msg.type === 'user' ? COLORS.white : COLORS.text,
-                                                borderColor: msg.type === 'user' ? 'transparent' : '#e0e0e0',
+                                                background: msg.type === 'user' ? `linear-gradient(135deg, ${COLORS.accent}, ${COLORS.primary})` : '#1A1A1A',
+                                                boxShadow: msg.type === 'user' ? `0 8px 25px ${COLORS.primary}30` : 'none',
                                             }}
                                         >
                                             {msg.content && (
@@ -656,8 +667,8 @@ const Chatbot: React.FC = () => {
                                         >
                                             <Sparkles className="w-4 h-4" style={{ color: COLORS.accent }} />
                                         </div>
-                                        <div className="p-4 rounded-2xl rounded-tl-none shadow-sm border flex items-center" style={{ backgroundColor: COLORS.white, borderColor: '#e0e0e0' }}>
-                                            <div className="flex gap-1">
+                                        <div className="p-4 rounded-2xl rounded-tl-none shadow-lg border flex items-center bg-[#1A1A1A] border-orange-500/20">
+                                            <div className="flex gap-1.5">
                                                 <span className="typing-dot"></span>
                                                 <span className="typing-dot"></span>
                                                 <span className="typing-dot"></span>
@@ -669,7 +680,7 @@ const Chatbot: React.FC = () => {
                             </div>
 
                             {/* Footer (Input) */}
-                            <div className="p-4 border-t" style={{ backgroundColor: COLORS.white, borderColor: '#e0e0e0' }}>
+                            <div className="p-4 border-t border-orange-500/20" style={{ backgroundColor: '#0A0A0A' }}>
                                 {selectedFile && (
                                     <div className="text-xs mb-2 flex items-center gap-2" style={{ color: COLORS.textLight }}>
                                         <span>📎 {selectedFile.name}</span>
@@ -740,7 +751,7 @@ const Chatbot: React.FC = () => {
                                 </form>
 
                                 <div className="text-center mt-2">
-                                    <p className="text-[10px]" style={{ color: COLORS.textLight }}>Powered by Frostrek AI</p>
+                                    <p className="text-[10px]" style={{ color: COLORS.textLight }}>Powered by VAS Tech AI</p>
                                 </div>
                             </div>
                         </motion.div>

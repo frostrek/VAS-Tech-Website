@@ -75,8 +75,8 @@ const LinkedinOutreachDemo = () => {
 
     return (
         <div className={`w-full rounded-3xl overflow-hidden border shadow-xl ${theme === 'dark'
-            ? 'bg-white/5 border-white/10 shadow-black/30'
-            : 'bg-white border-white/40 shadow-xl'
+            ? 'bg-white/5 border-orange-500/20 shadow-black/30'
+            : 'bg-white border-orange-500/20 shadow-xl'
             }`}>
             {/* Content Area - Compact */}
             <div className="p-5 md:p-6 min-h-[320px] flex flex-col justify-center">
@@ -106,7 +106,7 @@ const LinkedinOutreachDemo = () => {
                                             value={formData.niche}
                                             onChange={e => setFormData({ ...formData, niche: e.target.value })}
                                             className={`w-full pl-10 pr-4 py-3 rounded-xl outline-none border transition-all ${theme === 'dark'
-                                                ? 'bg-black/20 border-white/10 focus:border-[#B07552] text-white placeholder-gray-500'
+                                                ? 'bg-black/20 border-orange-500/20 focus:border-[#B07552] text-white placeholder-gray-500'
                                                 : 'bg-gray-50 border-gray-200 focus:border-[#B07552] text-gray-900'
                                                 }`}
                                         />
@@ -127,7 +127,7 @@ const LinkedinOutreachDemo = () => {
                                                 value={formData.location}
                                                 onChange={e => setFormData({ ...formData, location: e.target.value })}
                                                 className={`w-full pl-10 pr-4 py-3 rounded-xl outline-none border transition-all ${theme === 'dark'
-                                                    ? 'bg-black/20 border-white/10 focus:border-[#B07552] text-white placeholder-gray-500'
+                                                    ? 'bg-black/20 border-orange-500/20 focus:border-[#B07552] text-white placeholder-gray-500'
                                                     : 'bg-gray-50 border-gray-200 focus:border-[#B07552] text-gray-900'
                                                     }`}
                                             />
@@ -144,7 +144,7 @@ const LinkedinOutreachDemo = () => {
                                                 value={formData.size}
                                                 onChange={e => setFormData({ ...formData, size: e.target.value })}
                                                 className={`w-full pl-10 pr-4 py-3 rounded-xl outline-none border transition-all appearance-none cursor-pointer ${theme === 'dark'
-                                                    ? 'bg-black/20 border-white/10 focus:border-[#B07552] text-white'
+                                                    ? 'bg-black/20 border-orange-500/20 focus:border-[#B07552] text-white'
                                                     : 'bg-gray-50 border-gray-200 focus:border-[#B07552] text-gray-900'
                                                     }`}
                                             >
@@ -252,7 +252,7 @@ const LinkedinOutreachDemo = () => {
                                         animate={{ opacity: 1, x: 0 }}
                                         transition={{ delay: i * 0.1 }}
                                         className={`p-4 rounded-xl border flex items-center justify-between group cursor-pointer transition-all ${theme === 'dark'
-                                            ? 'bg-white/5 border-white/10 hover:border-[#0077B5]/50 hover:bg-white/10'
+                                            ? 'bg-white/5 border-orange-500/20 hover:border-[#0077B5]/50 hover:bg-white/10'
                                             : 'bg-white border-gray-100 hover:border-[#0077B5]/50 hover:bg-gray-50 shadow-sm hover:shadow-md'
                                             }`}
                                     >
@@ -284,7 +284,7 @@ const LinkedinOutreachDemo = () => {
                             <Button
                                 onClick={resetDemo}
                                 className={`w-full py-3 mt-4 border ${theme === 'dark'
-                                    ? 'bg-transparent border-white/20 hover:bg-white/5 text-white'
+                                    ? 'bg-transparent border-orange-500/20 hover:bg-white/5 text-white'
                                     : 'bg-white border-gray-200 hover:bg-gray-50 text-gray-700'
                                     }`}
                             >

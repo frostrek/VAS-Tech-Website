@@ -42,7 +42,7 @@ export const SOLUTION_DATA: Record<string, SolutionData> = {
             {
                 title: 'Gut-Feel Forecasting',
                 description: 'Inaccurate revenue predictions based on intuition rather than data.',
-                solvedBy: 'Predictive models analyze interactions to forecast revenue with 95% accuracy.'
+                solvedBy: 'Predictive models analyze interactions to forecast revenue with 90%+ accuracy.'
             },
         ],
         features: [

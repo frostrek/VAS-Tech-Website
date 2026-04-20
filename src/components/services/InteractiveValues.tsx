@@ -10,9 +10,9 @@ const VALUES_DATA = [
         title: "Trust",
         tagline: "Enterprise Security",
         description: "Built on transparency and secure infrastructure.",
-        fullDescription: "Your data sovereignty is paramount. We maintain SOC2-compliant infrastructure and rigorous audit trails.",
+        fullDescription: "Your data sovereignty is paramount. We maintain ISO-certified infrastructure and rigorous audit trails.",
         icon: Shield,
-        stat: "99.9%",
+        stat: "99%+",
         statLabel: "Uptime SLA",
         image: "/trust_card.png"
     },
@@ -127,14 +127,14 @@ const ValueCard = ({
                 {/* Top Row */}
                 <div className="flex justify-between items-start mb-auto">
                     <motion.div
-                        className="p-3.5 rounded-xl bg-white/15 backdrop-blur-md border border-white/25 shadow-lg"
+                        className="p-3.5 rounded-xl bg-white/15 backdrop-blur-md border border-orange-500/20 shadow-lg"
                         whileHover={{ scale: 1.08, rotate: 3 }}
                         transition={{ type: "spring", stiffness: 250, damping: 18 }}
                     >
                         <Icon className="w-6 h-6 text-white" strokeWidth={1.5} />
                     </motion.div>
 
-                    <span className="text-[10px] font-mono font-bold tracking-[0.15em] uppercase bg-white/10 backdrop-blur-md px-3.5 py-1.5 rounded-full border border-white/15">
+                    <span className="text-[10px] font-mono font-bold tracking-[0.15em] uppercase bg-white/10 backdrop-blur-md px-3.5 py-1.5 rounded-full border border-orange-500/20">
                         0{index + 1}
                     </span>
                 </div>

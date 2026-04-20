@@ -22,17 +22,7 @@ interface ThemeProviderProps {
 }
 
 export const ThemeProvider = ({ children }: ThemeProviderProps) => {
-    const [theme, setTheme] = useState<Theme>(() => {
-        // Check localStorage first, then system preference
-        const savedTheme = localStorage.getItem('frostrek-theme') as Theme | null;
-        if (savedTheme) return savedTheme;
-
-        // Check system preference
-        if (typeof window !== 'undefined' && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-            return 'dark';
-        }
-        return 'light';
-    });
+    const [theme, setTheme] = useState<Theme>('dark');
 
     useEffect(() => {
         // Update document class and localStorage when theme changes
@@ -44,7 +34,7 @@ export const ThemeProvider = ({ children }: ThemeProviderProps) => {
             root.classList.remove('dark');
         }
 
-        localStorage.setItem('frostrek-theme', theme);
+        localStorage.setItem('vastech-theme', theme);
     }, [theme]);
 
     const toggleTheme = () => {

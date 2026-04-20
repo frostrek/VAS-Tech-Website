@@ -6,71 +6,62 @@
 
 @layer base {
   body {
-    @apply bg-white text-primary font-body antialiased;
+    @apply bg-dark-bg text-dark-text font-body antialiased;
   }
 
-  /* Dark mode base styles */
-  .dark body {
-    @apply bg-dark-bg text-dark-text;
+  /* Force dark mode */
+  :root {
+    color-scheme: dark;
   }
 
-  h1,
-  h2,
-  h3,
-  h4,
-  h5,
-  h6 {
+  h1, h2, h3, h4, h5, h6 {
     @apply font-sans;
   }
 }
 
+
 @layer components {
 
-  /* Custom scrollbar for brown theme */
+  /* Custom scrollbar for dark theme */
   ::-webkit-scrollbar {
     width: 10px;
   }
 
   ::-webkit-scrollbar-track {
-    background: #F7F5F0;
+    background: #050505;
   }
 
   ::-webkit-scrollbar-thumb {
-    background: linear-gradient(180deg, #B07552 0%, #8A5A35 100%);
+    background: linear-gradient(180deg, #FACC15 0%, #F97316 100%);
     border-radius: 5px;
   }
 
   ::-webkit-scrollbar-thumb:hover {
-    background: linear-gradient(180deg, #8A5A35 0%, #6E4629 100%);
+    background: linear-gradient(180deg, #F97316 0%, #EA580C 100%);
   }
 
-  /* Dark mode scrollbar */
-  .dark ::-webkit-scrollbar-track {
-    background: #2D241E;
+  /* Glassmorphism panels */
+  .glass-panel {
+    @apply bg-black/40 backdrop-blur-md border border-orange-500/20 shadow-lg;
   }
 
-  .dark ::-webkit-scrollbar-thumb {
-    background: linear-gradient(180deg, #C9A962 0%, #A8893F 100%);
-    border-radius: 5px;
-  }
-
-  .dark ::-webkit-scrollbar-thumb:hover {
-    background: linear-gradient(180deg, #A8893F 0%, #8A6F2E 100%);
+  .glass-card {
+    @apply bg-[#111111]/80 backdrop-blur-xl border border-orange-500/20 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.5)];
   }
 }
 
 @layer utilities {
 
-  /* Readable bronze gradient text */
+  /* Readable gradient text matching SupportIQ */
   .text-gradient-green {
-    @apply bg-gradient-to-r from-brand-green-700 to-brand-green-600 bg-clip-text text-transparent;
+    @apply bg-gradient-to-r from-yellow-400 to-orange-500 bg-clip-text text-transparent;
   }
 
-  /* Primary bronze button with good contrast */
+  /* Primary button with good contrast */
   .btn-primary-green {
-    @apply bg-gradient-to-r from-brand-green-600 to-brand-green-500 text-white;
-    @apply hover:from-brand-green-700 hover:to-brand-green-600;
-    @apply shadow-lg shadow-brand-green-500/30;
+    @apply bg-supportiq-button text-black font-semibold;
+    @apply hover:from-orange-500 hover:to-orange-600;
+    @apply shadow-[0_0_15px_rgba(249,115,22,0.3)];
   }
 
   /* Smooth animations */
@@ -91,13 +82,13 @@
     }
   }
 
-  /* Bronze glow effect */
+  /* Glow effect */
   .glow-green {
-    box-shadow: 0 0 20px rgba(169, 113, 66, 0.3);
+    box-shadow: 0 0 20px rgba(249, 115, 22, 0.3);
   }
 
   .glow-green-strong {
-    box-shadow: 0 0 30px rgba(169, 113, 66, 0.5);
+    box-shadow: 0 0 30px rgba(249, 115, 22, 0.5);
   }
 
   @keyframes pulse-subtle {

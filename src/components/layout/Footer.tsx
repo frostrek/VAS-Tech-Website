@@ -11,7 +11,6 @@ const Footer = () => {
   const location = useLocation();
   const currentYear = new Date().getFullYear();
   const [isVisible, setIsVisible] = useState(false);
-  const [showBackToTop, setShowBackToTop] = useState(false);
 
   const footerRef = useRef<HTMLDivElement>(null);
   const locationRef = useRef<HTMLDivElement>(null);
@@ -37,30 +36,6 @@ const Footer = () => {
   }, [isVisible]);
 
 
-
-  // Scroll handler for back-to-top with rAF throttling
-  useEffect(() => {
-    let ticking = false;
-    const handleScroll = () => {
-      if (ticking) return;
-      ticking = true;
-      requestAnimationFrame(() => {
-        const scrollPercent = (window.scrollY / (document.documentElement.scrollHeight - window.innerHeight)) * 100;
-        setShowBackToTop(scrollPercent > 60);
-        ticking = false;
-      });
-    };
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
-
-
-
-
-
-  const scrollToTop = () => {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  };
 
 
 
@@ -122,44 +97,41 @@ const Footer = () => {
         }
       `}</style>
 
-      {/* Careers Card - Hide on contact page */}
+      {/* Careers Banner CTA - Hide on contact page */}
       {location.pathname !== '/contact' && (
-        <div className={`py-6 transition-colors duration-300 ${theme === 'dark' ? 'bg-dark-bg' : 'bg-gradient-to-b from-gray-50 to-white'}`}>
+        <div className={`py-4 md:py-6 transition-colors duration-300 ${theme === 'dark' ? 'bg-dark-bg' : 'bg-[#FAFAFA]'}`}>
           <div className="container mx-auto px-4 md:px-6">
-            <Link to="/contact" className="block max-w-4xl mx-auto">
-              {/* ... (content remains same) ... */}
-              <div className={`careers-card border-2 rounded-2xl p-6 cursor-pointer transition-colors duration-300 ${theme === 'dark' ? 'bg-dark-card border-dark-accent/30 hover:border-dark-accent' : 'bg-white border-gray-200'}`}>
-                <div className="flex items-center gap-6">
-                  <div className="flex-shrink-0">
-                    <svg className="careers-icon w-12 h-12 opacity-80" viewBox="0 0 64 64" fill="none">
-                      <circle cx="32" cy="32" r="28" stroke="currentColor" strokeWidth="2" className={theme === 'dark' ? 'text-dark-accent' : 'text-[#B07552]'} />
-                      <circle cx="32" cy="16" r="4" fill="currentColor" className={`${theme === 'dark' ? 'text-dark-text-muted' : 'text-[#8A5A35]'} network-node`} />
-                      <circle cx="16" cy="32" r="4" fill="currentColor" className={`${theme === 'dark' ? 'text-dark-text-muted' : 'text-[#8A5A35]'} network-node`} />
-                      <circle cx="48" cy="32" r="4" fill="currentColor" className={`${theme === 'dark' ? 'text-dark-text-muted' : 'text-[#8A5A35]'} network-node`} />
-                      <circle cx="32" cy="48" r="4" fill="currentColor" className={`${theme === 'dark' ? 'text-dark-text-muted' : 'text-[#8A5A35]'} network-node`} />
-                      <line x1="32" y1="20" x2="32" y2="28" stroke="currentColor" strokeWidth="2" className={theme === 'dark' ? 'text-dark-accent' : 'text-[#B07552]'} />
-                      <line x1="20" y1="32" x2="28" y2="32" stroke="currentColor" strokeWidth="2" className={theme === 'dark' ? 'text-dark-accent' : 'text-[#B07552]'} />
-                      <line x1="36" y1="32" x2="44" y2="32" stroke="currentColor" strokeWidth="2" className={theme === 'dark' ? 'text-dark-accent' : 'text-[#B07552]'} />
-                      <line x1="32" y1="36" x2="32" y2="44" stroke="currentColor" strokeWidth="2" className={theme === 'dark' ? 'text-dark-accent' : 'text-[#B07552]'} />
-                    </svg>
+            <div className={`max-w-[900px] mx-auto rounded-2xl p-5 md:p-6 lg:p-8 transition-all duration-300 flex flex-col md:flex-row items-center justify-between gap-6
+              ${theme === 'dark' 
+                ? 'bg-[#111110] border border-orange-500/20 shadow-xl shadow-black/50' 
+                : 'bg-white border border-gray-100 shadow-[0_4px_20px_rgb(0,0,0,0.04)]'}`}
+            >
+              <div className="flex-1 text-center md:text-left">
+                <h3 className={`font-sans text-2xl md:text-3xl font-bold tracking-tight mb-2 flex flex-wrap items-center justify-center md:justify-start gap-3 ${theme === 'dark' ? 'text-white' : 'text-gray-900'}`}>
+                  Build the Future of AI
+                  <div className={`w-[36px] h-[36px] rounded-lg flex items-center justify-center -rotate-3 ${theme === 'dark' ? 'bg-dark-accent/10' : 'bg-[#FFFBEB]'}`}>
+                    <Sparkles className={`w-[18px] h-[18px] ${theme === 'dark' ? 'text-dark-accent' : 'text-[#F59E0B]'}`} />
                   </div>
-                  <div className="flex-grow">
-                    <h3 className={`text-xl font-bold mb-1 flex items-center gap-2 ${theme === 'dark' ? 'text-dark-text' : 'text-gray-900'}`}>
-                      Build the Future of AI at Frostrek
-                      <Sparkles className={`w-4 h-4 ${theme === 'dark' ? 'text-dark-accent' : 'text-[#B07552]'}`} />
-                    </h3>
-                    <p className={`text-sm ${theme === 'dark' ? 'text-dark-text-muted' : 'text-gray-600'}`}>
-                      Join our team of innovators solving real-world problems.
-                    </p>
-                  </div>
-                  <div className="flex-shrink-0 hidden md:block">
-                    <div className={`w-8 h-8 rounded-full flex items-center justify-center ${theme === 'dark' ? 'bg-dark-accent/20 text-dark-accent' : 'bg-[#F3E9CD] text-[#8A5A35]'}`}>
-                      →
-                    </div>
-                  </div>
-                </div>
+                </h3>
+                <p className={`font-sans text-sm md:text-base leading-relaxed max-w-[480px] mx-auto md:mx-0 ${theme === 'dark' ? 'text-[#A1A1AA]' : 'text-gray-500'}`}>
+                  Join our team of innovators solving real-world problems. Discover careers where your work truly matters.
+                </p>
               </div>
-            </Link>
+              
+              <div className="flex-shrink-0 mt-4 md:mt-0">
+                <Link to="/contact" className={`font-sans inline-flex items-center justify-center px-6 py-2.5 text-sm font-semibold transition-all duration-300 rounded-full
+                   ${theme === 'dark' 
+                     ? 'bg-gradient-to-r from-orange-500 to-yellow-400 text-white hover:shadow-[0_0_15px_rgba(249,115,22,0.3)] hover:-translate-y-0.5' 
+                     : 'bg-gradient-to-r from-orange-500 to-amber-400 text-white hover:shadow-lg hover:-translate-y-0.5'}`}>
+                  <span className="flex items-center gap-2">
+                     Explore Opportunities 
+                     <svg className="w-4 h-4 ml-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                     </svg>
+                  </span>
+                </Link>
+              </div>
+            </div>
           </div>
         </div>
       )}
@@ -175,11 +147,8 @@ const Footer = () => {
             <div className="lg:col-span-3 space-y-4">
               <div className="space-y-3">
                 <div className="flex flex-wrap items-center gap-x-4 gap-y-2 group">
-                  <Link to="/" className="flex items-center gap-2">
-                    <img src="/logo.png" alt="Frostrek Logo" className="h-8 w-8 transition-transform group-hover:scale-110" />
-                    <span className={`text-xl font-bold font-sans tracking-tight ${theme === 'dark' ? 'text-dark-text' : 'text-gray-900'}`}>
-                      Frostrek
-                    </span>
+                  <Link to="/" className="flex items-center group">
+                    <img src="/VAS_logo.png" alt="VAS Tech Logo" className="h-14 w-auto transition-all transition-transform group-hover:scale-110 brightness-110 contrast-125 saturate-150" />
                   </Link>
                   {/* ISO Badges - Now Next to Logo */}
                   <div className="flex items-center gap-2">
@@ -203,7 +172,7 @@ const Footer = () => {
                 <a href={COMPANY_INFO.socials.linkedin} target="_blank" rel="noopener noreferrer" className={`social-icon w-8 h-8 rounded-full flex items-center justify-center transition-colors ${theme === 'dark' ? 'bg-dark-card text-dark-accent hover:bg-dark-accent hover:text-white' : 'bg-[#fdfbf7] text-[#B07552] hover:bg-[#B07552] hover:text-white'}`}><Linkedin size={16} /></a>
                 <a href={COMPANY_INFO.socials.instagram} target="_blank" rel="noopener noreferrer" className={`social-icon w-8 h-8 rounded-full flex items-center justify-center transition-colors ${theme === 'dark' ? 'bg-dark-card text-dark-accent hover:bg-dark-accent hover:text-white' : 'bg-[#fdfbf7] text-[#B07552] hover:bg-[#B07552] hover:text-white'}`}><Instagram size={16} /></a>
                 <a href="https://wa.me/17574722491" target="_blank" rel="noopener noreferrer" className={`social-icon group w-8 h-8 rounded-full flex items-center justify-center transition-colors ${theme === 'dark' ? 'bg-dark-card text-dark-accent hover:bg-dark-accent hover:text-white' : 'bg-[#fdfbf7] text-[#B07552] hover:bg-[#B07552] hover:text-white'}`}><img src="/whatsapp.png" alt="WhatsApp" className="w-5 h-5 object-contain transition-all group-hover:brightness-0 group-hover:invert" /></a>
-                <a href="mailto:contact@frostrek.com" className={`social-icon w-8 h-8 rounded-full flex items-center justify-center transition-colors ${theme === 'dark' ? 'bg-dark-card text-dark-accent hover:bg-dark-accent hover:text-white' : 'bg-[#fdfbf7] text-[#B07552] hover:bg-[#B07552] hover:text-white'}`}><Mail size={16} /></a>
+                <a href="mailto:contact@vastech.com" className={`social-icon w-8 h-8 rounded-full flex items-center justify-center transition-colors ${theme === 'dark' ? 'bg-dark-card text-dark-accent hover:bg-dark-accent hover:text-white' : 'bg-[#fdfbf7] text-[#B07552] hover:bg-[#B07552] hover:text-white'}`}><Mail size={16} /></a>
               </div>
             </div>
 
@@ -231,7 +200,7 @@ const Footer = () => {
                     </li>
                   ))}
                   <li>
-                    <a href="https://frostrek.com/" target="_blank" rel="noopener noreferrer" className={`footer-link text-sm ${theme === 'dark' ? 'text-dark-text-muted hover:text-dark-accent' : 'text-gray-600 hover:text-[#B07552]'}`}>AI Training</a>
+                    <a href="https://vastech.com/" target="_blank" rel="noopener noreferrer" className={`footer-link text-sm ${theme === 'dark' ? 'text-dark-text-muted hover:text-dark-accent' : 'text-gray-600 hover:text-[#B07552]'}`}>AI Training</a>
                   </li>
                 </ul>
               </div>
@@ -250,10 +219,10 @@ const Footer = () => {
 
               {/* Connect (Map only) */}
               <div className="space-y-3">
-                <h4 className={`section-title font-semibold mb-2 text-sm uppercase tracking-wider ${theme === 'dark' ? 'text-dark-text' : 'text-gray-900'}`}>Location</h4>
+                <h4 className={`section-title font-semibold mb-3 text-xs uppercase tracking-[0.2em] ${theme === 'dark' ? 'text-zinc-500' : 'text-gray-500'}`}>Our Headquarters</h4>
 
-                {/* Embedded Map - Expanded */}
-                <div ref={locationRef} onClick={handleLocationClick} className={`relative w-full h-42 rounded-lg overflow-hidden shadow-md border group cursor-pointer transition-all duration-300 ${theme === 'dark' ? 'border-dark-accent/30 bg-dark-card hover:shadow-dark-accent/10' : 'border-gray-200 bg-gray-50 hover:shadow-lg'}`}>
+                {/* Embedded Map - Slim & Refined */}
+                <div ref={locationRef} onClick={handleLocationClick} className={`relative w-full h-32 rounded-2xl overflow-hidden shadow-2xl border group cursor-pointer transition-all duration-500 ${theme === 'dark' ? 'border-orange-500/20 bg-black hover:border-orange-500/30' : 'border-gray-200 bg-gray-50 hover:shadow-xl'}`}>
                   <iframe
                     title="Office Location"
                     width="100%"
@@ -261,17 +230,21 @@ const Footer = () => {
                     frameBorder="0"
                     marginHeight={0}
                     marginWidth={0}
-                    src="https://www.openstreetmap.org/export/embed.html?bbox=77.0%2C28.4%2C77.1%2C28.5&amp;layer=mapnik&amp;marker=28.4595%2C77.0266"
-                    className="transition-opacity duration-300"
-                    style={{ filter: theme === 'dark' ? 'invert(90%) hue-rotate(180deg) brightness(0.9) contrast(1.2)' : 'none' }}
+                    src="https://maps.google.com/maps?q=McNicholl%20Circle,%20St%20Catharines,%20Ontario%20L2N%207C5&t=&z=14&ie=UTF8&iwloc=&output=embed"
+                    className="transition-opacity duration-300 opacity-80 group-hover:opacity-100"
+                    style={{ filter: theme === 'dark' ? 'grayscale(1) invert(90%) contrast(1.2) brightness(0.8)' : 'grayscale(0.2)' }}
                   ></iframe>
 
-                  {/* Address Badge - Bottom Left */}
-                  <div className="absolute bottom-2 left-2 z-[400]">
-                    <div className={`px-2 py-1 rounded-md shadow-lg backdrop-blur-md flex flex-col gap-0.5 ${theme === 'dark' ? 'bg-dark-card/90 text-white border border-dark-accent/30' : 'bg-white/90 text-gray-900 border border-gray-200'}`}>
-                      <div className="flex items-center gap-1">
-                        <MapPin size={10} className={theme === 'dark' ? 'text-dark-accent' : 'text-[#B07552]'} />
-                        <span className="text-[10px] font-bold">JMD Empire, Sector 62</span>
+                  {/* Address Badge - Sleek Glassmorphic */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent pointer-events-none" />
+                  <div className="absolute bottom-3 left-3 right-3 z-[400]">
+                    <div className={`px-3 py-2 rounded-xl backdrop-blur-md border flex items-center gap-2 shadow-2xl transform group-hover:-translate-y-1 transition-transform duration-300 ${theme === 'dark' ? 'bg-black/60 text-white border-orange-500/20' : 'bg-white/80 text-gray-900 border-gray-200'}`}>
+                      <div className={`p-1.5 rounded-lg ${theme === 'dark' ? 'bg-orange-500/20 text-orange-400' : 'bg-orange-100 text-orange-600'}`}>
+                        <MapPin size={12} fill="currentColor" fillOpacity={0.2} />
+                      </div>
+                      <div className="flex flex-col">
+                        <span className="text-[10px] font-bold tracking-tight">St Catharines, ON</span>
+                        <span className="text-[8px] opacity-60 font-medium">VAS Tech Global HQ</span>
                       </div>
                     </div>
                   </div>
@@ -288,13 +261,6 @@ const Footer = () => {
       </footer >
 
 
-
-      {showBackToTop && (
-        <button onClick={scrollToTop} className={`back-to-top fixed bottom-8 right-8 w-12 h-12 rounded-full shadow-lg flex items-center justify-center z-40 transition-colors ${theme === 'dark' ? 'bg-dark-accent text-dark-text hover:bg-dark-accent/80' : 'bg-[#B07552] text-white hover:bg-[#8A5A35]'}`} aria-label="Back to top">
-          <ArrowUp size={20} className="arrow-icon" />
-        </button>
-      )
-      }
     </>
   );
 };
