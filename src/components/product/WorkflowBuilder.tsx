@@ -45,26 +45,26 @@ const CanvasNode = ({
             whileInView={{ opacity: 1, scale: 1 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5, delay: index * 0.2 }}
-            className={`absolute top-0 left-0 p-4 w-60 rounded-2xl border shadow-xl group transition-all duration-300 z-20 ${theme === 'dark' ? 'bg-dark-card border-dark-accent/30 hover:border-dark-accent hover:shadow-2xl' : 'bg-white border-gray-200 hover:border-brand-green-300 hover:shadow-2xl'}`}
+            className={`absolute top-0 left-0 p-4 w-60 rounded-2xl border shadow-xl group transition-all duration-300 z-20 ${theme === 'dark' ? 'bg-[#111111]/90 backdrop-blur-md border-orange-500/20 hover:border-orange-500/50 hover:shadow-orange-500/10' : 'bg-white border-gray-200 hover:border-brand-green-300 hover:shadow-2xl'}`}
         >
 
 
             <div className="flex items-start gap-3">
-                <div className={`w-10 h-10 rounded-xl flex items-center justify-center shrink-0 border transition-colors duration-300 ${theme === 'dark' ? 'bg-dark-bg border-dark-accent/30 text-dark-accent group-hover:bg-dark-accent group-hover:text-dark-bg' : 'bg-brand-green-50 border-brand-green-100 text-brand-green-600 group-hover:bg-brand-green-500 group-hover:text-white'}`}>
+                <div className={`w-10 h-10 rounded-xl flex items-center justify-center shrink-0 border transition-all duration-300 ${theme === 'dark' ? 'bg-black border-orange-500/20 text-orange-400 group-hover:bg-orange-500 group-hover:text-black' : 'bg-brand-green-50 border-brand-green-100 text-brand-green-600 group-hover:bg-brand-green-500 group-hover:text-white'}`}>
                     <Icon className="w-5 h-5" />
                 </div>
                 <div>
                     <div className="flex items-center justify-between mb-1">
-                        <span className={`text-xs font-bold uppercase tracking-wider ${theme === 'dark' ? 'text-dark-accent' : 'text-brand-green-600'}`}>{step.step}</span>
-                        <MoreHorizontal className={`w-4 h-4 ${theme === 'dark' ? 'text-dark-text-muted' : 'text-gray-300'}`} />
+                        <span className={`text-xs font-bold uppercase tracking-wider ${theme === 'dark' ? 'text-orange-400' : 'text-brand-green-600'}`}>{step.step}</span>
+                        <MoreHorizontal className={`w-4 h-4 ${theme === 'dark' ? 'text-zinc-600' : 'text-gray-300'}`} />
                     </div>
-                    <h4 className={`font-bold mb-1 text-sm ${theme === 'dark' ? 'text-dark-text' : 'text-gray-900'}`}>{step.title}</h4>
-                    <p className={`text-xs leading-relaxed line-clamp-2 ${theme === 'dark' ? 'text-dark-text-muted' : 'text-gray-500'}`}>{step.description}</p>
+                    <h4 className={`font-bold mb-1 text-sm ${theme === 'dark' ? 'text-white' : 'text-gray-900'}`}>{step.title}</h4>
+                    <p className={`text-xs leading-relaxed line-clamp-2 ${theme === 'dark' ? 'text-zinc-400' : 'text-gray-500'}`}>{step.description}</p>
                 </div>
             </div>
 
             {/* Drag Handle hint */}
-            <div className={`absolute -top-2 left-1/2 -translate-x-1/2 px-2 py-0.5 text-[10px] rounded-full opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none whitespace-nowrap ${theme === 'dark' ? 'bg-dark-accent text-dark-bg' : 'bg-gray-900 text-white'}`}>
+            <div className={`absolute -top-2 left-1/2 -translate-x-1/2 px-2 py-0.5 text-[10px] rounded-full opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none whitespace-nowrap ${theme === 'dark' ? 'bg-orange-500 text-black font-bold' : 'bg-gray-900 text-white'}`}>
                 Drag to move
             </div>
         </motion.div>
@@ -138,11 +138,11 @@ const DynamicConnection = ({
         >
             <defs>
                 <linearGradient id="executionGradient" x1="0%" y1="0%" x2="100%" y2="0%">
-                    <stop offset="0%" stopColor="#10B981" />
-                    <stop offset="50%" stopColor="#34D399" />
-                    <stop offset="100%" stopColor="#10B981" />
+                    <stop offset="0%" stopColor="#F97316" />
+                    <stop offset="50%" stopColor="#FBBF24" />
+                    <stop offset="100%" stopColor="#F97316" />
                 </linearGradient>
-                <filter id="glowGreen" x="-50%" y="-50%" width="200%" height="200%">
+                <filter id="glowOrange" x="-50%" y="-50%" width="200%" height="200%">
                     <feGaussianBlur stdDeviation="3" result="coloredBlur" />
                     <feMerge>
                         <feMergeNode in="coloredBlur" />
@@ -155,36 +155,36 @@ const DynamicConnection = ({
             <motion.path
                 d={pathD}
                 fill="none"
-                stroke={theme === 'dark' ? '#3a3025' : '#E5E7EB'}
+                stroke={theme === 'dark' ? '#1A1A1A' : '#E5E7EB'}
                 strokeWidth="4"
             />
 
-            {/* Default connector (amber) */}
+            {/* Default connector (muted orange) */}
             <motion.path
                 d={pathD}
                 fill="none"
-                stroke={isExecuting ? '#10B981' : '#B07552'}
+                stroke={isExecuting ? '#F97316' : '#27272A'}
                 strokeWidth="2"
                 strokeLinecap="round"
                 initial={{ pathLength: 0 }}
                 animate={{
                     pathLength: 1,
-                    stroke: isExecuting ? '#10B981' : '#B07552'
+                    stroke: isExecuting ? '#F97316' : '#27272A'
                 }}
                 transition={{ duration: 1.5, delay, ease: "easeInOut" }}
             />
 
-            {/* Execution flow animation (green pulse traveling along the path) */}
+            {/* Execution flow animation (orange pulse traveling along the path) */}
             {isExecuting && (
                 <>
-                    {/* Glowing green overlay */}
+                    {/* Glowing orange overlay */}
                     <motion.path
                         d={pathD}
                         fill="none"
-                        stroke="#10B981"
+                        stroke="#F97316"
                         strokeWidth="3"
                         strokeLinecap="round"
-                        filter="url(#glowGreen)"
+                        filter="url(#glowOrange)"
                         initial={{ pathLength: 0, opacity: 0 }}
                         animate={{ pathLength: 1, opacity: 1 }}
                         transition={{ duration: 0.8, delay: executionDelay, ease: "easeOut" }}
@@ -193,8 +193,8 @@ const DynamicConnection = ({
                     {/* Traveling dot */}
                     <motion.circle
                         r="6"
-                        fill="#10B981"
-                        filter="url(#glowGreen)"
+                        fill="#F97316"
+                        filter="url(#glowOrange)"
                         initial={{ offsetDistance: "0%" }}
                         animate={{ offsetDistance: "100%" }}
                         transition={{ duration: 0.8, delay: executionDelay, ease: "easeInOut" }}
@@ -284,17 +284,17 @@ export const WorkflowBuilder = ({ steps }: { steps: ProductProcessStep[] }) => {
                 initial={{ opacity: 0, y: 40 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                className={`rounded-3xl border shadow-2xl overflow-hidden flex flex-col md:flex-row h-auto md:h-[500px] ${theme === 'dark' ? 'bg-dark-navbar border-dark-accent/20' : 'bg-white border-gray-200'}`}
+                className={`rounded-3xl border shadow-2xl overflow-hidden flex flex-col md:flex-row h-auto md:h-[500px] ${theme === 'dark' ? 'bg-[#0D0D0D] border-orange-500/20' : 'bg-white border-gray-200'}`}
             >
                 {/* 1. Sidebar Palette (Static for visual) */}
-                <div className={`w-full md:w-64 border-r p-6 flex flex-col gap-6 relative z-30 ${theme === 'dark' ? 'bg-dark-bg border-dark-accent/20' : 'bg-gray-50 border-gray-200'}`}>
+                <div className={`w-full md:w-64 border-r p-6 flex flex-col gap-6 relative z-30 ${theme === 'dark' ? 'bg-[#050505] border-orange-500/20' : 'bg-gray-50 border-gray-200'}`}>
                     <div className="flex items-center gap-3 mb-2">
-                        <div className={`w-8 h-8 rounded-lg flex items-center justify-center font-bold ${theme === 'dark' ? 'bg-dark-accent text-dark-bg' : 'bg-brand-green-600 text-white'}`}>W</div>
-                        <span className={`font-bold ${theme === 'dark' ? 'text-dark-text' : 'text-gray-900'}`}>Workflow</span>
+                        <div className={`w-8 h-8 rounded-lg flex items-center justify-center font-bold ${theme === 'dark' ? 'bg-gradient-to-br from-orange-400 to-amber-600 text-black' : 'bg-brand-green-600 text-white'}`}>W</div>
+                        <span className={`font-bold ${theme === 'dark' ? 'text-white' : 'text-gray-900'}`}>Workflow</span>
                     </div>
 
                     <div className="space-y-4">
-                        <div className={`text-xs font-bold uppercase tracking-widest ${theme === 'dark' ? 'text-dark-text-muted' : 'text-gray-400'}`}>Process Blocks</div>
+                        <div className={`text-xs font-bold uppercase tracking-widest ${theme === 'dark' ? 'text-zinc-500' : 'text-gray-400'}`}>Process Blocks</div>
                         {[
                             { icon: Brain, label: "AI Analysis" },
                             { icon: GitBranch, label: "Logic Branch" },
@@ -303,10 +303,10 @@ export const WorkflowBuilder = ({ steps }: { steps: ProductProcessStep[] }) => {
                             <motion.div
                                 key={i}
                                 whileHover={{ x: 5 }}
-                                className={`p-3 border rounded-xl shadow-sm flex items-center gap-3 transition-colors ${theme === 'dark' ? 'bg-dark-card border-dark-accent/20 hover:border-dark-accent' : 'bg-white border-gray-200 hover:border-brand-green-300'}`}
+                                className={`p-3 border rounded-xl shadow-sm flex items-center gap-3 transition-colors ${theme === 'dark' ? 'bg-[#111] border-orange-500/10 hover:border-orange-500/40' : 'bg-white border-gray-200 hover:border-brand-green-300'}`}
                             >
-                                <item.icon className={`w-4 h-4 ${theme === 'dark' ? 'text-dark-accent' : 'text-brand-green-600'}`} />
-                                <span className={`text-sm font-medium ${theme === 'dark' ? 'text-dark-text' : 'text-gray-700'}`}>{item.label}</span>
+                                <item.icon className={`w-4 h-4 ${theme === 'dark' ? 'text-orange-400' : 'text-brand-green-600'}`} />
+                                <span className={`text-sm font-medium ${theme === 'dark' ? 'text-zinc-300' : 'text-gray-700'}`}>{item.label}</span>
                             </motion.div>
                         ))}
                     </div>
@@ -316,25 +316,25 @@ export const WorkflowBuilder = ({ steps }: { steps: ProductProcessStep[] }) => {
                         whileHover={{ scale: (isExecuting || isCompleted) ? 1 : 1.02 }}
                         whileTap={{ scale: (isExecuting || isCompleted) ? 1 : 0.98 }}
                         className={`mt-auto p-4 rounded-xl border cursor-pointer transition-all duration-300 ${isExecuting
-                            ? 'bg-emerald-500/10 border-emerald-500/30'
+                            ? 'bg-orange-500/10 border-orange-500/40 shadow-[0_0_20px_rgba(249,115,22,0.15)]'
                             : isCompleted
-                                ? 'bg-blue-500/10 border-blue-500/30'
+                                ? 'bg-amber-500/10 border-amber-500/40 shadow-[0_0_20px_rgba(251,191,36,0.15)]'
                                 : theme === 'dark'
-                                    ? 'bg-dark-accent/10 border-dark-accent/30 hover:bg-dark-accent/20 hover:border-dark-accent/50'
+                                    ? 'bg-orange-500/05 border-orange-500/20 hover:bg-orange-500/10 hover:border-orange-500/40'
                                     : 'bg-brand-green-50 border-brand-green-100 hover:bg-brand-green-100 hover:border-brand-green-200'
                             }`}
                     >
                         <div className={`flex items-center gap-2 mb-2 font-bold text-sm transition-colors duration-300 ${isExecuting
-                            ? 'text-emerald-500'
+                            ? 'text-orange-400'
                             : isCompleted
-                                ? 'text-blue-500'
-                                : theme === 'dark' ? 'text-dark-accent' : 'text-brand-green-700'
+                                ? 'text-amber-400'
+                                : theme === 'dark' ? 'text-orange-400' : 'text-brand-green-700'
                             }`}>
                             {isExecuting ? (
                                 <motion.div
                                     animate={{ rotate: 360 }}
                                     transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
-                                    className="w-4 h-4 border-2 border-emerald-500 border-t-transparent rounded-full"
+                                    className="w-4 h-4 border-2 border-orange-500 border-t-transparent rounded-full"
                                 />
                             ) : isCompleted ? (
                                 <motion.div
@@ -342,7 +342,7 @@ export const WorkflowBuilder = ({ steps }: { steps: ProductProcessStep[] }) => {
                                     animate={{ scale: 1 }}
                                     className="w-4 h-4"
                                 >
-                                    <CheckCircle2 className="w-4 h-4 text-blue-500" />
+                                    <CheckCircle2 className="w-4 h-4 text-amber-400" />
                                 </motion.div>
                             ) : (
                                 <Play className="w-4 h-4 fill-current" />
@@ -355,10 +355,10 @@ export const WorkflowBuilder = ({ steps }: { steps: ProductProcessStep[] }) => {
                                     : 'Ready to automate?'}
                         </div>
                         <p className={`text-xs transition-colors duration-300 ${isExecuting
-                            ? 'text-emerald-600/80 dark:text-emerald-400/80'
+                            ? 'text-orange-500/70'
                             : isCompleted
-                                ? 'text-blue-600/80 dark:text-blue-400/80'
-                                : theme === 'dark' ? 'text-dark-text-muted' : 'text-brand-green-600'
+                                ? 'text-amber-500/70'
+                                : theme === 'dark' ? 'text-zinc-500' : 'text-brand-green-600'
                             }`}>
                             {isExecuting
                                 ? 'Optimizing logic paths...'
@@ -372,12 +372,12 @@ export const WorkflowBuilder = ({ steps }: { steps: ProductProcessStep[] }) => {
                 {/* 2. Main Canvas */}
                 <div className={`flex-1 relative group cursor-default min-h-[650px] md:min-h-0 ${theme === 'dark' ? 'bg-dark-navbar' : 'bg-[#F9FAFB]'}`}>
                     {/* Editor Toolbar (Floating) */}
-                    <div className={`absolute bottom-6 md:top-6 md:bottom-auto left-1/2 -translate-x-1/2 backdrop-blur-sm border rounded-full px-4 py-2 shadow-lg flex items-center gap-4 z-30 ${theme === 'dark' ? 'bg-dark-card/90 border-dark-accent/20' : 'bg-white/90 border-gray-200'}`}>
-                        <button className={`transition-colors ${theme === 'dark' ? 'text-dark-text-muted hover:text-dark-text' : 'text-gray-400 hover:text-gray-900'}`}><MousePointer2 className="w-4 h-4" /></button>
-                        <div className={`w-px h-4 ${theme === 'dark' ? 'bg-dark-accent/20' : 'bg-gray-200'}`} />
-                        <button onClick={handleZoomOut} className={`transition-colors ${theme === 'dark' ? 'text-dark-text-muted hover:text-dark-text' : 'text-gray-400 hover:text-gray-900'}`}><ZoomOut className="w-4 h-4" /></button>
-                        <span className={`text-xs font-mono min-w-[3ch] text-center ${theme === 'dark' ? 'text-dark-text-muted' : 'text-gray-500'}`}>{zoom}%</span>
-                        <button onClick={handleZoomIn} className={`transition-colors ${theme === 'dark' ? 'text-dark-text-muted hover:text-dark-text' : 'text-gray-400 hover:text-gray-900'}`}><ZoomIn className="w-4 h-4" /></button>
+                    <div className={`absolute bottom-6 md:top-6 md:bottom-auto left-1/2 -translate-x-1/2 backdrop-blur-sm border rounded-full px-4 py-2 shadow-lg flex items-center gap-4 z-30 ${theme === 'dark' ? 'bg-[#111]/90 border-orange-500/20 shadow-orange-500/05' : 'bg-white/90 border-gray-200'}`}>
+                        <button className={`transition-colors ${theme === 'dark' ? 'text-zinc-500 hover:text-orange-400' : 'text-gray-400 hover:text-gray-900'}`}><MousePointer2 className="w-4 h-4" /></button>
+                        <div className={`w-px h-4 ${theme === 'dark' ? 'bg-orange-500/20' : 'bg-gray-200'}`} />
+                        <button onClick={handleZoomOut} className={`transition-colors ${theme === 'dark' ? 'text-zinc-500 hover:text-orange-400' : 'text-gray-400 hover:text-gray-900'}`}><ZoomOut className="w-4 h-4" /></button>
+                        <span className={`text-xs font-mono min-w-[3ch] text-center ${theme === 'dark' ? 'text-zinc-400' : 'text-gray-500'}`}>{zoom}%</span>
+                        <button onClick={handleZoomIn} className={`transition-colors ${theme === 'dark' ? 'text-zinc-500 hover:text-orange-400' : 'text-gray-400 hover:text-gray-900'}`}><ZoomIn className="w-4 h-4" /></button>
                     </div>
 
                     {/* Nodes and Connections Container */}

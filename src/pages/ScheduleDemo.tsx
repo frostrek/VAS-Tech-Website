@@ -24,7 +24,7 @@ const ScheduleDemo = () => {
                         <div className="relative z-10">
                             <div className="mb-12">
                                 <div className={`inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-[10.5px] font-black tracking-widest uppercase mb-7 border ${theme === 'dark' ? 'bg-orange-500/10 text-orange-400 border-orange-500/20' : 'bg-amber-50 text-amber-600 border-amber-200'}`}>
-                                    FROSTREK EXCLUSIVE
+                                    VAS TECH EXCLUSIVE
                                 </div>
                                 
                                 <h1 className={`text-4xl md:text-5xl lg:text-[4rem] font-serif font-semibold mb-6 leading-[1.1] ${theme === 'dark' ? 'bg-gradient-to-r from-orange-400 to-yellow-400 bg-clip-text text-transparent' : 'text-gray-900'}`}>

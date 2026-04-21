@@ -17,32 +17,32 @@ interface Product {
 
 const products: Product[] = [
     {
-        id: 'frosty-ai',
-        name: 'VAS Tech AI AI Agent',
+        id: 'ai-chatbot',
+        name: 'Vas Tech AI Agent',
         description: 'Advanced conversational AI for customer service.',
         shortDesc: 'Resolve 80% of inquiries instantly with context-aware responses.',
         icon: Bot,
-        href: '/products/frosty-ai',
+        href: '/products/ai-chatbot',
         features: ['24/7 Support', 'Multi-channel', 'Smart Handoff'],
         category: 'core'
     },
     {
-        id: 'voice-ai',
-        name: 'Voice AI Agent',
+        id: 'ai-calling-agent',
+        name: 'AI Calling Agent',
         description: 'Human-like voice interactions for support and sales.',
         shortDesc: 'Ultra-low latency voice AI that sounds natural.',
         icon: Mic,
-        href: '/products/voice-ai',
+        href: '/products/ai-calling-agent',
         features: ['Ultra-low Latency', '40+ Languages', 'Real-time'],
         category: 'core'
     },
     {
-        id: 'whatsapp',
-        name: 'WhatsApp Agents',
+        id: 'whatsapp-bot',
+        name: 'WhatsApp Bot',
         description: 'Automated WhatsApp business communication.',
         shortDesc: 'High engagement rates with interactive messaging.',
         icon: MessageSquare,
-        href: '/products/whatsapp-agents',
+        href: '/products/whatsapp-bot',
         features: ['90%+', 'Rich Media', 'Broadcasts'],
         category: 'core'
     },

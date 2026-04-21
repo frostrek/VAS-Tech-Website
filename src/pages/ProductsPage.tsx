@@ -38,6 +38,7 @@ const CATEGORIES = [
             {
                 icon: Phone,
                 name: 'AI Calling Agent',
+                slug: 'ai-calling-agent',
                 short: 'Outbound & inbound voice AI for reminders, follow-ups, and customer queries',
                 industry: { label: 'For Clinics', text: 'Automated appointment reminders & no-show follow-ups — reducing front desk load by 70%.' },
                 tags: ['Voice AI', 'Inbound', 'Outbound'],
@@ -46,6 +47,7 @@ const CATEGORIES = [
             {
                 icon: MessageSquare,
                 name: 'WhatsApp Bot',
+                slug: 'whatsapp-bot',
                 short: 'Automated conversational flows on WhatsApp Business API',
                 industry: { label: 'For Retail', text: 'Real-time order tracking, return initiation & delivery updates — zero app downloads needed.' },
                 tags: ['WhatsApp API', 'Messaging'],
@@ -54,6 +56,7 @@ const CATEGORIES = [
             {
                 icon: Bot,
                 name: 'Website Chatbot',
+                slug: 'ai-chatbot',
                 short: 'Embedded AI assistant trained on your products, docs, and FAQs',
                 industry: { label: 'For E-Commerce', text: '24/7 product recommendations, cart recovery nudges & post-purchase support.' },
                 tags: ['Website', 'Lead Capture'],
@@ -62,6 +65,7 @@ const CATEGORIES = [
             {
                 icon: Mail,
                 name: 'Email Automation Agent',
+                slug: 'email-automation',
                 short: 'AI that reads, categorizes, drafts, and sends emails automatically',
                 industry: { label: 'For SaaS', text: 'Automated follow-up sequences triggered by user actions — free trial to paid, on autopilot.' },
                 tags: ['Email', 'Sequences'],
@@ -81,6 +85,7 @@ const CATEGORIES = [
             {
                 icon: Users,
                 name: 'Lead Generation Agent',
+                slug: 'lead-generation',
                 short: 'Scrapes, qualifies, and enriches leads from multiple sources automatically',
                 industry: { label: 'For B2B Sales', text: 'Daily delivery of 50+ qualified prospects with verified emails, LinkedIn profiles & buying intent signals.' },
                 tags: ['B2B', 'Prospecting', 'High Ticket'],
@@ -89,6 +94,7 @@ const CATEGORIES = [
             {
                 icon: Database,
                 name: 'CRM Automation',
+                slug: 'crm-automation',
                 short: 'Auto-update CRM records, log calls, score leads, and trigger deal workflows',
                 industry: { label: 'For Sales Teams', text: 'Every call note auto-logged. Every follow-up auto-scheduled. Your pipeline moves while reps focus on closing.' },
                 tags: ['CRM', 'Pipeline', 'Sales'],
@@ -108,6 +114,7 @@ const CATEGORIES = [
             {
                 icon: FileText,
                 name: 'Invoice & Document AI',
+                slug: 'invoice-document-ai',
                 short: 'Extract, validate, and process invoices, POs, and contracts with AI',
                 industry: { label: 'For Logistics & Retail', text: 'Auto-extract vendor invoice data, flag discrepancies & sync directly with accounting software.' },
                 tags: ['OCR', 'Document Processing', 'Accounting'],
@@ -116,6 +123,7 @@ const CATEGORIES = [
             {
                 icon: Workflow,
                 name: 'Workflow Builder (n8n / Make)',
+                slug: 'workflow-builder',
                 short: 'Custom no-code automation connecting 100s of apps in multi-step flows',
                 industry: { label: 'For Digital Agencies', text: 'Connect CRM → invoicing → reporting in one trigger. New client onboarding: from 4 hours to 4 minutes.' },
                 tags: ['No-Code', 'n8n', 'Integration'],
@@ -135,6 +143,7 @@ const CATEGORIES = [
             {
                 icon: Globe,
                 name: 'Web Scraping & Monitoring',
+                slug: 'web-scraping',
                 short: 'Scheduled scraping with alerts, competitor tracking, and structured data output',
                 industry: { label: 'For E-Commerce Brands', text: 'Monitor competitor prices daily. Get alerts when a rival drops prices below your threshold.' },
                 tags: ['Scraping', 'Monitoring', 'Data'],
@@ -143,6 +152,7 @@ const CATEGORIES = [
             {
                 icon: BarChart3,
                 name: 'AI Analytics Dashboard',
+                slug: 'ai-analytics',
                 short: 'Natural language queries over your business data with real-time insights',
                 industry: { label: 'For Operations Teams', text: 'Ask "What was our best-selling SKU last month?" in plain English. Get a chart back in 3 seconds.' },
                 tags: ['BI', 'Analytics', 'NLP'],
@@ -162,6 +172,7 @@ const CATEGORIES = [
             {
                 icon: PenTool,
                 name: 'Content Generation Agent',
+                slug: 'content-generation',
                 short: 'Auto-generate product listings, blogs, social posts, and marketing copy at scale',
                 industry: { label: 'For E-Commerce Brands', text: 'Generate 1,000 SEO-optimised product descriptions from a CSV. One setup. Instant "wow" for clients.' },
                 tags: ['Content', 'Copywriting', 'Scale'],
@@ -170,6 +181,7 @@ const CATEGORIES = [
             {
                 icon: Search,
                 name: 'SEO Automation Agent',
+                slug: 'seo-automation',
                 short: 'Keyword research, content briefs, on-page audits, and programmatic pages',
                 industry: { label: 'For Digital Agencies', text: 'White-label this for SEO clients. Full pipeline from keyword to published article in under 24 hours.' },
                 tags: ['SEO', 'White-Label', 'Agencies'],
@@ -189,6 +201,7 @@ const CATEGORIES = [
             {
                 icon: UserCheck,
                 name: 'HR Onboarding Agent',
+                slug: 'hr-onboarding',
                 short: 'Automate offer letters, document generation, and onboarding checklists',
                 industry: { label: 'For Growing Companies', text: 'Day-1 to Day-30 onboarding fully automated. Managers get a progress dashboard. Zero repetitive questions.' },
                 tags: ['HR', 'Onboarding', 'Enterprise'],
@@ -197,6 +210,7 @@ const CATEGORIES = [
             {
                 icon: Brain,
                 name: 'Internal Knowledge Bot',
+                slug: 'knowledge-bot',
                 short: 'AI assistant trained on your SOPs, wikis, and internal docs for staff use',
                 industry: { label: 'For Enterprises', text: 'HR policy queries, compliance FAQs & SOP lookups answered instantly. Typically wins 12–18 month contracts.' },
                 tags: ['Knowledge Base', 'RAG', 'Recurring'],
@@ -266,7 +280,7 @@ const ProductCard = ({
                 <span className="text-zinc-300">{product.industry.text}</span>
             </div>
 
-            {/* Tags + Demo link */}
+            {/* Tags + Detail / Demo link */}
             <div className="relative z-10 flex items-center justify-between">
                 <div className="flex gap-2 flex-wrap">
                     {product.tags.slice(0, 2).map(tag => (
@@ -275,10 +289,17 @@ const ProductCard = ({
                         </span>
                     ))}
                 </div>
-                <Link to="/schedule-demo"
-                    className="flex items-center gap-1.5 text-[12px] font-bold text-orange-400 opacity-70 group-hover:opacity-100 transition-all hover:gap-2.5">
-                    Book Demo <ArrowRight size={13} />
-                </Link>
+                {product.slug ? (
+                    <Link to={`/products/${product.slug}`}
+                        className="flex items-center gap-1.5 text-[12px] font-bold text-orange-400 opacity-70 group-hover:opacity-100 transition-all hover:gap-2.5">
+                        View Details <ArrowRight size={13} />
+                    </Link>
+                ) : (
+                    <Link to="/schedule-demo"
+                        className="flex items-center gap-1.5 text-[12px] font-bold text-orange-400 opacity-70 group-hover:opacity-100 transition-all hover:gap-2.5">
+                        Book Demo <ArrowRight size={13} />
+                    </Link>
+                )}
             </div>
         </motion.div>
     );
