@@ -50,7 +50,7 @@ const EmailAutomationDemo = () => {
             </div>
 
             {/* Email Body */}
-            <div className="flex-1 overflow-y-auto p-4 sm:p-6 bg-[#050505]">
+            <div className="flex-1 overflow-y-auto overscroll-contain p-4 sm:p-6 bg-[#050505]">
                 {/* Incoming Email */}
                 {state !== 'sent' ? (
                     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="mb-6">
