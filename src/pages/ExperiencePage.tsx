@@ -1,5 +1,5 @@
-import { useEffect } from 'react';
-import { motion } from 'framer-motion';
+import { useEffect, useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { Phone, MessageSquare, Sparkles, Zap, Linkedin, MessageCircle, FileText, BarChart3 } from 'lucide-react';
 import VoiceCallWidget from '../components/experience/VoiceCallWidget';
 import ChatbotDemo from '../components/experience/ChatbotDemo';
@@ -8,14 +8,37 @@ import LinkedinOutreachDemo from '../components/demos/LinkedinOutreachDemo';
 import InvoiceAIOcrDemo from '../components/demos/InvoiceAIOcrDemo';
 import EmailAutomationDemo from '../components/demos/EmailAutomationDemo';
 import CTASection from '../components/home/CTASection';
+import ExperienceSplashScreen from '../components/experience/ExperienceSplashScreen';
 
 const ExperiencePage = () => {
+    const [showSplash, setShowSplash] = useState(true);
+
     useEffect(() => {
-        window.scrollTo(0, 0);
-    }, []);
+        if (showSplash) {
+            document.body.style.overflow = 'hidden';
+            window.scrollTo(0, 0);
+        } else {
+            document.body.style.overflow = '';
+        }
+        return () => { document.body.style.overflow = ''; };
+    }, [showSplash]);
+
+    const handleSplashComplete = () => {
+        setShowSplash(false);
+    };
 
     return (
-        <div className="min-h-screen relative overflow-hidden bg-[#050505] text-white">
+        <>
+            <AnimatePresence>
+                {showSplash && <ExperienceSplashScreen onComplete={handleSplashComplete} />}
+            </AnimatePresence>
+
+            <motion.div 
+                className="min-h-screen relative overflow-hidden bg-[#050505] text-white"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: showSplash ? 0 : 1 }}
+                transition={{ duration: 1.5, ease: 'easeOut' }}
+            >
             {/* Background Effects */}
             <div className="absolute top-0 inset-x-0 h-96 bg-gradient-to-b from-orange-500/10 to-transparent pointer-events-none" />
             <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_rgba(249,115,22,0.05)_0%,_transparent_70%)] pointer-events-none" />
@@ -217,7 +240,8 @@ const ExperiencePage = () => {
 
             {/* CTA Section */}
             <CTASection />
-        </div>
+            </motion.div>
+        </>
     );
 };
 
