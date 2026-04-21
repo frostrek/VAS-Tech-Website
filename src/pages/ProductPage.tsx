@@ -1,135 +1,386 @@
 import { useEffect, useState } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Plus, Minus } from 'lucide-react';
-import { PRODUCT_DATA } from '../utils/productData';
-import Card from '../components/ui/Card';
-import CuteBackground from '../components/ui/CuteBackground';
-import { ImpactMetrics } from '../components/product/ImpactMetrics';
+import { Plus, Minus, Loader2, ArrowLeft } from 'lucide-react';
+import { getProductBySlug, type ProductData } from '../utils/productData';
 import { WorkflowBuilder } from '../components/product/WorkflowBuilder';
 import { CapabilitiesSystem } from '../components/product/CapabilitiesSystem';
-import ProductHero from '../components/product/ProductHero';
-import { useTheme } from '../context/ThemeContext';
-import CTASection from '../components/home/CTASection';
-import ProductsPage from './ProductsPage';
+import ProductDemoRegistry from '../components/product/ProductDemoRegistry';
+import MediaGallery from '../components/product/MediaGallery';
+import Specifications from '../components/product/Specifications';
+import Variants from '../components/product/Variants';
+import RelatedProducts from '../components/product/RelatedProducts';
+import { Link } from 'react-router-dom';
 
+/* ─── PRODUCT DETAIL HERO (dark, futuristic) ─────────────────────────────── */
+const DetailHero = ({ product }: { product: ProductData }) => (
+    <section className="relative min-h-[85vh] flex items-center pt-32 pb-16 overflow-hidden">
+        {/* Dot grid */}
+        <div className="absolute inset-0 pointer-events-none"
+            style={{ backgroundImage: 'radial-gradient(rgba(255,255,255,0.025) 1px, transparent 1px)', backgroundSize: '28px 28px' }} />
+
+        {/* Radial orange glow */}
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_50%_60%_at_50%_30%,_rgba(249,115,22,0.10)_0%,_transparent_65%)] pointer-events-none" />
+
+        {/* Animated ambient orbs */}
+        <motion.div
+            animate={{ scale: [1, 1.12, 1], opacity: [0.08, 0.18, 0.08] }}
+            transition={{ duration: 12, repeat: Infinity }}
+            className="absolute top-1/4 left-1/4 w-[500px] h-[500px] rounded-full blur-[120px] pointer-events-none"
+            style={{ background: 'radial-gradient(circle, #F97316, transparent)' }}
+        />
+
+        <div className="container mx-auto px-4 md:px-8 xl:px-0 max-w-[1280px] relative z-10">
+            {/* Breadcrumb */}
+            <motion.div
+                initial={{ opacity: 0, y: -10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5 }}
+                className="mb-8"
+            >
+                <Link
+                    to="/products"
+                    className="inline-flex items-center gap-2 text-zinc-500 hover:text-orange-400 transition-colors text-sm font-medium"
+                >
+                    <ArrowLeft size={14} />
+                    Back to Products
+                </Link>
+            </motion.div>
+
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                {/* Left: Text content */}
+                <div>
+                    {/* Badge */}
+                    <motion.div
+                        initial={{ opacity: 0, y: -16 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.6 }}
+                        className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-orange-500/30 bg-orange-500/08 mb-6"
+                    >
+                        <span className="flex h-2 w-2 rounded-full animate-pulse bg-orange-400" />
+                        <span className="text-[10px] font-black uppercase tracking-[0.28em] text-orange-400">{product.tagline}</span>
+                    </motion.div>
+
+                    {/* Title */}
+                    <motion.h1
+                        initial={{ opacity: 0, y: 32 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.8, delay: 0.1 }}
+                        className="text-5xl md:text-7xl font-serif text-white leading-[1.05] tracking-tight mb-4"
+                    >
+                        {product.title}
+                    </motion.h1>
+
+                    {/* Subtitle */}
+                    <motion.p
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.7, delay: 0.15 }}
+                        className="text-lg md:text-xl text-orange-400/80 font-semibold mb-6"
+                    >
+                        {product.subtitle}
+                    </motion.p>
+
+                    {/* Description */}
+                    <motion.p
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.7, delay: 0.2 }}
+                        className="text-base text-zinc-400 leading-relaxed mb-10 max-w-lg"
+                    >
+                        {product.description}
+                    </motion.p>
+
+                    {/* CTAs */}
+                    <motion.div
+                        initial={{ opacity: 0, y: 14 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: 0.35 }}
+                        className="flex flex-col sm:flex-row gap-4"
+                    >
+                        <Link
+                            to="/schedule-demo"
+                            className="px-9 py-4 text-black font-black rounded-full text-sm tracking-wide transition-all hover:scale-105"
+                            style={{ background: 'linear-gradient(135deg, #F97316, #FBBF24)', boxShadow: '0 0 32px rgba(249,115,22,0.4)' }}
+                        >
+                            Book Free Demo
+                        </Link>
+                    </motion.div>
+
+                    {/* Badge pill */}
+                    <motion.div
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        transition={{ delay: 0.5 }}
+                        className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-orange-500/15 bg-orange-500/05 mt-8"
+                    >
+                        <span className="text-[10px] font-bold text-zinc-500 uppercase tracking-wider">🏆 {product.badge}</span>
+                    </motion.div>
+                </div>
+
+                {/* Right: Hero image */}
+                {product.heroImage && (
+                    <motion.div
+                        initial={{ opacity: 0, scale: 0.9, y: 40 }}
+                        animate={{ opacity: 1, scale: 1, y: 0 }}
+                        transition={{ duration: 0.9, delay: 0.2 }}
+                        className="relative"
+                    >
+                        <div className="relative rounded-3xl overflow-hidden border border-orange-500/15 shadow-[0_0_60px_rgba(249,115,22,0.08)]">
+                            <img
+                                src={product.heroImage}
+                                alt={product.title}
+                                className="w-full h-auto object-cover"
+                            />
+                            <div className="absolute inset-0 bg-gradient-to-t from-[#060606]/60 to-transparent" />
+                        </div>
+
+                        {/* Decorative glow behind image */}
+                        <div className="absolute -inset-8 rounded-full blur-[80px] bg-orange-500/10 pointer-events-none -z-10" />
+                    </motion.div>
+                )}
+            </div>
+        </div>
+
+        {/* Bottom fade */}
+        <div className="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-[#060606] to-transparent pointer-events-none" />
+    </section>
+);
+
+/* ─── 404 STATE ──────────────────────────────────────────────────────────── */
+const ProductNotFound = () => {
+    const navigate = useNavigate();
+    return (
+        <div className="min-h-screen bg-[#060606] flex items-center justify-center text-center px-4">
+            <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="max-w-md"
+            >
+                <div className="text-8xl mb-6">🔍</div>
+                <h1 className="text-3xl font-serif text-white mb-4">Product Not Found</h1>
+                <p className="text-zinc-400 mb-8">The product you're looking for doesn't exist or has been moved.</p>
+                <button
+                    onClick={() => navigate('/products')}
+                    className="px-8 py-3 text-black font-bold rounded-full text-sm transition-all hover:scale-105"
+                    style={{ background: 'linear-gradient(135deg, #F97316, #FBBF24)' }}
+                >
+                    Explore All Products
+                </button>
+            </motion.div>
+        </div>
+    );
+};
+
+/* ─── LOADING STATE ──────────────────────────────────────────────────────── */
+const ProductLoader = () => (
+    <div className="min-h-screen bg-[#060606] flex items-center justify-center">
+        <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            className="flex flex-col items-center gap-4"
+        >
+            <Loader2 className="w-10 h-10 animate-spin text-orange-500" />
+            <p className="text-sm text-zinc-500 font-medium">Loading product...</p>
+        </motion.div>
+    </div>
+);
+
+/* ─── MAIN PAGE ──────────────────────────────────────────────────────────── */
 const ProductPage = () => {
-    const { theme } = useTheme();
-    const location = useLocation();
+    const { slug } = useParams<{ slug: string }>();
+    const [product, setProduct] = useState<ProductData | null>(null);
+    const [loading, setLoading] = useState(true);
     const [openFaqIndex, setOpenFaqIndex] = useState<number | null>(null);
 
     useEffect(() => {
         window.scrollTo(0, 0);
-    }, [location.pathname]);
+        setLoading(true);
+        setOpenFaqIndex(null);
 
-    // Render the new branded products page for /products root
-    if (location.pathname === '/products') {
-        return <ProductsPage />;
-    }
+        // Simulate a brief load for smooth transition
+        const timer = setTimeout(() => {
+            const data = getProductBySlug(slug || '');
+            setProduct(data || getProductBySlug('generic'));
+            setLoading(false);
+        }, 200);
 
-    const product = PRODUCT_DATA[location.pathname] || PRODUCT_DATA['generic'];
+        return () => clearTimeout(timer);
+    }, [slug]);
 
-    if (!product) return null;
+    if (loading) return <ProductLoader />;
+    if (!product) return <ProductNotFound />;
 
     return (
-        <div className={`relative min-h-screen transition-colors duration-300 ${theme === 'dark' ? 'bg-dark-bg' : ''}`}>
-            {/* CuteBackground - placed at root level with proper z-indexing */}
-            {theme !== 'dark' && <CuteBackground />}
+        <AnimatePresence mode="wait">
+            <motion.div
+                key={product.id}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.3 }}
+                className="min-h-screen bg-[#060606] text-white"
+            >
+                {/* 1. Hero */}
+                <DetailHero product={product} />
 
-            {/* 1. Hero Section - Premium Dark */}
-            <ProductHero
-                title={product.title}
-                description={product.description}
-                tagline={product.tagline}
-            />
+                {/* 1.5 Interactive Demo */}
+                <ProductDemoRegistry productId={product.id} />
 
-            {/* 2. Stats Section - "Turn Efficiency into Profit" */}
-            <section className={`py-24 transition-colors ${theme === 'dark' ? 'bg-dark-card' : 'bg-brand-green-50'}`}>
-                <div className="container mx-auto px-4 md:px-6">
-                    <div className="text-center mb-16">
-                        <span className={`font-bold tracking-widest uppercase text-sm mb-4 block ${theme === 'dark' ? 'text-dark-accent' : 'text-brand-green-600'}`}>Impact</span>
-                        <h2 className={`text-4xl md:text-5xl font-sans font-bold mb-6 ${theme === 'dark' ? 'text-dark-text' : 'text-gray-900'}`}>Turn Efficiency into Profit</h2>
-                        <p className={`max-w-2xl mx-auto text-lg ${theme === 'dark' ? 'text-dark-text-muted' : 'text-gray-600'}`}>Real results from companies that switched to {product.title}.</p>
+
+
+                {/* 3. Media Gallery */}
+                {product.mediaGallery.length > 0 && (
+                    <MediaGallery items={product.mediaGallery} />
+                )}
+
+                {/* 4. Variants / Deployment Options */}
+                {product.variants.length > 0 && (
+                    <Variants variants={product.variants} productName={product.title} />
+                )}
+
+                {/* 5. Workflow / Process */}
+                {product.process.length > 0 && (
+                    <section className="py-24 relative overflow-hidden bg-[#0A0A0A]">
+                        <div className="container mx-auto px-4 md:px-8 xl:px-0 max-w-[1280px] relative z-10">
+                            <motion.div
+                                initial={{ opacity: 0, y: 24 }}
+                                whileInView={{ opacity: 1, y: 0 }}
+                                viewport={{ once: true }}
+                                className="text-center mb-16"
+                            >
+                                <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-orange-500/25 bg-orange-500/08 mb-5">
+                                    <span className="text-[10px] font-black uppercase tracking-[0.3em] text-orange-400">Workflow</span>
+                                </div>
+                                <h2 className="text-3xl md:text-5xl font-serif text-white leading-tight">
+                                    Simplify Your <span className="bg-gradient-to-r from-orange-400 to-yellow-400 bg-clip-text text-transparent">Workflow</span>
+                                </h2>
+                                <p className="text-zinc-400 text-base mt-3 max-w-lg mx-auto">
+                                    From concept to execution — we streamline every step.
+                                </p>
+                            </motion.div>
+                            <WorkflowBuilder steps={product.process} />
+                        </div>
+                    </section>
+                )}
+
+                {/* 6. Capabilities */}
+                {product.features.length > 0 && (
+                    <section className="py-24 overflow-hidden">
+                        <div className="container mx-auto px-4 md:px-8 xl:px-0 max-w-[1280px]">
+                            <motion.div
+                                initial={{ opacity: 0, y: 24 }}
+                                whileInView={{ opacity: 1, y: 0 }}
+                                viewport={{ once: true }}
+                                className="mb-16"
+                            >
+                                <div className="flex items-center gap-2.5 mb-5">
+                                    <div className="flex items-center gap-2 px-3 py-1.5 rounded-full border border-orange-500/25 bg-orange-500/08">
+                                        <span className="text-[10px] font-black uppercase tracking-[0.3em] text-orange-400">Capabilities</span>
+                                    </div>
+                                </div>
+                                <h2 className="text-3xl md:text-5xl font-serif text-white leading-tight">
+                                    Everything You Need To{' '}
+                                    <span className="bg-gradient-to-r from-orange-400 to-yellow-400 bg-clip-text text-transparent">Scale</span>
+                                </h2>
+                            </motion.div>
+                            <CapabilitiesSystem features={product.features} />
+                        </div>
+                    </section>
+                )}
+
+                {/* 7. Specifications */}
+                {product.specifications.length > 0 && (
+                    <div className="bg-[#0A0A0A]">
+                        <Specifications specs={product.specifications} />
                     </div>
+                )}
 
-                    <div className="mt-12">
-                        <ImpactMetrics statistics={product.statistics || []} />
-                    </div>
-                </div>
-            </section>
 
-            {/* 3. Workflow / Process Section - SIMPLIFY YOUR WORKFLOW */}
-            <section className={`py-24 relative overflow-hidden transition-colors ${theme === 'dark' ? 'bg-dark-bg' : 'bg-white'}`}>
-                <div className="container mx-auto px-4 md:px-6 relative z-10">
-                    <div className="text-center mb-16">
-                        <span className={`font-bold tracking-widest uppercase text-sm mb-4 block ${theme === 'dark' ? 'text-dark-accent' : 'text-brand-green-600'}`}>Workflow</span>
-                        <h2 className={`text-4xl md:text-5xl font-sans font-bold mb-6 ${theme === 'dark' ? 'text-dark-text' : 'text-gray-900'}`}>Simplify Your Workflow</h2>
-                        <p className={`max-w-2xl mx-auto text-lg ${theme === 'dark' ? 'text-dark-text-muted' : 'text-gray-600'}`}>From concept to execution, we streamline every step.</p>
-                    </div>
 
-                    <WorkflowBuilder steps={product.process || []} />
-                </div>
-            </section>
+                {/* 9. Use Cases */}
+                {product.useCases.length > 0 && (
+                    <section className="py-24 bg-[#0A0A0A]">
+                        <div className="container mx-auto px-4 md:px-8 xl:px-0 max-w-[1280px]">
+                            <motion.div
+                                initial={{ opacity: 0, y: 24 }}
+                                whileInView={{ opacity: 1, y: 0 }}
+                                viewport={{ once: true }}
+                                className="text-center mb-16"
+                            >
+                                <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-orange-500/25 bg-orange-500/08 mb-5">
+                                    <span className="text-[10px] font-black uppercase tracking-[0.3em] text-orange-400">Use Cases</span>
+                                </div>
+                                <h2 className="text-3xl md:text-5xl font-serif text-white leading-tight">
+                                    Built For Your <span className="bg-gradient-to-r from-orange-400 to-yellow-400 bg-clip-text text-transparent">Industry</span>
+                                </h2>
+                            </motion.div>
 
-            {/* 4. Experience Zone / Capabilities */}
-            <section className={`py-24 overflow-hidden transition-colors ${theme === 'dark' ? 'bg-dark-card' : 'bg-brand-green-50/30'}`}>
-                <div className="container mx-auto px-4 md:px-6">
-                    <div className="mb-16">
-                        <span className={`font-bold tracking-widest uppercase text-sm mb-4 block ${theme === 'dark' ? 'text-dark-accent' : 'text-brand-green-600'}`}>Capabilities</span>
-                        <h2 className={`text-4xl md:text-5xl font-serif leading-tight ${theme === 'dark' ? 'text-dark-text' : 'text-gray-900'}`}>
-                            Everything you need to <br className="hidden md:block" />
-                            <span className={`italic ${theme === 'dark' ? 'text-dark-accent' : 'text-brand-green-600'}`}>scale effortlessly.</span>
-                        </h2>
-                    </div>
-
-                    <CapabilitiesSystem features={product.features || []} />
-                </div>
-            </section>
-
-            {/* 5. Use Cases Section */}
-            {
-                product.useCases && product.useCases.length > 0 && (
-                    <section className={`py-24 transition-colors ${theme === 'dark' ? 'bg-dark-bg' : 'bg-white'}`}>
-                        <div className="container mx-auto px-4 md:px-6">
-                            <div className="text-center mb-16">
-                                <h2 className={`text-3xl md:text-4xl font-sans font-bold mb-4 ${theme === 'dark' ? 'text-dark-text' : 'text-gray-900'}`}>Built for Your Industry</h2>
-                                <p className={`text-lg ${theme === 'dark' ? 'text-dark-text-muted' : 'text-gray-600'}`}>See how {product.title} adapts to your specific needs.</p>
-                            </div>
-                            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-                                {product.useCases.map((useCase, idx) => (
-                                    <Card key={idx} className={`p-8 border transition-all hover:-translate-y-1 ${theme === 'dark' ? 'bg-dark-card border-dark-accent/20 hover:border-dark-accent' : 'border-gray-100 hover:border-gray-300'}`}>
-                                        <div className="mb-6">
-                                            {useCase.icon && <useCase.icon className={`w-10 h-10 ${theme === 'dark' ? 'text-dark-accent' : 'text-gray-900'}`} />}
-                                        </div>
-                                        <h3 className={`text-xl font-bold mb-3 ${theme === 'dark' ? 'text-dark-text' : 'text-gray-900'}`}>{useCase.title}</h3>
-                                        <p className={theme === 'dark' ? 'text-dark-text-muted' : 'text-gray-600'}>{useCase.description}</p>
-                                    </Card>
-                                ))}
+                            <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+                                {product.useCases.map((uc, idx) => {
+                                    const Icon = uc.icon;
+                                    return (
+                                        <motion.div
+                                            key={idx}
+                                            initial={{ opacity: 0, y: 24 }}
+                                            whileInView={{ opacity: 1, y: 0 }}
+                                            viewport={{ once: true }}
+                                            transition={{ delay: idx * 0.1 }}
+                                            className="group rounded-3xl border border-orange-500/15 p-8 transition-all duration-500 hover:-translate-y-2 hover:border-orange-500/30 hover:shadow-[0_0_30px_rgba(249,115,22,0.06)]"
+                                            style={{ background: 'linear-gradient(135deg, rgba(249,115,22,0.04), rgba(8,8,8,0.98))' }}
+                                        >
+                                            {Icon && (
+                                                <div className="w-12 h-12 rounded-2xl bg-orange-500/10 border border-orange-500/20 flex items-center justify-center mb-5 group-hover:bg-orange-500/15 transition-colors">
+                                                    <Icon size={20} className="text-orange-400" />
+                                                </div>
+                                            )}
+                                            <h3 className="text-lg font-bold text-white mb-3">{uc.title}</h3>
+                                            <p className="text-sm text-zinc-400 leading-relaxed">{uc.description}</p>
+                                        </motion.div>
+                                    );
+                                })}
                             </div>
                         </div>
                     </section>
-                )
-            }
+                )}
 
-            {/* 6. FAQ Section */}
-            {
-                product.faq && product.faq.length > 0 && (
-                    <section className={`py-24 transition-colors ${theme === 'dark' ? 'bg-dark-card' : 'bg-gray-50'}`}>
-                        <div className="container mx-auto px-4 md:px-6 max-w-3xl">
-                            <h2 className={`text-3xl md:text-4xl font-sans font-bold mb-12 text-center ${theme === 'dark' ? 'text-dark-text' : 'text-gray-900'}`}>Frequently Asked Questions</h2>
-                            <div className="space-y-4">
+
+
+                {/* 11. FAQ */}
+                {product.faq.length > 0 && (
+                    <section className="py-24 bg-[#0A0A0A]">
+                        <div className="container mx-auto px-4 md:px-8 xl:px-0 max-w-3xl">
+                            <motion.div
+                                initial={{ opacity: 0, y: 24 }}
+                                whileInView={{ opacity: 1, y: 0 }}
+                                viewport={{ once: true }}
+                                className="text-center mb-12"
+                            >
+                                <h2 className="text-3xl md:text-5xl font-serif text-white leading-tight">
+                                    Frequently Asked <span className="bg-gradient-to-r from-orange-400 to-yellow-400 bg-clip-text text-transparent">Questions</span>
+                                </h2>
+                            </motion.div>
+
+                            <div className="space-y-3">
                                 {product.faq.map((item, idx) => (
-                                    <div key={idx} className={`rounded-2xl border overflow-hidden ${theme === 'dark' ? 'bg-dark-bg border-dark-accent/20' : 'bg-white border-gray-200'}`}>
+                                    <motion.div
+                                        key={idx}
+                                        initial={{ opacity: 0, y: 12 }}
+                                        whileInView={{ opacity: 1, y: 0 }}
+                                        viewport={{ once: true }}
+                                        transition={{ delay: idx * 0.06 }}
+                                        className="rounded-2xl border border-orange-500/15 overflow-hidden"
+                                        style={{ background: 'linear-gradient(135deg, rgba(249,115,22,0.03), rgba(8,8,8,0.98))' }}
+                                    >
                                         <button
                                             onClick={() => setOpenFaqIndex(openFaqIndex === idx ? null : idx)}
-                                            className={`w-full text-left p-6 flex justify-between items-center transition-colors ${theme === 'dark' ? 'hover:bg-dark-card' : 'hover:bg-gray-50'}`}
+                                            className="w-full text-left p-6 flex justify-between items-center hover:bg-orange-500/05 transition-colors"
                                         >
-                                            <span className={`text-lg font-bold ${theme === 'dark' ? 'text-dark-text' : 'text-gray-900'}`}>{item.question}</span>
-                                            {openFaqIndex === idx ? (
-                                                <Minus className={`w-5 h-5 ${theme === 'dark' ? 'text-dark-accent' : 'text-gray-400'}`} />
-                                            ) : (
-                                                <Plus className={`w-5 h-5 ${theme === 'dark' ? 'text-dark-accent' : 'text-gray-400'}`} />
-                                            )}
+                                            <span className="text-base font-bold text-white pr-4">{item.question}</span>
+                                            {openFaqIndex === idx
+                                                ? <Minus className="w-5 h-5 text-orange-400 shrink-0" />
+                                                : <Plus className="w-5 h-5 text-zinc-600 shrink-0" />
+                                            }
                                         </button>
                                         <AnimatePresence>
                                             {openFaqIndex === idx && (
@@ -139,25 +390,62 @@ const ProductPage = () => {
                                                     exit={{ height: 0, opacity: 0 }}
                                                     transition={{ duration: 0.3 }}
                                                 >
-                                                    <div className={`p-6 pt-0 leading-relaxed border-t ${theme === 'dark' ? 'text-dark-text-muted border-dark-accent/10' : 'text-gray-600 border-gray-50'}`}>
+                                                    <div className="px-6 pb-6 text-sm text-zinc-400 leading-relaxed border-t border-orange-500/10 pt-4">
                                                         {item.answer}
                                                     </div>
                                                 </motion.div>
                                             )}
                                         </AnimatePresence>
-                                    </div>
+                                    </motion.div>
                                 ))}
                             </div>
                         </div>
                     </section>
-                )
-            }
+                )}
 
-            {/* 7. Final Call to Action */}
-            <CTASection />
-        </div>
+                {/* 12. Related Products */}
+                {product.relatedProducts.length > 0 && (
+                    <RelatedProducts products={product.relatedProducts} />
+                )}
+
+                {/* 13. Final CTA */}
+                <section className="relative py-28 overflow-hidden">
+                    <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_rgba(249,115,22,0.08)_0%,_transparent_70%)] pointer-events-none" />
+                    <div className="container mx-auto px-4 text-center relative z-10">
+                        <motion.div
+                            initial={{ opacity: 0, y: 24 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            viewport={{ once: true }}
+                            className="max-w-2xl mx-auto"
+                        >
+                            <h2 className="text-4xl md:text-6xl font-serif text-white leading-tight mb-6">
+                                Ready to Transform<br />
+                                <span className="bg-gradient-to-r from-orange-400 to-yellow-400 bg-clip-text text-transparent">Your Business?</span>
+                            </h2>
+                            <p className="text-zinc-400 text-base leading-relaxed mb-10 max-w-lg mx-auto">
+                                Book a free 30-minute consultation. We'll show you exactly how {product.title} can be deployed for your use case.
+                            </p>
+                            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                                <Link
+                                    to="/schedule-demo"
+                                    className="px-10 py-4 text-black font-black rounded-full text-sm transition-all hover:scale-105"
+                                    style={{ background: 'linear-gradient(135deg, #F97316, #FBBF24)', boxShadow: '0 0 32px rgba(249,115,22,0.4)' }}
+                                >
+                                    Book Free Demo
+                                </Link>
+                                <Link
+                                    to="/contact"
+                                    className="px-10 py-4 border border-orange-500/20 rounded-full text-white font-semibold hover:bg-white/05 transition-all text-sm flex items-center justify-center gap-2"
+                                >
+                                    Contact Sales
+                                </Link>
+                            </div>
+                        </motion.div>
+                    </div>
+                </section>
+            </motion.div>
+        </AnimatePresence>
     );
 };
 
 export default ProductPage;
-
