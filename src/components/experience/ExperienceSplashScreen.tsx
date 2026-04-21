@@ -72,7 +72,8 @@ const ExperienceSplashScreen: React.FC<ExperienceSplashScreenProps> = ({ onCompl
             className="fixed inset-0 z-[9999] bg-[#050505] flex items-center justify-center overflow-hidden"
             initial={{ opacity: 1 }}
             animate={{ opacity: isWarping ? 0 : 1 }}
-            transition={{ duration: 1, delay: 0.5 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 1, delay: isWarping ? 0.5 : 0 }}
         >
             {/* 3D Background */}
             <div className="absolute inset-0 z-0">
@@ -112,6 +113,23 @@ const ExperienceSplashScreen: React.FC<ExperienceSplashScreenProps> = ({ onCompl
             
             {/* Vignette effect */}
             <div className="absolute inset-0 pointer-events-none z-10 bg-[radial-gradient(circle_at_center,transparent_0%,#050505_100%)] opacity-80" />
+
+            {/* Skip Button */}
+            {!isWarping && (
+                <motion.div 
+                    initial={{ opacity: 0 }} 
+                    animate={{ opacity: 1 }} 
+                    transition={{ delay: 2 }}
+                    className="absolute bottom-10 left-1/2 -translate-x-1/2 z-20"
+                >
+                    <button 
+                        onClick={onComplete}
+                        className="text-zinc-500 hover:text-white text-xs md:text-sm tracking-widest uppercase font-black transition-colors flex items-center gap-2 group px-6 py-2 border border-zinc-800 hover:border-zinc-500 rounded-full bg-[#0A0A0A]/80 backdrop-blur-sm"
+                    >
+                        Skip <span className="group-hover:translate-x-1 transition-transform">→</span>
+                    </button>
+                </motion.div>
+            )}
         </motion.div>
     );
 };
