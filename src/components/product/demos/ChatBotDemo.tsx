@@ -24,7 +24,7 @@ const ChatBotDemo = () => {
 
         const nextMessage = CHAT_SEQUENCE[step];
         
-        let timeout: NodeJS.Timeout;
+        let timeout: ReturnType<typeof setTimeout>;
         
         if (nextMessage.type === 'bot') {
             setIsTyping(true);

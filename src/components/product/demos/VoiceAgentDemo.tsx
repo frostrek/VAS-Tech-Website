@@ -24,7 +24,7 @@ const VoiceAgentDemo = () => {
             return;
         }
         
-        let timeout: NodeJS.Timeout;
+        let timeout: ReturnType<typeof setTimeout>;
         const advanceStep = () => {
             setCurrentStep(prev => {
                 const next = prev + 1;
