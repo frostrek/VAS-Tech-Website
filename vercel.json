@@ -1,5 +1,9 @@
 {
+  "cleanUrls": true,
   "rewrites": [
-    { "source": "/(.*)", "destination": "/index.html" }
+    {
+      "source": "/((?!assets/|images/|optimized/|models/|favicon.png|VAS_logo.png|logo.png|sitemap.xml|robots.txt|manifest.json|.+|.*\\..*).*)",
+      "destination": "/index.html"
+    }
   ]
 }
