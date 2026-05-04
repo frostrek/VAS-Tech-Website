@@ -23,39 +23,39 @@ export const TIMELINE_DATA: TimelineItem[] = [
     {
         year: '2021',
         title: 'Inception',
-        description: 'VAS Tech founded with a vision to dominate technology.',
+        description: 'Founded with a clear vision—to bridge the gap between deep industrial expertise and the rapidly evolving world of technology.',
         icon: Sparkles,
         image: '/inception.png',
         color: { border: 'rgb(176, 117, 82)', shadow: 'rgba(176, 117, 82, 0.2)', bg: 'bg-brand-green-50', text: 'text-brand-green-700', iconColor: 'text-brand-green-500' }
     },
     {
         year: '2025',
-        title: 'First Deployment',
-        description: 'Successfully deployed our first AI agent platform for early enterprise adopters.',
+        title: 'Identifying Disconnects',
+        description: 'Observing the common challenge: businesses were either operationally strong but technologically behind, or vice versa.',
         icon: Building2,
         image: '/firstDeployment.png',
         color: { border: 'rgb(212, 187, 117)', shadow: 'rgba(212, 187, 117, 0.2)', bg: 'bg-brand-yellow-50', text: 'text-brand-yellow-700', iconColor: 'text-brand-yellow-500' }
     },
     {
         year: '2025',
-        title: 'Global Expansion',
-        description: 'Opened offices in 3 new continents to serve our growing international client base.',
+        title: 'Technology-First Evolution',
+        description: 'Evolved into a technology-first organization offering a wide range of IT and AI services, automation, and digital transformation.',
         icon: Globe,
         image: '/global.png',
         color: { border: 'rgb(138, 90, 53)', shadow: 'rgba(138, 90, 53, 0.2)', bg: 'bg-stone-100', text: 'text-stone-700', iconColor: 'text-stone-600' }
     },
     {
         year: '2026',
-        title: 'Platform Launch',
-        description: 'Released VAS Tech Agent V1, setting a new standard for autonomous enterprise agents.',
+        title: 'Platform Integration',
+        description: 'Combining real-world industrial knowledge with modern IT and AI-driven solutions for smarter, faster operations.',
         icon: Zap,
         image: '/frostyAbout.png',
         color: { border: 'rgb(196, 143, 113)', shadow: 'rgba(196, 143, 113, 0.2)', bg: 'bg-brand-green-50', text: 'text-brand-green-600', iconColor: 'text-brand-green-400' }
     },
     {
         year: 'Next Era',
-        title: 'Market Leader',
-        description: 'Emerging as a leader in Agentic AI solutions.',
+        title: 'Trusted Partner',
+        description: 'Serving as a trusted partner for enterprises—helping them navigate complexity, embrace innovation, and unlock growth.',
         icon: Award,
         image: '/marketLeader.png',
         color: { border: 'rgb(212, 187, 117)', shadow: 'rgba(212, 187, 117, 0.2)', bg: 'bg-brand-yellow-50', text: 'text-brand-yellow-700', iconColor: 'text-brand-yellow-600' }

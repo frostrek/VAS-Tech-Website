@@ -116,7 +116,7 @@ const WhatsappBotDemo = () => {
                         <img src="/CompanyOffice.webp" alt="Profile" className="w-full h-full object-cover" />
                     </div>
                     <div className="flex flex-col">
-                        <span style={{ color: textMain }} className="font-semibold text-[15px] leading-tight">+1 (757) 472-2491</span>
+                        <span style={{ color: textMain }} className="font-semibold text-[15px] leading-tight">+1-289-438-4445</span>
                         <span style={{ color: textSecondary }} className="text-[12px] leading-tight">click here for contact info</span>
                     </div>
                 </div>

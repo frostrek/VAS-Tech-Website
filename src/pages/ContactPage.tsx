@@ -53,7 +53,7 @@ const ContactPage = () => {
         try {
             const fullName = `${formData.firstName} ${formData.lastName}`;
             await emailjs.send('service_jia14ic', 'template_hygc11p', {
-                to_email: 'contact@vastech.com',
+                to_email: 'vastechconsulting@yahoo.com',
                 from_name: fullName, user_name: fullName, name: fullName,
                 from_email: formData.workEmail, user_email: formData.workEmail,
                 email: formData.workEmail, reply_to: formData.workEmail,
@@ -81,8 +81,6 @@ const ContactPage = () => {
 
     const OFFICES = [
         { flag: '🇨🇦', title: 'Canada', subtitle: 'Global HQ', address: 'McNicholl Circle, St Catharines, Ontario L2N 7C5', isHQ: true, mapUrl: 'https://www.google.com/maps/search/?api=1&query=McNicholl+Circle+St+Catharines+Ontario' },
-        { flag: '🇺🇸', title: 'USA', subtitle: 'Austin, Texas', address: '701 Tillery Street Unit 12-3227, Austin, TX 78702', isHQ: false, mapUrl: 'https://www.google.com/maps/search/?api=1&query=701+Tillery+Street+Austin+Texas' },
-        { flag: '🇬🇧', title: 'UK', subtitle: 'London', address: '24–26 Arcadia Avenue, London, N3 2JU', isHQ: false, mapUrl: 'https://www.google.com/maps/search/?api=1&query=24+Arcadia+Avenue+London+N3+2JU' },
     ];
 
     return (
@@ -156,7 +154,7 @@ const ContactPage = () => {
 
                             <div className="p-6 space-y-4">
                                 {/* Phone — featured */}
-                                <a href="tel:+916399999955"
+                                <a href="tel:+12894384445"
                                     className="group flex items-center gap-4 p-5 rounded-2xl transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_8px_32px_rgba(249,115,22,0.15)] bg-white/[0.02]"
                                     style={{ background: 'linear-gradient(135deg, rgba(249,115,22,0.15), rgba(251,191,36,0.05))' }}>
                                     <div className="w-12 h-12 rounded-[1rem] flex items-center justify-center shrink-0 shadow-[0_0_24px_rgba(249,115,22,0.4)]"
@@ -165,31 +163,31 @@ const ContactPage = () => {
                                     </div>
                                     <div className="flex-1 min-w-0">
                                         <div className="text-[11px] font-black uppercase tracking-widest text-orange-400 mb-0.5">Call Us</div>
-                                        <div className="text-white font-bold text-base">+91 6399 999 955</div>
+                                        <div className="text-white font-bold text-base">+1-289-438-4445</div>
                                     </div>
                                     <ArrowRight size={18} className="text-orange-400 opacity-40 group-hover:opacity-100 group-hover:translate-x-1 transition-all" />
                                 </a>
 
                                 {/* Email + WhatsApp row */}
                                 <div className="grid grid-cols-2 gap-4">
-                                    <a href="mailto:contact@vastech.com"
+                                    <a href="mailto:vastechconsulting@yahoo.com"
                                         className="group flex flex-col gap-3 p-5 rounded-2xl bg-[#140D0A] shadow-[inset_0_1px_1px_rgba(255,255,255,0.02)] hover:bg-[#1A110D] transition-all duration-300">
                                         <div className="w-10 h-10 rounded-[1rem] flex items-center justify-center bg-orange-500/10 text-orange-400 group-hover:scale-110 group-hover:bg-orange-500/20 transition-all">
                                             <Mail size={18} />
                                         </div>
                                         <div>
                                             <div className="text-[10.5px] font-black uppercase tracking-wider text-zinc-500 mb-0.5">Email</div>
-                                            <div className="text-[13px] text-white font-semibold break-all tracking-wide">contact@vastech.com</div>
+                                            <div className="text-[13px] text-white font-semibold break-all tracking-wide">vastechconsulting@yahoo.com</div>
                                         </div>
                                     </a>
-                                    <a href="https://wa.me/17574722491" target="_blank" rel="noopener noreferrer"
+                                    <a href="https://wa.me/12894384445" target="_blank" rel="noopener noreferrer"
                                         className="group flex flex-col gap-3 p-5 rounded-2xl bg-[#140D0A] shadow-[inset_0_1px_1px_rgba(255,255,255,0.02)] hover:bg-[#1A110D] transition-all duration-300">
                                         <div className="w-10 h-10 rounded-[1rem] flex items-center justify-center bg-orange-500/10 text-orange-400 group-hover:scale-110 group-hover:bg-orange-500/20 transition-all">
                                             <MessageCircle size={18} />
                                         </div>
                                         <div>
-                                            <div className="text-[10.5px] font-black uppercase tracking-wider text-zinc-500 mb-0.5">WhatsApp (US)</div>
-                                            <div className="text-[13px] text-white font-semibold tracking-wide">+1 757 472 2491</div>
+                                            <div className="text-[10.5px] font-black uppercase tracking-wider text-zinc-500 mb-0.5">WhatsApp (CA)</div>
+                                            <div className="text-[13px] text-white font-semibold tracking-wide">+1-289-438-4445</div>
                                         </div>
                                     </a>
                                 </div>

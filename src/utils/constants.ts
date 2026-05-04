@@ -80,7 +80,7 @@ export const NAV_ITEMS = [
 export const COMPANY_INFO = {
     name: 'VAS Tech',
     address: 'McNicholl Circle, St Catharines, Ontario L2N 7C5',
-    contact: 'contact@vastech.com',
+    contact: 'vastechconsulting@yahoo.com',
     socials: {
         linkedin: 'https://www.linkedin.com/company/vastech/',
         instagram: 'https://www.instagram.com/vastechai?igsh=bndyYWZ1NTA4NWR1',

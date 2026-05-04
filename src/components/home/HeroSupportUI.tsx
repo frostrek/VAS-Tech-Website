@@ -329,7 +329,7 @@ const HeroSupportUI = () => {
                 </h3>
                 <div className="bg-zinc-900/50 backdrop-blur-md px-4 py-1.5 rounded-full border border-orange-500/20 shadow-xl">
                     <p className="text-zinc-400 text-[10.5px] font-bold italic max-w-[200px] leading-relaxed">
-                        {callStatus === 'incoming' ? '+1 (800) VAS-TECH' : callTranscription}
+                        {callStatus === 'incoming' ? '+1 (289) 438-4445' : callTranscription}
                     </p>
                 </div>
             </div>

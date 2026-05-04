@@ -7,6 +7,7 @@ import InnovationProcess from '../components/about/InnovationProcess';
 
 import CTASection from '../components/home/CTASection';
 import { useNavigate } from 'react-router-dom';
+import { ComposableMap, Geographies, Geography, Sphere, Graticule } from 'react-simple-maps';
 
 
 
@@ -119,77 +120,91 @@ const Counter = memo(({ value, suffix = '', text }: { value?: number; suffix?: s
 
 
 
-// ============ INTERACTIVE GLOBE ============
-const InteractiveGlobe = memo(() => {
-    const [hoveredCity, setHoveredCity] = useState<number | null>(null);
-    const [isGlobeHovered, setIsGlobeHovered] = useState(false);
+// ============ INTERACTIVE SVG GLOBE ============
+import geoData from '../utils/world-110m.json';
 
-    const cities = useMemo(() => [
-        { x: '18%', y: '28%', name: 'San Francisco', flag: '🇺🇸' },
-        { x: '70%', y: '22%', name: 'London', flag: '🇬🇧' },
-        { x: '82%', y: '55%', name: 'Singapore', flag: '🇸🇬' },
-        { x: '15%', y: '62%', name: 'Dubai', flag: '🇦🇪' },
-        { x: '52%', y: '12%', name: 'Berlin', flag: '🇩🇪' },
-        { x: '75%', y: '42%', name: 'Bangalore', flag: '🇮🇳' },
-    ], []);
+const InteractiveGlobe = memo(() => {
+    const [hoveredCanada, setHoveredCanada] = useState(false);
 
     return (
-        <div className="relative w-full h-80 flex items-center justify-center">
-            {/* Animated rings */}
-            <div className="absolute w-56 h-56 border-2 border-dashed border-brand-green-500/20 rounded-full animate-spin-slow" />
-            <div className="absolute w-44 h-44 border-2 border-dashed border-brand-yellow-500/20 rounded-full animate-spin-slow-reverse" />
+        <div className="relative w-full h-[500px] lg:h-[800px] flex items-center justify-center">
+            {/* Animated rings for extra flair */}
+            <div className="absolute w-[60%] h-[60%] border-2 border-dashed border-brand-green-500/10 rounded-full animate-spin-slow pointer-events-none" />
+            <div className="absolute w-[50%] h-[50%] border border-dashed border-brand-yellow-500/10 rounded-full animate-spin-slow-reverse pointer-events-none" />
 
-            {/* Globe center */}
-            <motion.div
-                className="relative w-24 h-24 bg-gradient-to-br from-brand-green-400 via-brand-green-500 to-brand-green-600 rounded-full flex items-center justify-center shadow-2xl cursor-pointer z-10"
-                onMouseEnter={() => setIsGlobeHovered(true)}
-                onMouseLeave={() => setIsGlobeHovered(false)}
-                animate={{
-                    scale: isGlobeHovered ? 1.1 : 1,
-                    boxShadow: isGlobeHovered
-                        ? '0 0 60px 10px rgba(176,117,82,0.4)'
-                        : '0 20px 50px -10px rgba(176,117,82,0.4)'
+            <ComposableMap
+                projection="geoOrthographic"
+                projectionConfig={{
+                    rotate: [100, -50, 0], // Center on Canada
+                    scale: 350,
                 }}
-                transition={{ type: 'spring', stiffness: 300 }}
+                className="w-full h-full drop-shadow-2xl pointer-events-none"
             >
-                <Globe className="w-12 h-12 text-white" />
-                <div className="absolute inset-0 rounded-full border-2 border-brand-green-300 animate-ping" />
-            </motion.div>
-
-            {/* City dots with tooltips */}
-            {cities.map((city, i) => (
-                <motion.div
-                    key={i}
-                    className="absolute z-20"
-                    style={{ left: city.x, top: city.y }}
-                    initial={{ scale: 0, opacity: 0 }}
-                    animate={{ scale: 1, opacity: 1 }}
-                    transition={{ delay: 0.5 + i * 0.1, type: 'spring' }}
-                    onMouseEnter={() => setHoveredCity(i)}
-                    onMouseLeave={() => setHoveredCity(null)}
-                >
+                {/* Globe Background with glow */}
+                <Sphere stroke="#f97316" strokeWidth={0.5} strokeOpacity={0.2} fill="#0a0705" id="sphere" />
+                <Graticule stroke="#f97316" strokeWidth={0.5} strokeOpacity={0.1} />
+                <Geographies geography={geoData}>
+                    {({ geographies }) =>
+                        geographies.map((geo) => {
+                            const isCanada = geo.properties.name === "Canada" || geo.id === "CAN" || geo.properties.ISO_A3 === "CAN";
+                            return (
+                                <Geography
+                                    key={geo.rsmKey}
+                                    geography={geo}
+                                    onPointerEnter={() => { if (isCanada) setHoveredCanada(true); }}
+                                    onPointerLeave={() => { if (isCanada) setHoveredCanada(false); }}
+                                    fill={isCanada ? "rgba(249, 115, 22, 0.5)" : "rgba(17, 17, 16, 0.8)"}
+                                    stroke="#f97316"
+                                    strokeWidth={isCanada ? 1 : 0.5}
+                                    strokeOpacity={isCanada ? 0.8 : 0.4}
+                                    className={isCanada ? "pointer-events-auto" : ""}
+                                    style={{
+                                        default: { outline: "none", transition: "all 300ms ease" },
+                                        hover: {
+                                            fill: isCanada ? "rgba(249, 115, 22, 0.9)" : "rgba(249, 115, 22, 0.3)",
+                                            outline: "none",
+                                            cursor: "pointer",
+                                            transition: "all 300ms ease",
+                                            filter: isCanada ? "drop-shadow(0 0 10px rgba(249,115,22,0.8))" : "none"
+                                        },
+                                        pressed: { outline: "none" },
+                                    }}
+                                />
+                            );
+                        })
+                    }
+                </Geographies>
+            </ComposableMap>
+            
+            {/* Hover Tooltip */}
+            <AnimatePresence>
+                {hoveredCanada && (
                     <motion.div
-                        className="relative cursor-pointer"
-                        animate={{ scale: hoveredCity === i ? 1.5 : 1 }}
+                        initial={{ opacity: 0, scale: 0.95, y: 10 }}
+                        animate={{ opacity: 1, scale: 1, y: 0 }}
+                        exit={{ opacity: 0, scale: 0.95, y: 10 }}
+                        transition={{ duration: 0.2 }}
+                        className="absolute top-[35%] lg:top-[30%] right-[30%] lg:right-[35%] pointer-events-none bg-[#111110]/95 backdrop-blur-xl p-4 lg:p-5 rounded-2xl border border-orange-500/40 shadow-[0_20px_50px_rgba(249,115,22,0.2)] flex flex-col gap-3 z-30 min-w-[240px]"
                     >
-                        <div className="w-4 h-4 bg-brand-green-500 rounded-full shadow-lg" />
-                        <div className="absolute inset-0 rounded-full bg-brand-green-400 animate-ping" style={{ animationDelay: `${i * 0.3}s` }} />
+                        <div className="flex items-center gap-3 border-b border-orange-500/20 pb-3">
+                            <img src="https://flagcdn.com/w40/ca.png" alt="Canada" className="w-8 h-5 rounded-sm shadow-sm" />
+                            <div>
+                                <h4 className="font-bold text-white text-base leading-none mb-1">St Catharines, ON</h4>
+                                <span className="text-[10px] text-orange-400 font-bold uppercase tracking-widest">Global HQ</span>
+                            </div>
+                        </div>
+                        <div className="pt-1">
+                            <p className="text-xs text-zinc-300 leading-relaxed mb-3">McNicholl Circle, St Catharines<br/>Ontario L2N 7C5, Canada</p>
+                            <div className="flex items-center gap-2 text-[11px] text-orange-400 bg-orange-500/10 px-2 py-1.5 rounded-lg border border-orange-500/20 w-fit">
+                                <span className="w-1.5 h-1.5 rounded-full bg-brand-green-500 animate-pulse shadow-[0_0_8px_rgba(34,197,94,0.8)]" />
+                                <span className="font-bold tracking-widest uppercase">Systems Online</span>
+                            </div>
+                        </div>
                     </motion.div>
-                    <AnimatePresence>
-                        {hoveredCity === i && (
-                            <motion.div
-                                initial={{ opacity: 0, y: 10, scale: 0.9 }}
-                                animate={{ opacity: 1, y: 0, scale: 1 }}
-                                exit={{ opacity: 0, y: 10, scale: 0.9 }}
-                                className="absolute top-6 left-1/2 -translate-x-1/2 px-3 py-2 bg-gray-900/95 backdrop-blur rounded-xl text-white text-xs whitespace-nowrap shadow-xl z-30"
-                            >
-                                <span className="text-base mr-1">{city.flag}</span>
-                                <span className="font-medium">{city.name}</span>
-                            </motion.div>
-                        )}
-                    </AnimatePresence>
-                </motion.div>
-            ))}
+                )}
+            </AnimatePresence>
+
+            <div className="absolute inset-0 pointer-events-none rounded-full" style={{ boxShadow: "inset 0 0 100px 20px rgba(5,5,5,0.9)" }} />
         </div>
     );
 });
@@ -203,45 +218,47 @@ const About = () => {
 
     const texts = useMemo(() => ['Intelligent Systems', 'Agentic AI', 'Machine Learning', 'Neural Networks'], []);
 
+    const [activeValue, setActiveValue] = useState(0);
+
     const values = useMemo(() => [
-        { icon: Zap, title: 'Innovation', desc: 'Cutting-edge AI solutions', color: 'brand-green' as const },
-        { icon: Award, title: 'Excellence', desc: 'ISO certified quality', color: 'brand-yellow' as const },
-        { icon: Shield, title: 'Trust', desc: 'Enterprise security', color: 'brand-green' as const },
-        { icon: Award, title: 'Collaboration', desc: 'Partnership focused', color: 'brand-yellow' as const },
+        { icon: Zap, title: 'Innovation', desc: 'Combining real-world industrial knowledge with modern IT and AI-driven solutions to operate smarter.', color: 'brand-green' as const, image: '/innovation_value_bg.png' },
+        { icon: Award, title: 'Precision', desc: 'Every solution is built on experience, precision, and a deep understanding of real business challenges.', color: 'brand-yellow' as const, image: '/enterprise_ai_suite.png' },
+        { icon: Shield, title: 'Trust', desc: 'Serving as a trusted partner for industrial enterprises and modern businesses to navigate complexity.', color: 'brand-green' as const, image: '/trust_value_bg.png' },
+        { icon: Globe, title: 'Impact', desc: 'The focus is not just on implementing technology, but on creating measurable impact and real-world success.', color: 'brand-yellow' as const, image: '/vas_tech_inception.png' },
     ], []);
 
     const features = useMemo(() => [
         {
             num: '01',
-            title: 'Trusted Expertise',
-            desc: 'World-class AI research team with proven track record in enterprise AI deployments. Our experts bring decades of experience ensuring robust solutions.',
-            stat: '5000+ Sessions',
-            details: 'Former researchers from Google, Meta, and DeepMind with 15+ years in AI/ML. Successfully deployed solutions serving millions worldwide.',
-            highlights: ['PhD-level researchers', '200+ published papers', 'Enterprise solutions']
+            title: 'Industrial Expertise',
+            desc: 'Built by professionals with over 15 years of global experience across industrial operations and advanced IT environments.',
+            stat: '15+ Years',
+            details: 'The company reflects a journey shaped by working across diverse industries, markets, and leadership roles. We solve the common challenge: businesses being operationally strong but technologically behind, or technologically capable but lacking practical industry insight.',
+            highlights: ['15+ years global experience', 'Cross-industry insight', 'Operational excellence']
         },
         {
             num: '02',
-            title: 'Innovation-Driven',
-            desc: 'Pushing technology boundaries with cutting-edge research in LLMs and autonomous agents. We invest heavily in R&D to deliver next-gen AI capabilities.',
-            stat: 'Cutting-Edge',
-            details: 'We invest 30% of resources in R&D, staying ahead with latest advancements in LLMs, autonomous agents, and neural networks.',
-            highlights: ['Latest LLM technology', 'Real-time processing', 'Custom model training']
+            title: 'Technology-First Focus',
+            desc: 'Evolving from a strong foundation in industrial consulting into a technology-first organization.',
+            stat: 'Modern IT',
+            details: 'We offer a wide range of IT and AI services including automation, digital transformation, intelligent workflows, and customer-focused solutions such as AI-powered support systems.',
+            highlights: ['Digital transformation', 'Intelligent workflows', 'AI-powered support']
         },
         {
             num: '03',
-            title: 'Client-Centered',
-            desc: 'Your success is our priority with dedicated support and customized solutions. We deliver tailored AI systems that integrate seamlessly with workflows.',
-            stat: 'Tailored',
-            details: 'Every solution customized to your unique needs. Dedicated support ensures enterprise-grade uptime with 24/7 monitoring and assistance.',
-            highlights: ['24/7 dedicated support', '99%+ uptime SLA', 'Custom integrations']
+            title: 'High Standards & Precision',
+            desc: 'What truly defines VAS Tech Consulting is our unwavering commitment to high standards.',
+            stat: 'Impact',
+            details: 'Every solution is built on experience, precision, and a deep understanding of real business challenges. The focus is not just on implementing technology, but on creating measurable impact.',
+            highlights: ['Commitment to standards', 'Precision engineering', 'Measurable business impact']
         },
         {
             num: '04',
-            title: 'Production-Ready',
-            desc: 'Scale without limits on cloud-native infrastructure handling billions of requests. Battle-tested architecture ensures zero downtime and automatic scaling.',
-            stat: 'Enterprise',
-            details: 'Cloud-native architecture handling billions of requests. Infrastructure scales automatically to meet growing demands with zero downtime.',
-            highlights: ['Auto-scaling infrastructure', 'Billions of requests', 'Zero-downtime deploys']
+            title: 'Practical & Results-Driven',
+            desc: 'From procurement strategy and process optimization to data analytics and intelligent systems.',
+            stat: 'Results',
+            details: 'By combining real-world industrial knowledge with modern IT, we enable businesses to operate smarter, faster, and more efficiently. VAS Tech Consulting delivers solutions that are not only innovative but also practical and results-driven.',
+            highlights: ['Process optimization', 'Data analytics', 'Trusted partnership']
         },
     ], []);
 
@@ -255,26 +272,6 @@ const About = () => {
             companyName: 'Global HQ',
             address: 'McNicholl Circle, St Catharines, Ontario L2N 7C5',
             mapUrl: 'https://www.google.com/maps/search/?api=1&query=McNicholl+Circle+St+Catharines+Ontario+L2N+7C5+Canada'
-        },
-        {
-            name: 'USA',
-            city: 'Austin',
-            country: 'United States',
-            flagImg: 'https://flagcdn.com/w40/us.png',
-            image: '/701 Tillery St 12 3227, Austin, TX 78702, USA.jpg',
-            companyName: 'USA Office',
-            address: '701 Tillery Street Unit 12-3227, Austin, Texas 78702, United States',
-            mapUrl: 'https://www.google.com/maps/search/?api=1&query=701+Tillery+Street+Unit+12-3227+Austin+Texas+78702'
-        },
-        {
-            name: 'UK',
-            city: 'London',
-            country: 'United Kingdom',
-            flagImg: 'https://flagcdn.com/w40/gb.png',
-            image: '/24-26-Arcadia-Ave-London-Primary-Photo-1-LargeHighDefinition.jpg',
-            companyName: 'UK Office',
-            address: '24-26 Arcadia Avenue, Fin009/8701, London, United Kingdom, N3 2JU',
-            mapUrl: 'https://www.google.com/maps/search/?api=1&query=24-26+Arcadia+Avenue+London+N3+2JU'
         },
     ], []);
 
@@ -312,7 +309,7 @@ const About = () => {
                             </h1>
 
                             <p className="text-base md:text-lg mb-12 max-w-lg text-zinc-400 leading-relaxed font-medium">
-                                We specialize in building autonomous AI clusters, high-fidelity neural networks, and scalable agent infrastructures that accelerate continuous enterprise evolution.
+                                VAS Tech Consulting was founded with a clear vision—to bridge the gap between deep industrial expertise and the rapidly evolving world of technology and artificial intelligence.
                             </p>
 
                             <div className="flex flex-wrap gap-4">
@@ -389,12 +386,16 @@ const About = () => {
                             <div className="absolute inset-0 bg-gradient-to-br from-orange-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
                             <div className="relative z-10">
                                 <h2 className="text-2xl md:text-4xl font-serif leading-[1.1] mb-6 text-white tracking-tight">
-                                    Our Core Purpose is <span className="text-transparent bg-clip-text bg-supportiq-button">Transformation</span>
+                                    Our Mission is <span className="text-transparent bg-clip-text bg-supportiq-button">Simple yet Powerful</span>
                                 </h2>
-                                <p className="text-base text-zinc-400 leading-relaxed font-medium max-w-xl">
-                                    We work with enterprises to reimagine business with our AI Agent Platform, AI Solutions for Work, Service and Process, and Agent Marketplace. 
-                                    With VAS Tech, customers get a standardized approach to developing, deploying, and orchestrating AI agents across the enterprise with speed, control, and flexibility.
-                                </p>
+                                <div className="text-base text-zinc-400 leading-relaxed font-medium max-w-xl space-y-4">
+                                    <p>
+                                        To bring together industry and intelligence in a way that drives real-world success. Today, VAS Tech Consulting serves as a trusted partner for both industrial enterprises and modern businesses.
+                                    </p>
+                                    <p>
+                                        We help you navigate complexity, embrace innovation, and unlock new growth opportunities by solving the disconnect between operational strength and technological capability.
+                                    </p>
+                                </div>
                             </div>
                             <div className="mt-8 flex gap-4 relative z-10">
                                 <MagneticButton variant="primary" onClick={() => navigate("/experience")} className="px-6 py-4 font-bold text-xs uppercase bg-supportiq-button text-black rounded-xl">
@@ -423,8 +424,8 @@ const About = () => {
                             <div className="absolute top-6 right-6 w-10 h-10 bg-orange-500/10 rounded-full flex items-center justify-center">
                                 <Zap className="w-5 h-5 text-orange-400" />
                             </div>
-                            <div className="text-3xl font-serif text-white mb-2 group-hover:text-amber-400 transition-colors"><Counter value={undefined} suffix="+" text="Extensive" /></div>
-                            <div className="text-xs font-bold tracking-widest uppercase text-zinc-500">Training Cycles</div>
+                            <div className="text-3xl font-serif text-white mb-2 group-hover:text-amber-400 transition-colors"><Counter value={undefined} suffix="+" text="15+" /></div>
+                            <div className="text-xs font-bold tracking-widest uppercase text-zinc-500">Years Experience</div>
                         </motion.div>
 
                         {/* Small Stat Block 2 */}
@@ -435,8 +436,8 @@ const About = () => {
                             <div className="absolute top-6 right-6 w-10 h-10 bg-amber-500/10 rounded-full flex items-center justify-center">
                                 <Award className="w-5 h-5 text-amber-400" />
                             </div>
-                            <div className="text-3xl font-serif text-white mb-2 group-hover:text-amber-400 transition-colors"><Counter value={undefined} suffix="+" text="Expert" /></div>
-                            <div className="text-xs font-bold tracking-widest uppercase text-zinc-500">AI Specialists</div>
+                            <div className="text-3xl font-serif text-white mb-2 group-hover:text-amber-400 transition-colors"><Counter value={undefined} suffix="+" text="Trusted" /></div>
+                            <div className="text-xs font-bold tracking-widest uppercase text-zinc-500">Industry Partner</div>
                         </motion.div>
                         
                         {/* Wide Stat Block (Spans 2 cols, 1 row) */}
@@ -447,8 +448,8 @@ const About = () => {
                             <div className="absolute top-0 right-0 w-64 h-64 bg-orange-500/20 rounded-full blur-[80px] -translate-y-1/2 translate-x-1/4 pointer-events-none" />
                             <div className="flex items-end justify-between relative z-10 w-full">
                                 <div>
-                                    <div className="text-4xl font-serif text-transparent bg-clip-text bg-supportiq-button mb-2">Global</div>
-                                    <div className="text-xs font-bold tracking-widest uppercase text-zinc-400">Enterprise Client Reach</div>
+                                    <div className="text-4xl font-serif text-transparent bg-clip-text bg-supportiq-button mb-2">Practical</div>
+                                    <div className="text-xs font-bold tracking-widest uppercase text-zinc-400">Results-Driven Solutions</div>
                                 </div>
                                 <Globe className="w-16 h-16 text-orange-500/30" />
                             </div>
@@ -462,8 +463,8 @@ const About = () => {
                             <div className="absolute top-6 right-6 w-10 h-10 bg-orange-500/10 rounded-full flex items-center justify-center">
                                 <Shield className="w-5 h-5 text-orange-400" />
                             </div>
-                            <div className="text-3xl font-serif text-white mb-2 group-hover:text-amber-400 transition-colors"><Counter value={undefined} suffix="%" text="Enterprise" /></div>
-                            <div className="text-xs font-bold tracking-widest uppercase text-zinc-500">Accuracy Standards</div>
+                            <div className="text-3xl font-serif text-white mb-2 group-hover:text-amber-400 transition-colors"><Counter value={undefined} suffix="%" text="Smarter" /></div>
+                            <div className="text-xs font-bold tracking-widest uppercase text-zinc-500">Operations</div>
                         </motion.div>
                     </div>
                 </div>
@@ -482,7 +483,7 @@ const About = () => {
                             Our Journey
                         </motion.h2>
                         <p className="text-lg max-w-2xl mx-auto text-zinc-400">
-                            From a bold idea to a global leader in Agentic AI.
+                            A journey shaped by diverse industries, markets, and leadership roles.
                         </p>
                     </div>
 
@@ -574,35 +575,48 @@ const About = () => {
                     </div>
 
                     <div className="max-w-6xl mx-auto flex flex-col md:flex-row gap-4 h-[600px] md:h-[500px]">
-                        {values.map((v, i) => (
-                            <motion.div
-                                key={i}
-                                className="group relative rounded-[2rem] overflow-hidden border border-orange-500/20 bg-[#111110] cursor-pointer flex-1 md:flex-none transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] md:hover:flex-grow-[3] hover:flex-grow-[3] flex flex-col justify-end p-6 md:p-8"
-                                style={{ flexBasis: '100px' }}
-                            >
-                                {/* Static Icon View */}
-                                <div className="absolute top-6 left-6 w-12 h-12 rounded-xl bg-[#1A1A1A] border border-orange-500/30 flex items-center justify-center transition-all duration-700 group-hover:scale-110 shadow-[0_0_20px_rgba(249,115,22,0.2)]">
-                                    <v.icon className="w-6 h-6 text-orange-400" />
-                                </div>
-                                
-                                <div className="absolute inset-0 bg-transparent group-hover:bg-orange-500/5 transition-colors duration-700 pointer-events-none" />
-                                <div className="absolute bottom-[-20%] right-[-10%] w-64 h-64 bg-orange-500/20 rounded-full blur-[80px] pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
+                        {values.map((v, i) => {
+                            const isActive = activeValue === i;
+                            return (
+                                <motion.div
+                                    key={i}
+                                    onMouseEnter={() => setActiveValue(i)}
+                                    className={`relative rounded-[2rem] overflow-hidden border border-orange-500/20 cursor-pointer flex flex-col justify-end p-6 md:p-8 transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] ${isActive ? 'flex-grow-[3] md:flex-grow-[3] bg-[#1a130f]' : 'flex-1 md:flex-none bg-[#111110]'}`}
+                                    style={{ flexBasis: '100px' }}
+                                >
+                                    {/* Image Background */}
+                                    {v.image && (
+                                        <div className={`absolute inset-0 transition-opacity duration-1000 ${isActive ? 'opacity-40' : 'opacity-0'}`}>
+                                            <img src={v.image} alt={v.title} className="w-full h-full object-cover grayscale-[30%] mix-blend-luminosity" />
+                                            <div className="absolute inset-0 bg-gradient-to-t from-[#111110] via-[#111110]/60 to-transparent" />
+                                            <div className="absolute inset-0 bg-orange-500/20 mix-blend-overlay" />
+                                        </div>
+                                    )}
 
-                                {/* Expanded Content */}
-                                <div className="relative z-10 w-full md:min-w-[300px] opacity-0 group-hover:opacity-100 translate-y-10 group-hover:translate-y-0 transition-all duration-700 delay-100 hidden group-hover:block">
-                                    <h3 className="font-serif text-white text-$1xl mb-2">{v.title}</h3>
-                                    <p className="text-zinc-400 text-sm leading-relaxed max-w-xs">{v.desc}</p>
-                                </div>
-                                
-                                {/* Vertical text for collapsed state */}
-                                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 opacity-100 group-hover:opacity-0 transition-opacity duration-300 md:-rotate-90 whitespace-nowrap hidden md:block pointer-events-none origin-center">
-                                    <span className="font-bold text-lg text-zinc-500 tracking-widest uppercase">{v.title}</span>
-                                </div>
-                                <div className="absolute bottom-6 left-24 opacity-100 group-hover:opacity-0 transition-opacity duration-300 md:hidden pointer-events-none">
-                                    <span className="font-bold text-base text-zinc-500 tracking-widest uppercase">{v.title}</span>
-                                </div>
-                            </motion.div>
-                        ))}
+                                    {/* Static Icon View */}
+                                    <div className={`absolute top-6 left-6 w-12 h-12 rounded-xl flex items-center justify-center transition-all duration-700 shadow-[0_0_20px_rgba(249,115,22,0.2)] z-20 ${isActive ? 'bg-orange-500/20 border border-orange-500/50 scale-110' : 'bg-[#1A1A1A] border border-orange-500/30'}`}>
+                                        <v.icon className="w-6 h-6 text-orange-400" />
+                                    </div>
+                                    
+                                    <div className={`absolute inset-0 transition-colors duration-700 pointer-events-none ${isActive ? 'bg-orange-500/5' : 'bg-transparent'}`} />
+                                    <div className={`absolute bottom-[-20%] right-[-10%] w-64 h-64 bg-orange-500/20 rounded-full blur-[80px] pointer-events-none transition-opacity duration-700 ${isActive ? 'opacity-100' : 'opacity-0'}`} />
+
+                                    {/* Expanded Content */}
+                                    <div className={`relative z-10 w-full md:min-w-[300px] transition-all duration-700 delay-100 ${isActive ? 'opacity-100 translate-y-0 block' : 'opacity-0 translate-y-10 hidden'}`}>
+                                        <h3 className="font-serif text-white text-3xl mb-2">{v.title}</h3>
+                                        <p className="text-zinc-400 text-sm leading-relaxed max-w-xs">{v.desc}</p>
+                                    </div>
+                                    
+                                    {/* Vertical text for collapsed state */}
+                                    <div className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 transition-opacity duration-300 md:-rotate-90 whitespace-nowrap hidden md:block pointer-events-none origin-center ${isActive ? 'opacity-0' : 'opacity-100'}`}>
+                                        <span className="font-bold text-lg text-zinc-500 tracking-widest uppercase">{v.title}</span>
+                                    </div>
+                                    <div className={`absolute bottom-6 left-24 transition-opacity duration-300 md:hidden pointer-events-none ${isActive ? 'opacity-0' : 'opacity-100'}`}>
+                                        <span className="font-bold text-base text-zinc-500 tracking-widest uppercase">{v.title}</span>
+                                    </div>
+                                </motion.div>
+                            );
+                        })}
                     </div>
                 </div>
             </section>
