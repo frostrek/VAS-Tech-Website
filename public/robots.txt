@@ -1,5 +1,5 @@
-# Robots.txt for Frostrek
-# https://info.frostrek.com
+# Robots.txt for VAS Tech
+# https://vastechconsulting.com
 
 User-agent: *
 Allow: /
@@ -10,7 +10,7 @@ Disallow: /_next/
 Disallow: /static/chunks/
 
 # Sitemap location
-Sitemap: https://info.frostrek.com/sitemap.xml
+Sitemap: https://vastechconsulting.com/sitemap.xml
 
 # Crawl-delay (optional - be nice to server)
 Crawl-delay: 1

@@ -56,14 +56,14 @@ const WebScrapingDemo = () => {
     return (
         <div className={`w-full max-w-5xl mx-auto rounded-2xl border p-6 md:p-8 ${theme === 'dark' ? 'bg-dark-card border-dark-accent/20' : 'bg-gray-50 border-gray-200'}`}>
             <h3 className={`text-xl font-bold mb-6 flex items-center gap-3 ${theme === 'dark' ? 'text-dark-text' : 'text-gray-900'}`}>
-                <Search className={`w-6 h-6 ${theme === 'dark' ? 'text-dark-accent' : 'text-[#B07552]'}`} />
+                <Search className={`w-6 h-6 ${theme === 'dark' ? 'text-dark-accent' : 'text-[#F97316]'}`} />
                 Live Data Extraction Engine
             </h3>
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                 {/* Visualizer: HTML Source */}
                 <div className={`relative rounded-xl border overflow-hidden flex flex-col ${theme === 'dark' ? 'bg-[#0a0a0a] border-dark-accent/20' : 'bg-white border-gray-200'}`}>
-                    <div className={`px-4 py-2 border-b flex items-center justify-between font-mono text-xs ${theme === 'dark' ? 'bg-[#151515] border-dark-accent/20 text-dark-text-muted' : 'bg-gray-100 border-gray-200 text-gray-500'}`}>
+                    <div className={`px-4 py-2 border-b flex items-center justify-between font-mono text-xs ${theme === 'dark' ? 'bg-[#151515] border-zinc-800/50 text-dark-text-muted' : 'bg-gray-100 border-gray-200 text-gray-500'}`}>
                         <div className="flex items-center gap-2">
                             <Code className="w-4 h-4" /> target_site_dom.html
                         </div>
@@ -76,7 +76,7 @@ const WebScrapingDemo = () => {
                     
                     <div className="p-4 font-mono text-xs leading-loose relative flex-1">
                         {HTML_LINES.map((line, idx) => (
-                            <div key={idx} className={`relative z-10 transition-colors ${scanLine === idx ? (theme === 'dark' ? 'text-dark-accent' : 'text-[#B07552] font-bold') : (theme === 'dark' ? 'text-gray-500' : 'text-gray-400')}`}>
+                            <div key={idx} className={`relative z-10 transition-colors ${scanLine === idx ? (theme === 'dark' ? 'text-dark-accent' : 'text-[#F97316] font-bold') : (theme === 'dark' ? 'text-gray-500' : 'text-gray-400')}`}>
                                 {line}
                             </div>
                         ))}
@@ -86,7 +86,7 @@ const WebScrapingDemo = () => {
                             <motion.div
                                 animate={{ top: `${(scanLine / HTML_LINES.length) * 100}%` }}
                                 transition={{ type: "tween", duration: 0.1 }}
-                                className={`absolute left-0 right-0 h-8 -mt-1 z-0 ${theme === 'dark' ? 'bg-dark-accent/10 border-l-2 border-dark-accent' : 'bg-[#B07552]/10 border-l-2 border-[#B07552]'}`}
+                                className={`absolute left-0 right-0 h-8 -mt-1 z-0 ${theme === 'dark' ? 'bg-dark-accent/10 border-l-2 border-dark-accent' : 'bg-[#F97316]/10 border-l-2 border-[#F97316]'}`}
                             />
                         )}
                     </div>
@@ -94,9 +94,9 @@ const WebScrapingDemo = () => {
 
                 {/* Extracted Data Table */}
                 <div className={`rounded-xl border flex flex-col ${theme === 'dark' ? 'bg-[#0a0a0a] border-dark-accent/20' : 'bg-white border-gray-200'}`}>
-                    <div className={`px-4 py-2 flex items-center gap-2 border-b ${theme === 'dark' ? 'border-dark-accent/20 bg-dark-accent/5' : 'border-[#B07552]/20 bg-[#B07552]/5'}`}>
-                        <Database className={`w-4 h-4 ${theme === 'dark' ? 'text-dark-accent' : 'text-[#B07552]'}`} />
-                        <span className={`text-xs font-bold uppercase tracking-wider ${theme === 'dark' ? 'text-dark-accent' : 'text-[#B07552]'}`}>Structured Output</span>
+                    <div className={`px-4 py-2 flex items-center gap-2 border-b ${theme === 'dark' ? 'border-zinc-800/50 bg-dark-accent/5' : 'border-orange-500/20 bg-orange-500/5'}`}>
+                        <Database className={`w-4 h-4 ${theme === 'dark' ? 'text-dark-accent' : 'text-[#F97316]'}`} />
+                        <span className={`text-xs font-bold uppercase tracking-wider ${theme === 'dark' ? 'text-dark-accent' : 'text-[#F97316]'}`}>Structured Output</span>
                     </div>
 
                     <div className="flex-1 p-4 flex flex-col justify-end">

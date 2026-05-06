@@ -72,7 +72,7 @@ const ProductDemoRegistry: React.FC<ProductDemoRegistryProps> = ({ productId }) 
                 <div className="flex justify-center max-w-5xl mx-auto">
                     <Suspense fallback={
                         <div className="flex items-center justify-center p-20">
-                            <Loader2 className={`w-8 h-8 animate-spin ${theme === 'dark' ? 'text-dark-accent' : 'text-[#B07552]'}`} />
+                            <Loader2 className={`w-8 h-8 animate-spin ${theme === 'dark' ? 'text-dark-accent' : 'text-[#F97316]'}`} />
                         </div>
                     }>
                         {demoContent}

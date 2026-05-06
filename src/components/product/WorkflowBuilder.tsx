@@ -1,5 +1,5 @@
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { motion, useMotionValue, MotionValue } from 'framer-motion';
 import {
     Brain,
@@ -25,37 +25,40 @@ const CanvasNode = ({
     x,
     y,
     icon: Icon,
-    theme
+    theme,
+    constraintsRef
 }: {
     step: ProductProcessStep,
     index: number,
     x: MotionValue<number>,
     y: MotionValue<number>,
     icon: any,
-    theme: string
+    theme: string,
+    constraintsRef: React.RefObject<HTMLDivElement | null>
 }) => {
     return (
         <motion.div
             drag
+            dragConstraints={constraintsRef}
             dragMomentum={false}
             style={{ x, y }}
-            whileHover={{ scale: 1.02, cursor: 'grab' }}
-            whileTap={{ scale: 0.98, cursor: 'grabbing' }}
+            whileHover={{ cursor: 'grab' }}
+            whileTap={{ cursor: 'grabbing' }}
             initial={{ opacity: 0, scale: 0.8 }}
             whileInView={{ opacity: 1, scale: 1 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5, delay: index * 0.2 }}
-            className={`absolute top-0 left-0 p-4 w-60 rounded-2xl border shadow-xl group transition-all duration-300 z-20 ${theme === 'dark' ? 'bg-[#111111]/90 backdrop-blur-md border-orange-500/20 hover:border-orange-500/50 hover:shadow-orange-500/10' : 'bg-white border-gray-200 hover:border-brand-green-300 hover:shadow-2xl'}`}
+            className={`absolute top-0 left-0 p-4 w-60 rounded-2xl border shadow-xl group transition-all duration-300 z-20 ${theme === 'dark' ? 'bg-[#111111]/90 backdrop-blur-md border-orange-500/20 hover:border-orange-500/50 hover:shadow-orange-500/10' : 'bg-white border-gray-200 hover:border-orange-500/30 hover:shadow-2xl'}`}
         >
 
 
             <div className="flex items-start gap-3">
-                <div className={`w-10 h-10 rounded-xl flex items-center justify-center shrink-0 border transition-all duration-300 ${theme === 'dark' ? 'bg-black border-orange-500/20 text-orange-400 group-hover:bg-orange-500 group-hover:text-black' : 'bg-brand-green-50 border-brand-green-100 text-brand-green-600 group-hover:bg-brand-green-500 group-hover:text-white'}`}>
+                <div className={`w-10 h-10 rounded-xl flex items-center justify-center shrink-0 border transition-all duration-300 ${theme === 'dark' ? 'bg-black border-orange-500/20 text-orange-400 group-hover:bg-orange-500 group-hover:text-black' : 'bg-orange-50 border-orange-100 text-orange-600 group-hover:bg-orange-500 group-hover:text-white'}`}>
                     <Icon className="w-5 h-5" />
                 </div>
                 <div>
                     <div className="flex items-center justify-between mb-1">
-                        <span className={`text-xs font-bold uppercase tracking-wider ${theme === 'dark' ? 'text-orange-400' : 'text-brand-green-600'}`}>{step.step}</span>
+                        <span className={`text-xs font-bold uppercase tracking-wider ${theme === 'dark' ? 'text-orange-400' : 'text-orange-600'}`}>{step.step}</span>
                         <MoreHorizontal className={`w-4 h-4 ${theme === 'dark' ? 'text-zinc-600' : 'text-gray-300'}`} />
                     </div>
                     <h4 className={`font-bold mb-1 text-sm ${theme === 'dark' ? 'text-white' : 'text-gray-900'}`}>{step.title}</h4>
@@ -92,7 +95,10 @@ const DynamicConnection = ({
     executionDelay?: number
 }) => {
 
-    const [pathD, setPathD] = useState('');
+    const pathRef1 = useRef<SVGPathElement>(null);
+    const pathRef2 = useRef<SVGPathElement>(null);
+    const pathRef3 = useRef<SVGPathElement>(null);
+    const circleRef = useRef<SVGCircleElement>(null);
 
     useEffect(() => {
         const updatePath = () => {
@@ -101,22 +107,28 @@ const DynamicConnection = ({
             const ex = endX.get();
             const ey = endY.get();
 
-            // Adjust offsets based on layout
-            const sOffset = isVertical ? { x: 120, y: 140 } : startOffset; // Bot-Center vs Right-Center
-            const eOffset = isVertical ? { x: 120, y: 0 } : endOffset;     // Top-Center vs Left-Center
+            const sOffset = isVertical ? { x: 120, y: 140 } : startOffset;
+            const eOffset = isVertical ? { x: 120, y: 0 } : endOffset;
 
             const sX = sx + sOffset.x;
             const sY = sy + sOffset.y;
             const eX = ex + eOffset.x;
             const eY = ey + eOffset.y;
 
+            let newPathD = '';
+
             if (isVertical) {
                 const midY = (sY + eY) / 2;
-                setPathD(`M ${sX} ${sY} C ${sX} ${midY}, ${eX} ${midY}, ${eX} ${eY}`);
+                newPathD = `M ${sX} ${sY} C ${sX} ${midY}, ${eX} ${midY}, ${eX} ${eY}`;
             } else {
                 const midX = (sX + eX) / 2;
-                setPathD(`M ${sX} ${sY} C ${midX} ${sY}, ${midX} ${eY}, ${eX} ${eY}`);
+                newPathD = `M ${sX} ${sY} C ${midX} ${sY}, ${midX} ${eY}, ${eX} ${eY}`;
             }
+
+            if (pathRef1.current) pathRef1.current.setAttribute("d", newPathD);
+            if (pathRef2.current) pathRef2.current.setAttribute("d", newPathD);
+            if (pathRef3.current) pathRef3.current.setAttribute("d", newPathD);
+            if (circleRef.current) (circleRef.current as any).style.offsetPath = `path("${newPathD}")`;
         };
 
         updatePath();
@@ -153,7 +165,7 @@ const DynamicConnection = ({
 
             {/* Background track */}
             <motion.path
-                d={pathD}
+                ref={pathRef1}
                 fill="none"
                 stroke={theme === 'dark' ? '#1A1A1A' : '#E5E7EB'}
                 strokeWidth="4"
@@ -161,7 +173,7 @@ const DynamicConnection = ({
 
             {/* Default connector (muted orange) */}
             <motion.path
-                d={pathD}
+                ref={pathRef2}
                 fill="none"
                 stroke={isExecuting ? '#F97316' : '#27272A'}
                 strokeWidth="2"
@@ -174,12 +186,11 @@ const DynamicConnection = ({
                 transition={{ duration: 1.5, delay, ease: "easeInOut" }}
             />
 
-            {/* Execution flow animation (orange pulse traveling along the path) */}
+            {/* Execution flow animation */}
             {isExecuting && (
                 <>
-                    {/* Glowing orange overlay */}
                     <motion.path
-                        d={pathD}
+                        ref={pathRef3}
                         fill="none"
                         stroke="#F97316"
                         strokeWidth="3"
@@ -190,15 +201,14 @@ const DynamicConnection = ({
                         transition={{ duration: 0.8, delay: executionDelay, ease: "easeOut" }}
                     />
 
-                    {/* Traveling dot */}
                     <motion.circle
+                        ref={circleRef}
                         r="6"
                         fill="#F97316"
                         filter="url(#glowOrange)"
                         initial={{ offsetDistance: "0%" }}
                         animate={{ offsetDistance: "100%" }}
                         transition={{ duration: 0.8, delay: executionDelay, ease: "easeInOut" }}
-                        style={{ offsetPath: `path("${pathD}")` }}
                     />
                 </>
             )}
@@ -212,6 +222,7 @@ export const WorkflowBuilder = ({ steps }: { steps: ProductProcessStep[] }) => {
     const [isVertical, setIsVertical] = useState(false);
     const [isExecuting, setIsExecuting] = useState(false);
     const [isCompleted, setIsCompleted] = useState(false);
+    const containerRef = useRef<HTMLDivElement>(null);
 
     const handleZoomIn = () => setZoom(prev => Math.min(prev + 10, 150));
     const handleZoomOut = () => setZoom(prev => Math.max(prev - 10, 50));
@@ -289,7 +300,6 @@ export const WorkflowBuilder = ({ steps }: { steps: ProductProcessStep[] }) => {
                 {/* 1. Sidebar Palette (Static for visual) */}
                 <div className={`w-full md:w-64 border-r p-6 flex flex-col gap-6 relative z-30 ${theme === 'dark' ? 'bg-[#050505] border-orange-500/20' : 'bg-gray-50 border-gray-200'}`}>
                     <div className="flex items-center gap-3 mb-2">
-                        <div className={`w-8 h-8 rounded-lg flex items-center justify-center font-bold ${theme === 'dark' ? 'bg-gradient-to-br from-orange-400 to-amber-600 text-black' : 'bg-brand-green-600 text-white'}`}>W</div>
                         <span className={`font-bold ${theme === 'dark' ? 'text-white' : 'text-gray-900'}`}>Workflow</span>
                     </div>
 
@@ -303,9 +313,9 @@ export const WorkflowBuilder = ({ steps }: { steps: ProductProcessStep[] }) => {
                             <motion.div
                                 key={i}
                                 whileHover={{ x: 5 }}
-                                className={`p-3 border rounded-xl shadow-sm flex items-center gap-3 transition-colors ${theme === 'dark' ? 'bg-[#111] border-orange-500/10 hover:border-orange-500/40' : 'bg-white border-gray-200 hover:border-brand-green-300'}`}
+                                className={`p-3 border rounded-xl shadow-sm flex items-center gap-3 transition-colors ${theme === 'dark' ? 'bg-[#111] border-orange-500/10 hover:border-orange-500/40' : 'bg-white border-gray-200 hover:border-orange-300'}`}
                             >
-                                <item.icon className={`w-4 h-4 ${theme === 'dark' ? 'text-orange-400' : 'text-brand-green-600'}`} />
+                                <item.icon className={`w-4 h-4 ${theme === 'dark' ? 'text-orange-400' : 'text-orange-600'}`} />
                                 <span className={`text-sm font-medium ${theme === 'dark' ? 'text-zinc-300' : 'text-gray-700'}`}>{item.label}</span>
                             </motion.div>
                         ))}
@@ -321,14 +331,14 @@ export const WorkflowBuilder = ({ steps }: { steps: ProductProcessStep[] }) => {
                                 ? 'bg-amber-500/10 border-amber-500/40 shadow-[0_0_20px_rgba(251,191,36,0.15)]'
                                 : theme === 'dark'
                                     ? 'bg-orange-500/05 border-orange-500/20 hover:bg-orange-500/10 hover:border-orange-500/40'
-                                    : 'bg-brand-green-50 border-brand-green-100 hover:bg-brand-green-100 hover:border-brand-green-200'
+                                    : 'bg-orange-50 border-orange-100 hover:bg-orange-100 hover:border-orange-200'
                             }`}
                     >
                         <div className={`flex items-center gap-2 mb-2 font-bold text-sm transition-colors duration-300 ${isExecuting
                             ? 'text-orange-400'
                             : isCompleted
                                 ? 'text-amber-400'
-                                : theme === 'dark' ? 'text-orange-400' : 'text-brand-green-700'
+                                : theme === 'dark' ? 'text-orange-400' : 'text-orange-700'
                             }`}>
                             {isExecuting ? (
                                 <motion.div
@@ -358,7 +368,7 @@ export const WorkflowBuilder = ({ steps }: { steps: ProductProcessStep[] }) => {
                             ? 'text-orange-500/70'
                             : isCompleted
                                 ? 'text-amber-500/70'
-                                : theme === 'dark' ? 'text-zinc-500' : 'text-brand-green-600'
+                                : theme === 'dark' ? 'text-zinc-500' : 'text-orange-600'
                             }`}>
                             {isExecuting
                                 ? 'Optimizing logic paths...'
@@ -370,7 +380,15 @@ export const WorkflowBuilder = ({ steps }: { steps: ProductProcessStep[] }) => {
                 </div>
 
                 {/* 2. Main Canvas */}
-                <div className={`flex-1 relative group cursor-default min-h-[650px] md:min-h-0 ${theme === 'dark' ? 'bg-dark-navbar' : 'bg-[#F9FAFB]'}`}>
+                <div ref={containerRef} className={`flex-1 relative group cursor-default min-h-[650px] md:min-h-0 overflow-hidden ${theme === 'dark' ? 'bg-[#060606]' : 'bg-[#F9FAFB]'}`}>
+                    {/* Background Grid */}
+                    <div className={`absolute inset-0 opacity-[0.03] ${theme === 'dark' ? 'invert' : ''}`} 
+                        style={{ 
+                            backgroundImage: `radial-gradient(${theme === 'dark' ? '#F97316' : '#000'} 1px, transparent 1px)`, 
+                            backgroundSize: '24px 24px' 
+                        }} 
+                    />
+
                     {/* Editor Toolbar (Floating) */}
                     <div className={`absolute bottom-6 md:top-6 md:bottom-auto left-1/2 -translate-x-1/2 backdrop-blur-sm border rounded-full px-4 py-2 shadow-lg flex items-center gap-4 z-30 ${theme === 'dark' ? 'bg-[#111]/90 border-orange-500/20 shadow-orange-500/05' : 'bg-white/90 border-gray-200'}`}>
                         <button className={`transition-colors ${theme === 'dark' ? 'text-zinc-500 hover:text-orange-400' : 'text-gray-400 hover:text-gray-900'}`}><MousePointer2 className="w-4 h-4" /></button>
@@ -387,13 +405,17 @@ export const WorkflowBuilder = ({ steps }: { steps: ProductProcessStep[] }) => {
                         transition={{ duration: 0.3 }}
                     >
                         {/* Dynamic Lines */}
-                        <DynamicConnection startX={x1} startY={y1} endX={x2} endY={y2} delay={0.5} theme={theme} isVertical={isVertical} isExecuting={isExecuting} executionDelay={0} />
-                        <DynamicConnection startX={x2} startY={y2} endX={x3} endY={y3} delay={1.0} theme={theme} isVertical={isVertical} isExecuting={isExecuting} executionDelay={0.8} />
+                        {steps.length >= 2 && (
+                            <DynamicConnection startX={x1} startY={y1} endX={x2} endY={y2} delay={0.5} theme={theme} isVertical={isVertical} isExecuting={isExecuting} executionDelay={0} />
+                        )}
+                        {steps.length >= 3 && (
+                            <DynamicConnection startX={x2} startY={y2} endX={x3} endY={y3} delay={1.0} theme={theme} isVertical={isVertical} isExecuting={isExecuting} executionDelay={0.8} />
+                        )}
 
                         {/* Draggable Nodes */}
-                        <CanvasNode step={steps[0]} index={0} x={x1} y={y1} icon={Search} theme={theme} />
-                        <CanvasNode step={steps[1]} index={1} x={x2} y={y2} icon={Workflow} theme={theme} />
-                        <CanvasNode step={steps[2]} index={2} x={x3} y={y3} icon={Zap} theme={theme} />
+                        {steps[0] && <CanvasNode step={steps[0]} index={0} x={x1} y={y1} icon={Search} theme={theme} constraintsRef={containerRef} />}
+                        {steps[1] && <CanvasNode step={steps[1]} index={1} x={x2} y={y2} icon={Workflow} theme={theme} constraintsRef={containerRef} />}
+                        {steps[2] && <CanvasNode step={steps[2]} index={2} x={x3} y={y3} icon={Zap} theme={theme} constraintsRef={containerRef} />}
                     </motion.div>
                 </div>
             </motion.div>

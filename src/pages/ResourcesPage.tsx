@@ -68,7 +68,7 @@ const BlogCard = ({ post, onClick, index }: { post: BlogPost; onClick: () => voi
             {/* Image */}
             {post.image && (
                 <div className="relative h-44 overflow-hidden">
-                    <img src={post.image} alt={post.title} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
+                    <img src={post.image} alt={post.title} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" loading="lazy" decoding="async" />
                     <div className="absolute inset-0 bg-gradient-to-t from-[#060604] via-black/20 to-transparent" />
                     <span className="absolute bottom-3 left-4 text-[9.5px] font-black uppercase tracking-[0.25em] px-2.5 py-1 rounded-full border border-orange-500/30 bg-black/70 text-orange-400">
                         {post.category}
@@ -255,7 +255,7 @@ const BlogModal = ({ post, onClose }: { post: BlogPost; onClose: () => void }) =
             {/* Image hero */}
             {post.image && (
                 <div className="relative h-56 md:h-72 w-full shrink-0">
-                    <img src={post.image} alt={post.title} className="w-full h-full object-cover" />
+                    <img src={post.image} alt={post.title} className="w-full h-full object-cover" loading="lazy" decoding="async" />
                     <div className="absolute inset-0 bg-gradient-to-t from-[#0D0A07] via-black/30 to-transparent" />
                     <button onClick={onClose}
                         className="absolute top-4 right-4 z-10 w-9 h-9 rounded-full flex items-center justify-center bg-black/60 hover:bg-orange-500/25 border border-orange-500/20 transition-all">
@@ -295,7 +295,7 @@ const BlogModal = ({ post, onClose }: { post: BlogPost; onClose: () => void }) =
                     <p>In the rapidly evolving landscape of artificial intelligence, {post.title} represents a pivotal shift. Enterprises are constantly seeking ways to leverage these advancements to stay ahead of the curve.</p>
                     <p>This article explores the nuances of {post.category}, diving deep into the methodologies and frameworks that drive success. From data infrastructure to model alignment, every component plays a critical role.</p>
                     <h3 className="text-xl md:text-2xl font-serif text-white pt-2">The Strategic Imperative</h3>
-                    <p>Understanding the core mechanics is just the beginning. The real value lies in the strategic application of these technologies to solve real-world business problems — whether through enhanced automation, improved decision-making, or novel customer experiences.</p>
+                    <p>Understanding the core mechanics is just the beginning. The real value lies in the strategic application of these technologies to solve real-world business problems - whether through enhanced automation, improved decision-making, or novel customer experiences.</p>
                 </div>
 
                 <div className="mt-10 pt-6 border-t border-orange-500/10 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
@@ -368,7 +368,7 @@ const ResourcesPage = () => {
 
                     <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.22 }}
                         className="text-zinc-400 text-base md:text-lg max-w-xl mx-auto leading-relaxed mb-10">
-                        Deep dives into how we help businesses build production-ready AI systems — real problems, real outcomes, real numbers.
+                        Deep dives into how we help businesses build production-ready AI systems - real problems, real outcomes, real numbers.
                     </motion.p>
 
                     {/* Tab switcher */}

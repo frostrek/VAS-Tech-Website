@@ -70,7 +70,7 @@ const SOLUTIONS: Solution[] = [
 ];
 
 const ChatDemo = () => (
-    <div className="w-full bg-[#1A1A1A] rounded-2xl border border-orange-500/20 p-4 flex flex-col gap-2.5 shadow-inner h-[260px] relative overflow-hidden group-hover:border-orange-500/20 transition-colors">
+    <div className="w-full bg-[#1A1A1A] rounded-2xl border border-orange-500/20 p-4 flex flex-col gap-2.5 shadow-inner h-[220px] sm:h-[260px] relative overflow-hidden group-hover:border-orange-500/20 transition-colors">
         <div className="flex items-center gap-2 mb-1 border-b border-orange-500/20 pb-2 shrink-0">
             <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
             <span className="text-xs text-gray-400 font-semibold tracking-wide">VAS Tech AI</span>
@@ -80,7 +80,7 @@ const ChatDemo = () => (
             I can help! Please share your order ID.
         </motion.div>
 
-        <motion.div variants={{ hover: { y: 0, opacity: 1 }, initial: { y: 15, opacity: 0 } }} transition={{ delay: 0.1 }} className="bg-gradient-to-r from-yellow-500 to-orange-500 p-3 rounded-2xl rounded-br-sm text-[13px] text-black font-medium w-[70%] self-end shadow-md transform-gpu transition-all duration-500 shrink-0">
+        <motion.div variants={{ hover: { y: 0, opacity: 1 }, initial: { y: 15, opacity: 0 } }} transition={{ delay: 0.1 }} className="bg-gradient-to-r from-orange-500 to-amber-600 p-3 rounded-2xl rounded-br-sm text-[13px] text-black font-medium w-[70%] self-end shadow-md transform-gpu transition-all duration-500 shrink-0">
             ORD-2024-7823
         </motion.div>
         
@@ -207,10 +207,10 @@ const BentoCard = ({ solution }: { solution: Solution }) => {
                     hover: { opacity: 0.15 },
                     initial: { opacity: 0 }
                 }}
-                className={`absolute inset-0 bg-gradient-to-br from-yellow-500 via-orange-500 to-amber-600 blur-2xl pointer-events-none transition-opacity duration-700`}
+                className={`absolute inset-0 bg-gradient-to-br from-orange-500 via-orange-600 to-amber-700 blur-2xl pointer-events-none transition-opacity duration-700`}
             />
 
-            <div className={`p-6 xl:p-8 flex flex-col h-full relative z-10 w-full min-h-[300px] ${solution.colSpan === 2 ? 'lg:flex-row lg:items-center gap-8' : ''}`}>
+            <div className={`p-6 xl:p-8 flex flex-col h-full relative z-10 w-full min-h-[350px] sm:min-h-[300px] ${solution.colSpan === 2 ? 'lg:flex-row lg:items-center gap-8' : ''}`}>
                 
                 <div className={`flex flex-col ${solution.colSpan === 2 ? 'lg:w-[40%] xl:w-1/2' : ''}`}>
                     <div className="w-12 h-12 rounded-2xl bg-white/5 border border-orange-500/20 flex items-center justify-center mb-5 group-hover:scale-110 group-hover:border-orange-500/50 transition-all duration-300 shadow-lg">
@@ -284,7 +284,7 @@ const AISolutionsShowcase = () => {
                 
                 {/* Section Header */}
                 <div ref={headerRef} className="text-center mb-16 flex flex-col items-center">
-                    <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-yellow-500/20 bg-yellow-500/5 mb-6">
+                    <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-orange-500/20 bg-orange-500/5 mb-6">
                         <span className="relative flex h-2 w-2">
                             <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-orange-400 opacity-75" />
                             <span className="relative inline-flex rounded-full h-2 w-2 bg-orange-500" />

@@ -39,7 +39,7 @@ const PHASES: Phase[] = [
         tagline: "Stress-testing under pressure",
         description: "Rigorous quality assurance, hallucination rate testing, and edge-case simulation to guarantee 99.9% enterprise reliability.",
         icon: TestTube2,
-        color: "#EAB308", // yellow-500
+        color: "#F97316", // orange-500
         delay: 0.2,
     },
     {
@@ -145,7 +145,7 @@ const InnovationProcess = () => {
                             transition={{ duration: 60, repeat: Infinity, ease: "linear" }}
                         />
                         <motion.div 
-                            className="absolute inset-8 rounded-full border border-dashed border-yellow-500/10 pointer-events-none opacity-30"
+                            className="absolute inset-8 rounded-full border border-dashed border-orange-500/10 pointer-events-none opacity-30"
                             animate={{ rotate: -360 }}
                             transition={{ duration: 80, repeat: Infinity, ease: "linear" }}
                         />

@@ -120,7 +120,7 @@ export interface ProductData {
 }
 
 /* ════════════════════════════════════════════════════════════════════════════
-   PRODUCT DATABASE — 14 Products + Generic Fallback
+   PRODUCT DATABASE - 14 Products + Generic Fallback
    ════════════════════════════════════════════════════════════════════════════ */
 
 export const PRODUCT_DATA: Record<string, ProductData> = {
@@ -137,7 +137,7 @@ export const PRODUCT_DATA: Record<string, ProductData> = {
         subtitle: 'Human-like Voice Interactions at Scale',
         description: 'Deploy low-latency voice AI agents that handle inbound support and outbound sales calls with natural, human-like fluidity. Reduce costs by 50% while improving customer satisfaction.',
         badge: 'Low Latency Voice',
-        heroImage: CallingPanaSvg,
+        heroImage: '/AiCalling.png',
         demoImage: '/images/vas_tech_dashboard.png',
         statistics: [
             { value: '50%', label: 'Reduction in Costs', icon: BarChart },
@@ -193,7 +193,7 @@ export const PRODUCT_DATA: Record<string, ProductData> = {
         ],
         reviews: [
             { id: 'r1', author: 'Dr. James Park', role: 'Practice Manager', company: 'Wellness Clinics Group', rating: 5, text: 'No-show rates dropped by 62%. The AI handles appointment confirmations and rescheduling with incredible empathy.', date: '2026-03-01', avatar: '/testi4.jpg' },
-            { id: 'r2', author: 'Linda Torres', role: 'Director of Sales', company: 'ProLead Systems', rating: 5, text: "Our sales team only talks to pre-qualified leads now. The Voice AI does all the screening — it's like having 50 extra SDRs.", date: '2026-02-15', avatar: '/testi5.png' },
+            { id: 'r2', author: 'Linda Torres', role: 'Director of Sales', company: 'ProLead Systems', rating: 5, text: "Our sales team only talks to pre-qualified leads now. The Voice AI does all the screening - it's like having 50 extra SDRs.", date: '2026-02-15', avatar: '/testi5.png' },
             { id: 'r3', author: 'Omar Klein', role: 'COO', company: 'RecoverRight Financial', rating: 4, text: 'Compliant, empathetic debt collection at scale. Our team focuses on complex cases while AI handles the routine calls.', date: '2026-01-20', avatar: '/testi1.png' },
         ],
         relatedProducts: [
@@ -333,7 +333,7 @@ export const PRODUCT_DATA: Record<string, ProductData> = {
             { name: 'Enterprise', price: 'Custom', description: 'Tailored solutions for large-scale deployments.', features: ['Unlimited conversations', 'Unlimited agents', 'All channels', 'Dedicated AI engineer', 'Custom LLM fine-tuning', 'SLA guarantee (99.95%)', 'On-premise option', 'White-label available'], badge: 'Best Value', cta: 'Contact Sales' },
         ],
         variants: [
-            { id: 'standard', name: 'Standard', description: 'Pre-trained on general customer support scenarios — deploy in days.', icon: Bot, badge: 'Quick Start' },
+            { id: 'standard', name: 'Standard', description: 'Pre-trained on general customer support scenarios - deploy in days.', icon: Bot, badge: 'Quick Start' },
             { id: 'custom', name: 'Custom Trained', description: 'Fine-tuned on your proprietary data for maximum accuracy.', icon: Brain },
             { id: 'enterprise', name: 'Enterprise', description: 'On-premise or dedicated cloud with full data isolation.', icon: Shield },
         ],
@@ -353,10 +353,10 @@ export const PRODUCT_DATA: Record<string, ProductData> = {
         slug: 'email-automation',
         tagline: 'SMART EMAIL AT SCALE',
         title: 'Email Automation Agent',
-        subtitle: 'AI That Reads, Drafts & Sends — Automatically',
-        description: 'Stop drowning in email. Our AI agent reads incoming messages, categorizes them by intent, drafts contextual replies, and triggers automated follow-up sequences — all on autopilot.',
+        subtitle: 'AI That Reads, Drafts & Sends - Automatically',
+        description: 'Stop drowning in email. Our AI agent reads incoming messages, categorizes them by intent, drafts contextual replies, and triggers automated follow-up sequences - all on autopilot.',
         badge: 'Smart Email AI',
-        heroImage: '/images/vas_tech_enterprise.png',
+        heroImage: '/images/vas_tech_email.png',
         statistics: [
             { value: '60%', label: 'Time Saved on Email', icon: Clock },
             { value: '95%', label: 'Classification Accuracy', icon: Target },
@@ -389,7 +389,7 @@ export const PRODUCT_DATA: Record<string, ProductData> = {
             { question: 'Will it send emails without my approval?', answer: 'You control the approval flow. Set it to draft-only, auto-send, or review-before-send.' },
         ],
         mediaGallery: [
-            { type: 'image', src: '/images/vas_tech_dashboard.png', alt: 'Email Dashboard', caption: 'Email automation pipeline with real-time tracking' },
+            { type: 'image', src: '/images/vas_tech_email.png', alt: 'Email Dashboard', caption: 'Email automation pipeline with real-time tracking' },
             { type: 'image', src: '/images/vas_tech_enterprise.png', alt: 'AI Classification', caption: 'Smart intent classification engine' },
         ],
         specifications: [
@@ -408,7 +408,7 @@ export const PRODUCT_DATA: Record<string, ProductData> = {
         ],
         reviews: [
             { id: 'r1', author: 'Rachel Kim', role: 'Sales Director', company: 'CloudStack Inc', rating: 5, text: 'Our trial-to-paid conversion jumped 28% with automated email sequences. The AI drafts are indistinguishable from human ones.', date: '2026-03-08', avatar: '/testi1.png' },
-            { id: 'r2', author: 'David Osei', role: 'CEO', company: 'AppVentures', rating: 4, text: 'I saved 3 hours a day on email. The classification is incredibly accurate — it routes everything to the right person automatically.', date: '2026-02-10', avatar: '/testi4.jpg' },
+            { id: 'r2', author: 'David Osei', role: 'CEO', company: 'AppVentures', rating: 4, text: 'I saved 3 hours a day on email. The classification is incredibly accurate - it routes everything to the right person automatically.', date: '2026-02-10', avatar: '/testi4.jpg' },
         ],
         relatedProducts: [
             { id: 'ai-chatbot', name: 'Website Chatbot', tagline: 'AI assistant on your website', icon: Bot, slug: 'ai-chatbot' },
@@ -428,7 +428,7 @@ export const PRODUCT_DATA: Record<string, ProductData> = {
         subtitle: 'Qualified Prospects, Delivered Daily',
         description: 'An AI agent that scrapes, qualifies, and enriches leads from multiple sources automatically. Get 50+ verified prospects delivered to your CRM every morning.',
         badge: 'B2B Prospecting AI',
-        heroImage: '/images/vas_tech_hero.png',
+        heroImage: '/images/vas_tech_ai.png',
         statistics: [
             { value: '50+', label: 'Daily Qualified Leads', icon: Users },
             { value: '92%', label: 'Email Accuracy', icon: CheckCircle },
@@ -436,12 +436,12 @@ export const PRODUCT_DATA: Record<string, ProductData> = {
             { value: '70%', label: 'Less Research Time', icon: Clock },
         ],
         process: [
-            { step: '01', title: 'Define ICP', description: 'Set your Ideal Customer Profile — industry, size, geography, tech stack.' },
+            { step: '01', title: 'Define ICP', description: 'Set your Ideal Customer Profile - industry, size, geography, tech stack.' },
             { step: '02', title: 'AI Scrapes', description: 'Agent searches LinkedIn, directories, and web for matching leads.' },
             { step: '03', title: 'Enrich & Deliver', description: 'Verified leads with emails, phone numbers, and intent signals pushed to your CRM.' },
         ],
         features: [
-            { title: 'Multi-Source Scraping', description: 'LinkedIn, Google, directories, company websites — all automated.', icon: Globe },
+            { title: 'Multi-Source Scraping', description: 'LinkedIn, Google, directories, company websites - all automated.', icon: Globe },
             { title: 'Email Verification', description: 'Real-time verification of email addresses with 92%+ accuracy.', icon: CheckCircle },
             { title: 'Buying Intent Signals', description: 'Track job postings, tech stack changes, and funding events.', icon: Target },
             { title: 'CRM Auto-Push', description: 'Leads pushed directly to Salesforce, HubSpot, or Pipedrive.', icon: Database },
@@ -493,7 +493,7 @@ export const PRODUCT_DATA: Record<string, ProductData> = {
         tagline: 'YOUR PIPELINE ON AUTOPILOT',
         title: 'CRM Automation',
         subtitle: 'Auto-Update, Auto-Score, Auto-Close',
-        description: 'AI that auto-updates CRM records, logs every call and email, scores leads in real-time, and triggers deal workflows — so your reps focus on closing, not on data entry.',
+        description: 'AI that auto-updates CRM records, logs every call and email, scores leads in real-time, and triggers deal workflows - so your reps focus on closing, not on data entry.',
         badge: 'Pipeline Intelligence',
         heroImage: '/images/vas_tech_dashboard.png',
         statistics: [
@@ -524,7 +524,7 @@ export const PRODUCT_DATA: Record<string, ProductData> = {
         ],
         faq: [
             { question: 'Which CRMs do you support?', answer: 'Salesforce, HubSpot, Pipedrive, Zoho, and any CRM with a REST API.' },
-            { question: 'Will it overwrite existing CRM data?', answer: 'No, our AI appends and enriches — it never overwrites unless you explicitly configure it to.' },
+            { question: 'Will it overwrite existing CRM data?', answer: 'No, our AI appends and enriches - it never overwrites unless you explicitly configure it to.' },
         ],
         mediaGallery: [
             { type: 'image', src: '/images/vas_tech_dashboard.png', alt: 'CRM Dashboard', caption: 'Unified pipeline view with AI-driven insights' },
@@ -563,7 +563,7 @@ export const PRODUCT_DATA: Record<string, ProductData> = {
         slug: 'invoice-document-ai',
         tagline: 'ELIMINATE MANUAL PROCESSING',
         title: 'Invoice & Document AI',
-        subtitle: 'Extract, Validate & Process — Automatically',
+        subtitle: 'Extract, Validate & Process - Automatically',
         description: 'AI that extracts data from invoices, POs, and contracts with 99% accuracy. Validate against business rules, flag discrepancies, and sync directly with your accounting software.',
         badge: 'OCR + AI Processing',
         heroImage: '/images/vas_tech_enterprise.png',
@@ -574,7 +574,7 @@ export const PRODUCT_DATA: Record<string, ProductData> = {
             { value: '0', label: 'Data Entry Errors', icon: Shield },
         ],
         process: [
-            { step: '01', title: 'Upload Docs', description: 'Drop invoices, POs, or contracts — PDF, image, or scan.' },
+            { step: '01', title: 'Upload Docs', description: 'Drop invoices, POs, or contracts - PDF, image, or scan.' },
             { step: '02', title: 'AI Extracts', description: 'Our OCR + AI engine extracts structured data instantly.' },
             { step: '03', title: 'Validate & Sync', description: 'Auto-validate against rules and push to your accounting system.' },
         ],
@@ -629,10 +629,10 @@ export const PRODUCT_DATA: Record<string, ProductData> = {
         slug: 'workflow-builder',
         tagline: 'CONNECT EVERYTHING',
         title: 'Workflow Builder',
-        subtitle: 'No-Code Automation — 100s of Apps Connected',
-        description: 'Custom no-code automation connecting your entire tech stack in multi-step flows. From CRM to invoicing to reporting — one trigger automates everything.',
+        subtitle: 'No-Code Automation - 100s of Apps Connected',
+        description: 'Custom no-code automation connecting your entire tech stack in multi-step flows. From CRM to invoicing to reporting - one trigger automates everything.',
         badge: 'n8n / Make Powered',
-        heroImage: '/images/vas_tech_hero.png',
+        heroImage: '/images/vas_tech_n8n.png',
         statistics: [
             { value: '500+', label: 'App Integrations', icon: Link2 },
             { value: '80%', label: 'Process Automation', icon: Settings },
@@ -645,7 +645,7 @@ export const PRODUCT_DATA: Record<string, ProductData> = {
             { step: '03', title: 'Monitor', description: 'Real-time monitoring with alerts for failed executions.' },
         ],
         features: [
-            { title: 'Visual Builder', description: 'Drag-and-drop interface — no coding skills required.', icon: Layers },
+            { title: 'Visual Builder', description: 'Drag-and-drop interface - no coding skills required.', icon: Layers },
             { title: '500+ Integrations', description: 'Connect CRM, email, databases, APIs, and more.', icon: Link2 },
             { title: 'Conditional Logic', description: 'If/then branching, loops, and error handling built-in.', icon: GitBranch },
             { title: 'Real-time Monitoring', description: 'Track every execution with alerts for failures.', icon: Activity },
@@ -664,7 +664,7 @@ export const PRODUCT_DATA: Record<string, ProductData> = {
             { question: 'What platforms do you use?', answer: 'We specialize in n8n (self-hosted) and Make (cloud), depending on your needs.' },
         ],
         mediaGallery: [
-            { type: 'image', src: '/images/vas_tech_hero.png', alt: 'Workflow Builder', caption: 'Visual workflow automation platform' },
+            { type: 'image', src: '/images/vas_tech_n8n.png', alt: 'Workflow Builder', caption: 'Visual workflow automation platform' },
             { type: 'image', src: '/images/vas_tech_dashboard.png', alt: 'Flow Monitoring', caption: 'Real-time execution monitoring dashboard' },
         ],
         specifications: [
@@ -677,7 +677,7 @@ export const PRODUCT_DATA: Record<string, ProductData> = {
             { name: 'Enterprise', price: 'Custom', description: 'Unlimited automation at scale.', features: ['Unlimited workflows', 'Self-hosted option', 'Dedicated engineer', 'Custom integrations', 'SLA guarantee', 'On-premise deployment'], badge: 'Full Scale', cta: 'Contact Sales' },
         ],
         variants: [
-            { id: 'cloud', name: 'Cloud (Make)', description: 'Fully managed cloud automation — get started in minutes.', icon: Globe, badge: 'Quick Start' },
+            { id: 'cloud', name: 'Cloud (Make)', description: 'Fully managed cloud automation - get started in minutes.', icon: Globe, badge: 'Quick Start' },
             { id: 'selfhosted', name: 'Self-Hosted (n8n)', description: 'Full control with n8n on your own infrastructure.', icon: Server },
             { id: 'hybrid', name: 'Hybrid', description: 'Combined cloud + self-hosted for maximum flexibility.', icon: Network },
         ],
@@ -702,7 +702,7 @@ export const PRODUCT_DATA: Record<string, ProductData> = {
         subtitle: 'Competitive Intelligence, Automated',
         description: 'Scheduled web scraping with alerts, competitor price tracking, and structured data output. Monitor any website for changes and get actionable data delivered to your inbox.',
         badge: 'Real-time Monitoring',
-        heroImage: '/images/vas_tech_hero.png',
+        heroImage: '/images/vas_tech_website.png',
         statistics: [
             { value: '10M+', label: 'Pages Scraped/Month', icon: Globe },
             { value: '99.5%', label: 'Data Accuracy', icon: Target },
@@ -711,7 +711,7 @@ export const PRODUCT_DATA: Record<string, ProductData> = {
         ],
         process: [
             { step: '01', title: 'Define Sources', description: 'Tell us which websites and data points to monitor.' },
-            { step: '02', title: 'Configure Schedule', description: 'Set scraping frequency — hourly, daily, or on-demand.' },
+            { step: '02', title: 'Configure Schedule', description: 'Set scraping frequency - hourly, daily, or on-demand.' },
             { step: '03', title: 'Get Data', description: 'Structured data delivered via API, CSV, or database.' },
         ],
         features: [
@@ -731,6 +731,7 @@ export const PRODUCT_DATA: Record<string, ProductData> = {
             { question: 'Can you handle JavaScript-heavy sites?', answer: 'Yes, we use headless browsers (Puppeteer/Playwright) for JS-rendered content.' },
         ],
         mediaGallery: [
+            { type: 'image', src: '/images/vas_tech_website.png', alt: 'Website Monitoring', caption: 'Real-time competitive intelligence and monitoring' },
             { type: 'image', src: '/images/vas_tech_dashboard.png', alt: 'Scraping Dashboard', caption: 'Web scraping monitoring and scheduling dashboard' },
         ],
         specifications: [
@@ -748,7 +749,7 @@ export const PRODUCT_DATA: Record<string, ProductData> = {
             { id: 'competitive', name: 'Competitive Intel', description: 'Full competitor tracking suite with price monitoring.', icon: Target },
         ],
         reviews: [
-            { id: 'r1', author: 'Mike Chen', role: 'E-Commerce Director', company: 'PriceWave Retail', rating: 5, text: 'We track 50,000 competitor SKUs daily. Price matching used to take a team of 5 — now it\'s fully automated.', date: '2026-02-28', avatar: '/testi4.jpg' },
+            { id: 'r1', author: 'Mike Chen', role: 'E-Commerce Director', company: 'PriceWave Retail', rating: 5, text: 'We track 50,000 competitor SKUs daily. Price matching used to take a team of 5 - now it\'s fully automated.', date: '2026-02-28', avatar: '/testi4.jpg' },
         ],
         relatedProducts: [
             { id: 'ai-analytics', name: 'AI Analytics Dashboard', tagline: 'NLP queries over your business data', icon: BarChart3, slug: 'ai-analytics' },
@@ -764,7 +765,7 @@ export const PRODUCT_DATA: Record<string, ProductData> = {
         subtitle: 'Natural Language Queries, Real-time Insights',
         description: 'Ask "What was our best-selling SKU last month?" in plain English and get a chart back in 3 seconds. AI-powered analytics that makes data accessible to everyone.',
         badge: 'NLP Analytics',
-        heroImage: '/images/vas_tech_dashboard.png',
+        heroImage: '/images/vas_tech_ai.png',
         statistics: [
             { value: '3s', label: 'Query Response Time', icon: Zap },
             { value: '40+', label: 'Data Sources', icon: Database },
@@ -773,11 +774,11 @@ export const PRODUCT_DATA: Record<string, ProductData> = {
         ],
         process: [
             { step: '01', title: 'Connect Data', description: 'Link databases, spreadsheets, APIs, and cloud storage.' },
-            { step: '02', title: 'Ask Questions', description: 'Type natural language queries — no SQL or coding needed.' },
+            { step: '02', title: 'Ask Questions', description: 'Type natural language queries - no SQL or coding needed.' },
             { step: '03', title: 'Get Insights', description: 'Charts, tables, and summaries generated instantly.' },
         ],
         features: [
-            { title: 'Natural Language Queries', description: 'Ask questions in plain English — AI translates to SQL.', icon: MessageSquare },
+            { title: 'Natural Language Queries', description: 'Ask questions in plain English - AI translates to SQL.', icon: MessageSquare },
             { title: 'Auto-Visualizations', description: 'Charts and graphs generated automatically based on data shape.', icon: BarChart3 },
             { title: 'Scheduled Reports', description: 'Automated report delivery to stakeholders on any schedule.', icon: Calendar },
             { title: 'Anomaly Alerts', description: 'AI detects unusual patterns and sends proactive alerts.', icon: Activity },
@@ -793,7 +794,7 @@ export const PRODUCT_DATA: Record<string, ProductData> = {
             { question: 'What data sources are supported?', answer: 'PostgreSQL, MySQL, BigQuery, Snowflake, Google Sheets, CSV, REST APIs, and 40+ more.' },
         ],
         mediaGallery: [
-            { type: 'image', src: '/images/vas_tech_dashboard.png', alt: 'Analytics Dashboard', caption: 'Natural language analytics dashboard' },
+            { type: 'image', src: '/images/vas_tech_ai.png', alt: 'Analytics Dashboard', caption: 'Natural language analytics dashboard' },
             { type: 'image', src: '/images/vas_tech_enterprise.png', alt: 'Data Sources', caption: 'Connect 40+ data sources seamlessly' },
         ],
         specifications: [
@@ -828,10 +829,10 @@ export const PRODUCT_DATA: Record<string, ProductData> = {
         slug: 'content-generation',
         tagline: 'SCALE YOUR CONTENT',
         title: 'Content Generation Agent',
-        subtitle: 'Thousands of Pages — In Your Brand Voice',
-        description: 'AI writing agents that produce product listings, blog posts, social content, and marketing copy at scale — all in your brand voice. Generate 1,000 SEO-optimized descriptions from a single CSV.',
+        subtitle: 'Thousands of Pages - In Your Brand Voice',
+        description: 'AI writing agents that produce product listings, blog posts, social content, and marketing copy at scale - all in your brand voice. Generate 1,000 SEO-optimized descriptions from a single CSV.',
         badge: 'AI Content at Scale',
-        heroImage: '/images/vas_tech_enterprise.png',
+        heroImage: '/images/vas_tech_content.png',
         statistics: [
             { value: '1000x', label: 'Content Output', icon: PenTool },
             { value: '85%', label: 'SEO Score Avg', icon: TrendingUp },
@@ -841,7 +842,7 @@ export const PRODUCT_DATA: Record<string, ProductData> = {
         process: [
             { step: '01', title: 'Set Brand Voice', description: 'Define tone, style guidelines, and key messaging.' },
             { step: '02', title: 'Input Data', description: 'Upload product data, topics, or content briefs.' },
-            { step: '03', title: 'Generate & Review', description: 'AI generates content at scale — review and publish.' },
+            { step: '03', title: 'Generate & Review', description: 'AI generates content at scale - review and publish.' },
         ],
         features: [
             { title: 'Brand Voice Training', description: 'AI learns your unique tone, terminology, and style.', icon: Palette },
@@ -856,11 +857,11 @@ export const PRODUCT_DATA: Record<string, ProductData> = {
             { title: 'Social Media', description: 'Platform-specific posts for LinkedIn, Twitter, Instagram.', icon: Share2 },
         ],
         faq: [
-            { question: 'Will the content be unique?', answer: 'Yes. Each piece is generated uniquely — no templates or spin content. All content passes plagiarism checks.' },
+            { question: 'Will the content be unique?', answer: 'Yes. Each piece is generated uniquely - no templates or spin content. All content passes plagiarism checks.' },
             { question: 'Can it match our brand voice?', answer: 'Absolutely. We train the AI on your existing content to replicate your exact tone and style.' },
         ],
         mediaGallery: [
-            { type: 'image', src: '/images/vas_tech_enterprise.png', alt: 'Content Platform', caption: 'Content generation platform with brand voice controls' },
+            { type: 'image', src: '/images/vas_tech_content.png', alt: 'Content Platform', caption: 'Content generation platform with brand voice controls' },
         ],
         specifications: [
             { category: 'Generation', items: [{ label: 'Output Speed', value: '1,000+ pieces/hour' }, { label: 'Quality Score', value: '85%+ SEO, 95% readability' }, { label: 'Languages', value: '40+' }, { label: 'Formats', value: 'Blog, Product, Social, Ad, Email' }] },
@@ -890,10 +891,10 @@ export const PRODUCT_DATA: Record<string, ProductData> = {
         slug: 'seo-automation',
         tagline: 'DOMINATE SEARCH',
         title: 'SEO Automation Agent',
-        subtitle: 'From Keyword to Published Article — In 24 Hours',
+        subtitle: 'From Keyword to Published Article - In 24 Hours',
         description: 'Automated keyword research, content briefs, on-page audits, and programmatic page generation. Full SEO pipeline from keyword discovery to published article in under 24 hours.',
         badge: 'White-Label SEO AI',
-        heroImage: '/images/vas_tech_hero.png',
+        heroImage: '/images/vas_tech_seo.png',
         statistics: [
             { value: '300%', label: 'Organic Traffic Growth', icon: TrendingUp },
             { value: '24h', label: 'Keyword to Article', icon: Clock },
@@ -959,7 +960,7 @@ export const PRODUCT_DATA: Record<string, ProductData> = {
         subtitle: 'Day 1 to Day 30, Fully Automated',
         description: 'Automate offer letters, document generation, and onboarding checklists. New hires get a seamless experience while managers get a real-time progress dashboard.',
         badge: 'HR Automation',
-        heroImage: '/enterprise_ai_suite.png',
+        heroImage: '/images/vas_tech_hr.png',
         statistics: [
             { value: '80%', label: 'Less Admin Time', icon: Clock },
             { value: 'Day 1', label: 'Ready from Start', icon: Zap },
@@ -988,7 +989,7 @@ export const PRODUCT_DATA: Record<string, ProductData> = {
             { question: 'Can we customize the checklists?', answer: 'Absolutely. Create department-specific, role-specific, or location-specific checklists.' },
         ],
         mediaGallery: [
-            { type: 'image', src: '/images/vas_tech_enterprise.png', alt: 'HR Dashboard', caption: 'Onboarding progress tracking dashboard' },
+            { type: 'image', src: '/images/vas_tech_hr.png', alt: 'HR Dashboard', caption: 'Onboarding progress tracking dashboard' },
             { type: 'image', src: '/images/vas_tech_dashboard.png', alt: 'Checklist View', caption: 'Guided onboarding checklists for new hires' },
         ],
         specifications: [
@@ -1020,9 +1021,9 @@ export const PRODUCT_DATA: Record<string, ProductData> = {
         tagline: 'YOUR COMPANY BRAIN',
         title: 'Internal Knowledge Bot',
         subtitle: 'Instant Answers from Your SOPs & Docs',
-        description: 'An AI assistant trained on your SOPs, wikis, policies, and internal docs. Staff get instant answers to HR policy queries, compliance FAQs, and SOP lookups — 24/7.',
+        description: 'An AI assistant trained on your SOPs, wikis, policies, and internal docs. Staff get instant answers to HR policy queries, compliance FAQs, and SOP lookups - 24/7.',
         badge: 'Enterprise RAG',
-        heroImage: '/images/vas_tech_chatbot.png',
+        heroImage: '/images/vas_tech_internal.png',
         statistics: [
             { value: '70%', label: 'Less HR Queries', icon: Headset },
             { value: 'Instant', label: 'Response Time', icon: Zap },
@@ -1042,7 +1043,7 @@ export const PRODUCT_DATA: Record<string, ProductData> = {
         ],
         benefits: [{ title: 'Reduce HR Load', description: 'Employees self-serve answers 24/7.' }, { title: 'Recurring Revenue', description: 'Typically wins 12-18 month enterprise contracts.' }],
         useCases: [
-            { title: 'HR Policies', description: 'Leave policies, benefits, expenses — answered instantly.', icon: UserCheck },
+            { title: 'HR Policies', description: 'Leave policies, benefits, expenses - answered instantly.', icon: UserCheck },
             { title: 'Compliance', description: 'Regulatory FAQs and compliance procedures on demand.', icon: Shield },
             { title: 'IT Support', description: 'Troubleshooting guides and setup instructions.', icon: Cpu },
         ],
@@ -1066,10 +1067,10 @@ export const PRODUCT_DATA: Record<string, ProductData> = {
         variants: [
             { id: 'hr', name: 'HR Knowledge', description: 'Focused on HR policies, benefits, and employee handbook.', icon: UserCheck, badge: 'Most Popular' },
             { id: 'it', name: 'IT Helpdesk', description: 'IT troubleshooting, setup guides, and procedures.', icon: Cpu },
-            { id: 'full', name: 'Full Enterprise', description: 'All departments — HR, IT, Legal, Operations, Finance.', icon: Brain },
+            { id: 'full', name: 'Full Enterprise', description: 'All departments - HR, IT, Legal, Operations, Finance.', icon: Brain },
         ],
         reviews: [
-            { id: 'r1', author: 'Raymond Yu', role: 'CIO', company: 'GlobalTech Holdings', rating: 5, text: 'Deployed across 3,000 employees. HR query volume dropped 70% in the first quarter. The ROI was massive — we signed an 18-month contract immediately.', date: '2026-03-10', avatar: '/testi4.jpg' },
+            { id: 'r1', author: 'Raymond Yu', role: 'CIO', company: 'GlobalTech Holdings', rating: 5, text: 'Deployed across 3,000 employees. HR query volume dropped 70% in the first quarter. The ROI was massive - we signed an 18-month contract immediately.', date: '2026-03-10', avatar: '/testi4.jpg' },
         ],
         relatedProducts: [
             { id: 'hr-onboarding', name: 'HR Onboarding Agent', tagline: 'Day 1-30 onboarding on autopilot', icon: UserCheck, slug: 'hr-onboarding' },

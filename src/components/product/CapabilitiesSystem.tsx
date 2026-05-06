@@ -22,30 +22,36 @@ const FeatureNode = ({
         <motion.div
             onHoverStart={() => onHover(index)}
             onClick={() => onHover(index)}
-            className={`relative p-4 rounded-xl border transition-all duration-300 cursor-pointer group w-full ${isActive
-                ? 'bg-[#111]/80 border-orange-500/40 shadow-lg shadow-orange-500/10 z-10'
-                : 'bg-[#0A0A0A]/50 border-orange-500/10 hover:bg-[#111] hover:border-orange-500/25'
+            className={`relative p-5 rounded-2xl border transition-all duration-500 cursor-pointer group w-full ${isActive
+                ? 'bg-gradient-to-r from-orange-500/15 to-transparent border-orange-500/40 shadow-[0_0_30px_rgba(249,115,22,0.1)] z-10'
+                : 'bg-[#0A0A0A]/40 border-zinc-800 hover:bg-[#111] hover:border-orange-500/30'
                 }`}
-            whileHover={{ x: 5 }}
+            whileHover={{ x: 8 }}
         >
-            <div className="flex items-center gap-3">
-                <div className={`w-10 h-10 rounded-lg flex items-center justify-center shrink-0 transition-all duration-300 ${isActive
-                    ? 'bg-gradient-to-br from-orange-500 to-amber-600 text-black shadow-[0_0_15px_rgba(249,115,22,0.3)]'
-                    : 'bg-orange-500/10 border border-orange-500/15 text-orange-400'
+            <div className="flex items-center gap-4">
+                <div className={`w-12 h-12 rounded-xl flex items-center justify-center shrink-0 transition-all duration-500 ${isActive
+                    ? 'bg-gradient-to-br from-orange-500 to-amber-600 text-black shadow-[0_0_20px_rgba(249,115,22,0.4)] rotate-3'
+                    : 'bg-zinc-900 border border-zinc-800 text-zinc-500 group-hover:text-orange-400 group-hover:border-orange-500/30'
                     }`}>
-                    {feature.icon && <feature.icon className="w-5 h-5" />}
+                    {feature.icon && <feature.icon className="w-6 h-6" />}
                 </div>
-                <div>
-                    <h4 className={`text-base font-bold transition-colors ${isActive
+                <div className="flex-1">
+                    <h4 className={`text-lg font-bold transition-colors duration-300 ${isActive
                         ? 'text-white'
-                        : 'text-zinc-400'
+                        : 'text-zinc-400 group-hover:text-zinc-200'
                         }`}>
                         {feature.title}
                     </h4>
-                    <p className="text-xs leading-relaxed text-zinc-500">
+                    <p className={`text-sm leading-relaxed transition-colors duration-300 ${isActive ? 'text-zinc-300' : 'text-zinc-500 group-hover:text-zinc-400'}`}>
                         {feature.description}
                     </p>
                 </div>
+                {isActive && (
+                    <motion.div
+                        layoutId="activeIndicator"
+                        className="w-1.5 h-12 rounded-full bg-orange-500 shadow-[0_0_15px_rgba(249,115,22,0.5)]"
+                    />
+                )}
             </div>
         </motion.div>
     );
@@ -76,22 +82,49 @@ const CoreEngine = ({ activeIndex, theme, isAllActive, onToggleAll }: { activeIn
             <svg className="absolute inset-0 w-full h-full pointer-events-none overflow-visible">
                 <defs>
                     <linearGradient id="lineGradActive" x1="0%" y1="0%" x2="100%" y2="100%">
-                        <stop offset="0%" stopColor="#F97316" />
-                        <stop offset="100%" stopColor="#FBBF24" />
+                        <stop offset="0%" stopColor="#F97316" stopOpacity="0.2" />
+                        <stop offset="50%" stopColor="#FBBF24" stopOpacity="0.8" />
+                        <stop offset="100%" stopColor="#F97316" stopOpacity="0.2" />
                     </linearGradient>
+                    <filter id="glow">
+                        <feGaussianBlur stdDeviation="2.5" result="coloredBlur" />
+                        <feMerge>
+                            <feMergeNode in="coloredBlur" />
+                            <feMergeNode in="SourceGraphic" />
+                        </feMerge>
+                    </filter>
                 </defs>
-                {satellites.map((sat, i) => (
-                    <motion.line
-                        key={i}
-                        x1="50%" y1="50%"
-                        x2={`calc(50% + ${sat.x}px)`} y2={`calc(50% + ${sat.y}px)`}
-                        stroke={(isAllActive || activeIndex % satellites.length === i) ? "url(#lineGradActive)" : "#27272A"}
-                        strokeWidth={(isAllActive || activeIndex % satellites.length === i) ? 2 : 1}
-                        initial={{ pathLength: 0 }}
-                        animate={{ pathLength: 1 }}
-                        transition={{ duration: 1 }}
-                    />
-                ))}
+                {satellites.map((sat, i) => {
+                    const isActive = isAllActive || activeIndex % satellites.length === i;
+                    return (
+                        <g key={i}>
+                            {/* Base connecting line */}
+                            <motion.line
+                                x1="50%" y1="50%"
+                                x2={`calc(50% + ${sat.x}px)`} y2={`calc(50% + ${sat.y}px)`}
+                                stroke={isActive ? "rgba(249, 115, 22, 0.3)" : "rgba(39, 39, 42, 0.5)"}
+                                strokeWidth={1}
+                                initial={{ pathLength: 0 }}
+                                animate={{ pathLength: 1 }}
+                                transition={{ duration: 1 }}
+                            />
+                            {/* Flowing active line */}
+                            {isActive && (
+                                <motion.line
+                                    x1="50%" y1="50%"
+                                    x2={`calc(50% + ${sat.x}px)`} y2={`calc(50% + ${sat.y}px)`}
+                                    stroke="url(#lineGradActive)"
+                                    strokeWidth={3}
+                                    strokeDasharray="10, 20"
+                                    strokeLinecap="round"
+                                    filter="url(#glow)"
+                                    animate={{ strokeDashoffset: [-60, 0] }}
+                                    transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
+                                />
+                            )}
+                        </g>
+                    );
+                })}
             </svg>
 
             {/* Central Core */}
@@ -109,11 +142,16 @@ const CoreEngine = ({ activeIndex, theme, isAllActive, onToggleAll }: { activeIn
 
                 {/* Orbiting Rings */}
                 <div
-                    className={`absolute -inset-4 border rounded-full border-dashed transition-colors duration-300 ${isAllActive ? 'animate-spin-fast border-orange-500/50' : 'animate-spin-slow border-orange-500/20'}`}
+                    className={`absolute -inset-4 border rounded-full border-dashed transition-all duration-700 ${isAllActive ? 'animate-spin-fast border-orange-500/60 scale-110' : 'animate-spin-slow border-orange-500/20 scale-100'}`}
                 />
                 <div
-                    className="absolute -inset-8 border border-orange-500/10 rounded-full animate-spin-slow-reverse"
+                    className={`absolute -inset-8 border border-orange-500/10 rounded-full animate-spin-slow-reverse transition-all duration-700 ${isAllActive ? 'scale-125 opacity-100' : 'scale-100 opacity-50'}`}
                 />
+                <div
+                    className={`absolute -inset-12 border border-orange-500/05 rounded-full animate-spin-slow transition-all duration-700 ${isAllActive ? 'scale-150 opacity-100' : 'scale-100 opacity-0'}`}
+                />
+                {/* Glow behind center */}
+                <div className={`absolute inset-0 rounded-full blur-2xl transition-opacity duration-500 ${isAllActive ? 'bg-orange-500/40 opacity-100' : 'bg-orange-500/20 opacity-0'}`} />
             </motion.div>
 
             {/* Satellites */}
@@ -122,17 +160,26 @@ const CoreEngine = ({ activeIndex, theme, isAllActive, onToggleAll }: { activeIn
                 return (
                     <motion.div
                         key={i}
-                        className={`absolute z-20 w-12 h-12 rounded-xl flex items-center justify-center shadow-sm border transition-all duration-300 ${
+                        className={`absolute z-20 w-14 h-14 rounded-2xl flex items-center justify-center shadow-lg border transition-all duration-500 ${
                             isActive
-                                ? 'bg-orange-500/20 border-orange-500/40 shadow-[0_0_15px_rgba(249,115,22,0.2)]'
-                                : 'bg-[#111] border-orange-500/10'
+                                ? 'bg-[#111] border-orange-500/60 shadow-[0_0_30px_rgba(249,115,22,0.3)]'
+                                : 'bg-[#0A0A0A] border-zinc-800'
                         }`}
                         style={{ x: sat.x, y: sat.y }}
                         animate={{
-                            scale: isActive ? 1.2 : 1,
+                            scale: isActive ? 1.15 : 1,
+                            rotate: isActive ? 0 : [0, 5, -5, 0],
                         }}
+                        transition={isActive ? { duration: 0.3 } : { duration: 5, repeat: Infinity, ease: "easeInOut" }}
                     >
-                        <sat.icon className={`w-6 h-6 transition-colors duration-300 ${isActive ? 'text-orange-400' : 'text-zinc-600'}`} />
+                        <sat.icon className={`w-7 h-7 transition-all duration-500 ${isActive ? 'text-orange-400 drop-shadow-[0_0_8px_rgba(249,115,22,0.5)]' : 'text-zinc-700'}`} />
+                        {isActive && (
+                            <motion.div
+                                className="absolute -inset-1 rounded-2xl border border-orange-500/30"
+                                animate={{ opacity: [0.5, 1, 0.5], scale: [1, 1.05, 1] }}
+                                transition={{ duration: 2, repeat: Infinity }}
+                            />
+                        )}
                     </motion.div>
                 );
             })}
@@ -176,8 +223,8 @@ export const CapabilitiesSystem = ({ features }: { features: ProductFeature[] })
             {/* Right Column - Visualizer */}
             <div className="w-full lg:w-7/12 relative">
                 {/* Visualizer Container */}
-                <div className="relative rounded-[3rem] border shadow-2xl backdrop-blur-xl overflow-hidden bg-[#0A0A0A]/80 border-orange-500/15">
-                    <div className="absolute inset-0 bg-gradient-to-br from-orange-500/05 to-transparent" />
+                <div className="relative rounded-[3rem] border shadow-2xl backdrop-blur-xl overflow-hidden bg-[#050505] border-zinc-800/50">
+                    <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(249,115,22,0.05),transparent_70%)]" />
                     <CoreEngine activeIndex={activeIndex} theme={theme} isAllActive={isAllActive} onToggleAll={handleToggleAll} />
                 </div>
 

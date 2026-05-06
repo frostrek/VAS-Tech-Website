@@ -29,7 +29,7 @@ const PricingSection = ({ tiers, productName }: PricingSectionProps) => {
                     viewport={{ once: true }}
                     className="text-center mb-16"
                 >
-                    <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-orange-500/25 bg-orange-500/08 mb-6">
+                    <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-orange-500/15 bg-orange-500/05 mb-6">
                         <Sparkles size={12} className="text-orange-400" />
                         <span className="text-[10px] font-black uppercase tracking-[0.3em] text-orange-400">Pricing</span>
                         <Sparkles size={12} className="text-orange-400" />

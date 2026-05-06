@@ -44,7 +44,7 @@ const HrOnboardingDemo = () => {
     return (
         <div className={`w-full max-w-3xl mx-auto rounded-2xl border p-6 md:p-10 ${theme === 'dark' ? 'bg-dark-card border-dark-accent/20' : 'bg-gray-50 border-gray-200'}`}>
             <h3 className={`text-xl font-bold mb-2 flex items-center gap-3 ${theme === 'dark' ? 'text-dark-text' : 'text-gray-900'}`}>
-                <Users className={`w-6 h-6 ${theme === 'dark' ? 'text-dark-accent' : 'text-[#B07552]'}`} />
+                <Users className={`w-6 h-6 ${theme === 'dark' ? 'text-dark-accent' : 'text-[#F97316]'}`} />
                 Automated Employee Onboarding
             </h3>
             <p className={`text-sm mb-8 ${theme === 'dark' ? 'text-dark-text-muted' : 'text-gray-500'}`}>
@@ -61,7 +61,7 @@ const HrOnboardingDemo = () => {
                         <div 
                             key={task.id}
                             className={`relative overflow-hidden p-4 rounded-xl border flex items-center gap-4 transition-all duration-300
-                                ${isActive ? (theme === 'dark' ? 'bg-[#151515] border-dark-accent shadow-lg shadow-dark-accent/10' : 'bg-white border-[#B07552] shadow-lg') : ''}
+                                ${isActive ? (theme === 'dark' ? 'bg-[#151515] border-dark-accent shadow-lg shadow-dark-accent/10' : 'bg-white border-[#F97316] shadow-lg') : ''}
                                 ${isCompleted ? (theme === 'dark' ? 'bg-dark-bg border-dark-accent/20 opacity-70' : 'bg-gray-100 border-gray-200 opacity-70') : ''}
                                 ${!isActive && !isCompleted ? (theme === 'dark' ? 'bg-[#0a0a0a] border-gray-800' : 'bg-white border-gray-200') : ''}
                             `}
@@ -72,12 +72,12 @@ const HrOnboardingDemo = () => {
                                     initial={{ width: 0 }} 
                                     animate={{ width: '100%' }} 
                                     transition={{ duration: task.duration / 1000, ease: 'linear' }}
-                                    className={`absolute left-0 top-0 bottom-0 opacity-10 z-0 ${theme === 'dark' ? 'bg-dark-accent' : 'bg-[#B07552]'}`}
+                                    className={`absolute left-0 top-0 bottom-0 opacity-10 z-0 ${theme === 'dark' ? 'bg-dark-accent' : 'bg-[#F97316]'}`}
                                 />
                             )}
 
                             <div className="relative z-10 w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0" style={{
-                                backgroundColor: isCompleted ? '#22c55e' : (isActive ? (theme === 'dark' ? '#F97316' : '#B07552') : (theme === 'dark' ? '#333' : '#e5e7eb')),
+                                backgroundColor: isCompleted ? '#22c55e' : (isActive ? (theme === 'dark' ? '#F97316' : '#F97316') : (theme === 'dark' ? '#333' : '#e5e7eb')),
                                 color: isCompleted || isActive ? '#fff' : (theme === 'dark' ? '#888' : '#9ca3af')
                             }}>
                                 {isCompleted ? <Check className="w-5 h-5" /> : <Icon className="w-5 h-5" />}
@@ -93,7 +93,7 @@ const HrOnboardingDemo = () => {
                                             <motion.span 
                                                 key="processing"
                                                 initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }}
-                                                className={`text-xs font-mono font-medium ${theme === 'dark' ? 'text-dark-accent' : 'text-[#B07552]'}`}
+                                                className={`text-xs font-mono font-medium ${theme === 'dark' ? 'text-dark-accent' : 'text-[#F97316]'}`}
                                             >
                                                 Executing via API...
                                             </motion.span>

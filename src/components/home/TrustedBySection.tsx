@@ -84,14 +84,15 @@ const TrustedBySection = () => {
                                     >
                                         {/* Logo */}
                                         <div className="transition-all duration-300 relative">
-                                            <img
-                                                src={logo.src}
-                                                alt={logo.name}
-                                                className="logo-img h-12 md:h-16 w-auto object-contain transition-all duration-300"
-                                                style={{ filter: theme === 'dark' ? 'grayscale(100%) invert(1) brightness(0.9)' : 'grayscale(100%)' }}
-                                                loading="lazy"
-                                                draggable={false}
-                                            />
+                                                <img
+                                                    src={logo.src}
+                                                    alt={logo.name}
+                                                    className="logo-img h-12 md:h-16 w-auto object-contain transition-all duration-300"
+                                                    style={{ filter: theme === 'dark' ? 'grayscale(100%) invert(1) brightness(0.9)' : 'grayscale(100%)' }}
+                                                    loading="lazy"
+                                                    decoding="async"
+                                                    draggable={false}
+                                                />
                                         </div>
                                     </div>
                                 </div>

@@ -27,7 +27,7 @@ const Specifications = ({ specs }: SpecificationsProps) => {
                     className="mb-12"
                 >
                     <div className="flex items-center gap-2.5 mb-5">
-                        <div className="flex items-center gap-2 px-3 py-1.5 rounded-full border border-orange-500/25 bg-orange-500/08">
+                        <div className="flex items-center gap-2 px-3 py-1.5 rounded-full border border-orange-500/15 bg-orange-500/05">
                             <span className="text-[10px] font-black uppercase tracking-[0.3em] text-orange-400">Technical Specs</span>
                         </div>
                     </div>
@@ -87,7 +87,7 @@ const Specifications = ({ specs }: SpecificationsProps) => {
                                                         animate={{ opacity: 1, x: 0 }}
                                                         transition={{ delay: i * 0.06 }}
                                                         className={`flex items-center justify-between py-3.5 ${
-                                                            i < group.items.length - 1 ? 'border-b border-orange-500/08' : ''
+                                                            i < group.items.length - 1 ? 'border-b border-zinc-800/50' : ''
                                                         }`}
                                                     >
                                                         <span className="text-sm text-zinc-400">{item.label}</span>

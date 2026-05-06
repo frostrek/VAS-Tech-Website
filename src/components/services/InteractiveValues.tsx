@@ -212,11 +212,11 @@ const InteractiveValues = () => {
     const isDark = theme === 'dark';
 
     return (
-        <section className={`py-24 md:py-28 relative overflow-hidden transition-colors duration-500 ${isDark ? 'bg-dark-bg' : 'bg-[#FDFBF7]'}`}>
+        <section className={`py-24 md:py-28 relative overflow-hidden transition-colors duration-500 ${isDark ? 'bg-dark-bg' : 'bg-[#FFF9F5]'}`}>
 
             {/* Ambient Glow */}
             <div className="absolute inset-0 pointer-events-none overflow-hidden">
-                <div className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[90%] h-[50%] rounded-full blur-[80px] opacity-25 ${isDark ? 'bg-dark-accent/15' : 'bg-[#E6D0C6]/60'}`} />
+                <div className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[90%] h-[50%] rounded-full blur-[80px] opacity-25 ${isDark ? 'bg-dark-accent/15' : 'bg-orange-500/20'}`} />
             </div>
 
             <div className="container mx-auto px-4 md:px-6 relative z-10">
@@ -227,7 +227,7 @@ const InteractiveValues = () => {
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true }}
                         transition={{ duration: 0.5 }}
-                        className={`text-xs font-bold tracking-[0.25em] uppercase mb-4 ${isDark ? 'text-dark-accent' : 'text-[#B07552]'}`}
+                        className={`text-xs font-bold tracking-[0.25em] uppercase mb-4 ${isDark ? 'text-dark-accent' : 'text-orange-500'}`}
                     >
                         Our Foundation
                     </motion.p>

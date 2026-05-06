@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
 import { Mic, Phone, PhoneOff, Volume2, Activity } from 'lucide-react';
 import { useTheme } from '../../../context/ThemeContext';
@@ -17,6 +17,7 @@ const VoiceAgentDemo = () => {
     const { theme } = useTheme();
     const [isActive, setIsActive] = useState(false);
     const [currentStep, setCurrentStep] = useState(-1);
+    const scrollRef = useRef<HTMLDivElement>(null);
     
     useEffect(() => {
         if (!isActive) {
@@ -41,17 +42,24 @@ const VoiceAgentDemo = () => {
         return () => clearTimeout(timeout);
     }, [isActive]);
 
+    // Auto-scroll effect
+    useEffect(() => {
+        if (scrollRef.current) {
+            scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
+        }
+    }, [currentStep]);
+
     // Waveform simulation
     const bars = Array.from({ length: 40 });
 
     return (
-        <div className={`w-full max-w-4xl mx-auto rounded-2xl border overflow-hidden p-6 md:p-10 ${theme === 'dark' ? 'bg-dark-card border-dark-accent/20' : 'bg-white border-gray-200'} shadow-2xl`}>
+        <div className={`w-full max-w-4xl mx-auto rounded-2xl border overflow-hidden p-6 md:p-10 ${theme === 'dark' ? 'bg-dark-card border-zinc-800/50' : 'bg-white border-gray-200'} shadow-2xl`}>
             
             {/* Header */}
             <div className="flex flex-col md:flex-row justify-between items-center mb-10 gap-6">
                 <div>
                     <h3 className={`text-2xl font-bold flex items-center gap-3 ${theme === 'dark' ? 'text-dark-text' : 'text-gray-900'}`}>
-                        <div className={`w-10 h-10 rounded-full flex items-center justify-center border ${isActive ? (theme === 'dark' ? 'bg-dark-accent/20 border-dark-accent text-dark-accent' : 'bg-[#B07552]/20 border-[#B07552] text-[#B07552]') : (theme === 'dark' ? 'bg-dark-bg border-dark-accent/10 text-dark-text-muted' : 'bg-gray-50 border-gray-200 text-gray-400')}`}>
+                        <div className={`w-10 h-10 rounded-full flex items-center justify-center border ${isActive ? (theme === 'dark' ? 'bg-dark-accent/20 border-dark-accent text-dark-accent' : 'bg-orange-500/20 border-orange-500 text-orange-500') : (theme === 'dark' ? 'bg-dark-bg border-dark-accent/10 text-dark-text-muted' : 'bg-gray-50 border-gray-200 text-gray-400')}`}>
                             <Phone className="w-5 h-5" />
                         </div>
                         Live Call Simulation
@@ -67,7 +75,7 @@ const VoiceAgentDemo = () => {
                         px-6 py-3 rounded-full font-bold flex items-center gap-2 transition-all
                         ${isActive 
                             ? 'bg-red-500 text-white hover:bg-red-600 shadow-lg shadow-red-500/20' 
-                            : (theme === 'dark' ? 'bg-dark-accent text-dark-bg hover:bg-dark-accent/90' : 'bg-[#B07552] text-white hover:bg-[#8A5A35]')
+                            : (theme === 'dark' ? 'bg-dark-accent text-dark-bg hover:bg-dark-accent/90' : 'bg-orange-500 text-white hover:bg-orange-600')
                         }
                     `}
                 >
@@ -80,17 +88,17 @@ const VoiceAgentDemo = () => {
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
                 
                 {/* Audio Visualizer */}
-                <div className={`p-8 rounded-2xl flex flex-col items-center justify-center border ${theme === 'dark' ? 'bg-[#0a0a0a] border-dark-accent/20' : 'bg-gray-50 border-gray-200'} min-h-[300px]`}>
+                <div className={`p-8 rounded-2xl flex flex-col items-center justify-center border ${theme === 'dark' ? 'bg-[#0a0a0a] border-zinc-800/50' : 'bg-gray-50 border-gray-200'} min-h-[300px]`}>
                     <div className="relative mb-8">
                         {isActive && (
                             <motion.div
                                 animate={{ scale: [1, 1.2, 1], opacity: [0.3, 0.6, 0.3] }}
                                 transition={{ repeat: Infinity, duration: 2 }}
-                                className={`absolute inset-0 rounded-full blur-2xl ${theme === 'dark' ? 'bg-dark-accent/30' : 'bg-[#B07552]/30'}`}
+                                className={`absolute inset-0 rounded-full blur-2xl ${theme === 'dark' ? 'bg-dark-accent/30' : 'bg-orange-500/30'}`}
                             />
                         )}
-                        <div className={`relative w-24 h-24 rounded-full flex items-center justify-center shadow-inner z-10 ${theme === 'dark' ? 'bg-dark-card border border-dark-accent/30' : 'bg-white border border-[#B07552]/30'}`}>
-                            <Mic className={`w-10 h-10 ${isActive ? (theme === 'dark' ? 'text-dark-accent' : 'text-[#B07552]') : (theme === 'dark' ? 'text-gray-600' : 'text-gray-300')}`} />
+                        <div className={`relative w-24 h-24 rounded-full flex items-center justify-center shadow-inner z-10 ${theme === 'dark' ? 'bg-dark-card border border-dark-accent/30' : 'bg-white border border-orange-500/30'}`}>
+                            <Mic className={`w-10 h-10 ${isActive ? (theme === 'dark' ? 'text-dark-accent' : 'text-orange-500') : (theme === 'dark' ? 'text-gray-600' : 'text-gray-300')}`} />
                         </div>
                     </div>
 
@@ -105,7 +113,7 @@ const VoiceAgentDemo = () => {
                                         : '4px' 
                                 }}
                                 transition={{ duration: 0.1, repeat: isActive ? Infinity : 0, repeatType: "mirror" }}
-                                className={`w-1.5 rounded-full ${isActive ? (theme === 'dark' ? 'bg-dark-accent' : 'bg-[#B07552]') : (theme === 'dark' ? 'bg-dark-accent/20' : 'bg-gray-200')}`}
+                                className={`w-1.5 rounded-full ${isActive ? (theme === 'dark' ? 'bg-dark-accent' : 'bg-orange-500') : (theme === 'dark' ? 'bg-dark-accent/20' : 'bg-gray-200')}`}
                             />
                         ))}
                     </div>
@@ -117,13 +125,13 @@ const VoiceAgentDemo = () => {
                 </div>
 
                 {/* Transcript Log */}
-                <div className={`p-6 rounded-2xl border flex flex-col h-[300px] ${theme === 'dark' ? 'bg-dark-bg border-dark-accent/20' : 'bg-white border-gray-200'}`}>
-                    <h4 className={`text-xs font-bold uppercase tracking-wider mb-4 flex items-center gap-2 ${theme === 'dark' ? 'text-dark-accent' : 'text-[#B07552]'}`}>
+                <div className={`p-6 rounded-2xl border flex flex-col h-[300px] ${theme === 'dark' ? 'bg-dark-bg border-zinc-800/50' : 'bg-white border-gray-200'}`}>
+                    <h4 className={`text-xs font-bold uppercase tracking-wider mb-4 flex items-center gap-2 ${theme === 'dark' ? 'text-dark-accent' : 'text-orange-500'}`}>
                         <Volume2 className="w-4 h-4" />
                         Live Transcript
                     </h4>
                     
-                    <div className="flex-1 overflow-y-auto space-y-4 pr-2">
+                    <div ref={scrollRef} className="flex-1 overflow-y-auto space-y-4 pr-2 scroll-smooth">
                         {!isActive && currentStep === -1 && (
                             <div className={`h-full flex items-center justify-center text-sm italic ${theme === 'dark' ? 'text-dark-text-muted' : 'text-gray-400'}`}>
                                 Click 'Start Demo Call' to begin...
@@ -141,8 +149,8 @@ const VoiceAgentDemo = () => {
                                 </span>
                                 <div className={`px-4 py-2 rounded-xl text-sm max-w-[90%] border ${
                                     msg.role === 'agent' 
-                                        ? (theme === 'dark' ? 'bg-dark-accent/10 border-dark-accent/30 text-dark-text' : 'bg-[#B07552]/10 border-[#B07552]/30 text-gray-900') 
-                                        : (theme === 'dark' ? 'bg-dark-card border-dark-accent/10 text-dark-text-muted' : 'bg-gray-50 border-gray-200 text-gray-600')
+                                        ? (theme === 'dark' ? 'bg-dark-accent/10 border-dark-accent/30 text-dark-text' : 'bg-orange-500/10 border-orange-500/30 text-gray-900') 
+                                        : (theme === 'dark' ? 'bg-dark-card border-zinc-800/30 text-dark-text-muted' : 'bg-gray-50 border-gray-200 text-gray-600')
                                 }`}>
                                     {msg.text}
                                 </div>

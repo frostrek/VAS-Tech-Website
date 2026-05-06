@@ -9,36 +9,36 @@ gsap.registerPlugin(ScrollTrigger);
 
 const TESTIMONIALS = [
     {
-        quote: "VAS Tech's AI agents transformed our customer support. We went from 4-hour response times to instant resolutions. Our customer satisfaction score jumped from 72% to 94% in just 3 months.",
-        author: "Vikram Patel",
-        role: "Co-Founder & CEO",
+        quote: "The ROI was apparent within the first month. VAS Tech's automation pipelines handled over 40,000 document extractions flawlessly. We've reclaimed 80% of our team's time from manual data entry, allowing us to scale our logistics hub without adding headcount.",
+        author: "Noah Oliver",
+        role: "Operations Director",
         image: "/testi1.png",
-        company: "LegalEase",
-        audio: "/Testimonials-Voices/Vikram.mp3"
+        company: "Zenith Logistics",
+        audio: "/Testimonials-Voices/Noah.wav"
     },
     {
-        quote: "The voice AI integration was seamless. Our sales team can now handle 10x more customer calls while maintaining that personal touch. It's like having 50 expert sales reps working 24/7.",
-        author: "Priya Malhotra",
-        role: "Managing Director",
+        quote: "Implementing the VAS Tech WhatsApp AI transformed our support strategy. The agent's ability to understand complex queries and sentiment is uncanny. We've seen a 65% reduction in ticket volume and our CSAT has never been higher.",
+        author: "Sarah Jenkins",
+        role: "VP of Customer Experience",
         image: "/testi2.png",
-        company: "SkillNest",
-        audio: "/Testimonials-Voices/Priya.mp3"
+        company: "Global Retail Corp",
+        audio: "/Testimonials-Voices/Sarah.wav"
     },
     {
-        quote: "Implementing VAS Tech's WhatsApp automation doubled our conversion rate overnight. The AI understands context so well, our customers don't even realize they're chatting with a bot.",
-        author: "Arjun Kapoor",
-        role: "Head of Growth",
+        quote: "The Voice AI calling agents from VAS Tech are a masterpiece of engineering. They handle our outbound qualification calls with a natural fluidity that rivals our best reps. It’s significantly boosted our pipeline velocity while slashing our cost-per-lead.",
+        author: "Michael Chen",
+        role: "Head of Sales",
         image: "/testi5.png",
-        company: "QuickCart",
-        audio: "/Testimonials-Voices/Arjun.mp3"
+        company: "Innovate FinTech",
+        audio: "/Testimonials-Voices/Michael.wav"
     },
     {
-        quote: "VAS Tech has been a game-changer for our e-commerce operations. Their AI-powered solutions helped us scale efficiently while maintaining quality. Our order processing time reduced by 60%.",
-        author: "Surendra Yadav",
-        role: "Founder",
-        image: "/testi4.jpg",
-        company: "Crescent Etail",
-        audio: "/Testimonials-Voices/Surendra.mp3"
+        quote: "We needed a solution that could bridge our legacy ERP with modern AI capabilities. VAS Tech built a custom orchestration layer that unified our data silos. Their expertise in enterprise-grade security and zero-disruption deployment is unmatched in the industry.",
+        author: "Elena Rodriguez",
+        role: "CTO",
+        image: "/testi4.png",
+        company: "Nexa Manufacturing",
+        audio: "/Testimonials-Voices/ella.wav"
     }
 ];
 
@@ -209,7 +209,7 @@ const TestimonialsSection = () => {
             <span className={`w-1.5 h-10 bg-yellow-400 rounded-full ${isPlaying ? 'animate-[wave_1.2s_ease-in-out_infinite_0.4s]' : 'opacity-30'}`} />
             <span className={`w-1.5 h-6 bg-orange-500/80 rounded-full ${isPlaying ? 'animate-[wave_1.2s_ease-in-out_infinite_0.1s]' : 'opacity-30'}`} />
             <span className={`w-1.5 h-12 bg-orange-400 rounded-full ${isPlaying ? 'animate-[wave_1.2s_ease-in-out_infinite_0.3s]' : 'opacity-30'}`} />
-            <span className={`w-1.5 h-8 bg-yellow-500/80 rounded-full ${isPlaying ? 'animate-[wave_1.2s_ease-in-out_infinite_0.5s]' : 'opacity-30'}`} />
+            <span className={`w-1.5 h-8 bg-orange-500/80 rounded-full ${isPlaying ? 'animate-[wave_1.2s_ease-in-out_infinite_0.5s]' : 'opacity-30'}`} />
             <span className={`w-1.5 h-5 bg-orange-600/70 rounded-full ${isPlaying ? 'animate-[wave_1.2s_ease-in-out_infinite_0.2s]' : 'opacity-30'}`} />
         </div>
     );
@@ -230,7 +230,7 @@ const TestimonialsSection = () => {
 
             {/* Decorative Elements - AI Nodes */}
             <div className="absolute top-1/4 left-10 w-96 h-96 bg-orange-500/5 rounded-full blur-[100px] pointer-events-none" />
-            <div className="absolute bottom-1/4 right-10 w-[500px] h-[500px] bg-yellow-500/5 rounded-full blur-[120px] pointer-events-none" />
+            <div className="absolute bottom-1/4 right-10 w-[500px] h-[500px] bg-orange-500/5 rounded-full blur-[120px] pointer-events-none" />
 
             <div className="container mx-auto px-4 md:px-6 relative z-10">
                 {/* Header */}
@@ -302,7 +302,7 @@ const TestimonialsSection = () => {
                                 <div className="mt-8 pt-8 border-t border-orange-500/20 flex items-center gap-6">
                                     <button
                                         onClick={togglePlay}
-                                        className="w-12 h-12 rounded-full bg-gradient-to-br from-orange-400 to-yellow-500 flex items-center justify-center flex-shrink-0 shadow-[0_0_15px_rgba(249,115,22,0.3)] hover:scale-110 transition-transform active:scale-95"
+                                        className="w-12 h-12 rounded-full bg-gradient-to-br from-orange-400 to-orange-600 flex items-center justify-center flex-shrink-0 shadow-[0_0_15px_rgba(249,115,22,0.3)] hover:scale-110 transition-transform active:scale-95"
                                     >
                                         {isPlaying ? (
                                             <Pause className="w-5 h-5 text-black" fill="currentColor" />

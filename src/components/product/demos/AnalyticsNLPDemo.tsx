@@ -64,14 +64,14 @@ const AnalyticsNLPDemo = () => {
         <div className={`w-full rounded-2xl border p-6 md:p-10 ${theme === 'dark' ? 'bg-[#0a0a0a] border-dark-accent/20' : 'bg-gray-50 border-gray-200'}`}>
             
             {/* MVP Search Bar */}
-            <div className={`relative flex items-center p-4 rounded-xl border shadow-lg mb-10 transition-colors ${theme === 'dark' ? 'bg-dark-card border-dark-accent/30' : 'bg-white border-[#B07552]/30'}`}>
-                <Search className={`w-6 h-6 mr-4 ${theme === 'dark' ? 'text-dark-accent' : 'text-[#B07552]'}`} />
+            <div className={`relative flex items-center p-4 rounded-xl border shadow-lg mb-10 transition-colors ${theme === 'dark' ? 'bg-dark-card border-dark-accent/30' : 'bg-white border-[#F97316]/30'}`}>
+                <Search className={`w-6 h-6 mr-4 ${theme === 'dark' ? 'text-dark-accent' : 'text-[#F97316]'}`} />
                 <div className={`text-lg md:text-xl font-medium ${theme === 'dark' ? 'text-dark-text' : 'text-gray-900'} flex-1`}>
                     {displayedText}
                     <motion.span 
                         animate={{ opacity: [1, 0] }} 
                         transition={{ repeat: Infinity, duration: 0.8 }}
-                        className={theme === 'dark' ? 'text-dark-accent' : 'text-[#B07552]'}
+                        className={theme === 'dark' ? 'text-dark-accent' : 'text-[#F97316]'}
                     >
                         |
                     </motion.span>
@@ -105,9 +105,9 @@ const AnalyticsNLPDemo = () => {
                             className="flex flex-col items-center gap-4"
                         >
                             <div className="flex gap-2">
-                                <motion.div animate={{ height: [10, 30, 10] }} transition={{ repeat: Infinity, duration: 1 }} className={`w-3 rounded-full ${theme === 'dark' ? 'bg-dark-accent' : 'bg-[#B07552]'}`} />
-                                <motion.div animate={{ height: [10, 40, 10] }} transition={{ repeat: Infinity, duration: 1, delay: 0.2 }} className={`w-3 rounded-full ${theme === 'dark' ? 'bg-dark-accent/70' : 'bg-[#B07552]/70'}`} />
-                                <motion.div animate={{ height: [10, 20, 10] }} transition={{ repeat: Infinity, duration: 1, delay: 0.4 }} className={`w-3 rounded-full ${theme === 'dark' ? 'bg-dark-accent/40' : 'bg-[#B07552]/40'}`} />
+                                <motion.div animate={{ height: [10, 30, 10] }} transition={{ repeat: Infinity, duration: 1 }} className={`w-3 rounded-full ${theme === 'dark' ? 'bg-dark-accent' : 'bg-[#F97316]'}`} />
+                                <motion.div animate={{ height: [10, 40, 10] }} transition={{ repeat: Infinity, duration: 1, delay: 0.2 }} className={`w-3 rounded-full ${theme === 'dark' ? 'bg-dark-accent/70' : 'bg-[#F97316]/70'}`} />
+                                <motion.div animate={{ height: [10, 20, 10] }} transition={{ repeat: Infinity, duration: 1, delay: 0.4 }} className={`w-3 rounded-full ${theme === 'dark' ? 'bg-dark-accent/40' : 'bg-[#F97316]/40'}`} />
                             </div>
                             <span className={`text-sm ${theme === 'dark' ? 'text-dark-text-muted' : 'text-gray-500'}`}>Building visuals...</span>
                         </motion.div>
@@ -136,7 +136,7 @@ const AnalyticsNLPDemo = () => {
                                         initial={{ height: 0 }}
                                         animate={{ height: `${(h * (queryIdx + 1)) % 100 + 20}%` }}
                                         transition={{ duration: 0.8, delay: i * 0.05, type: "spring" }}
-                                        className={`flex-1 rounded-t-sm relative group ${theme === 'dark' ? 'bg-gradient-to-t from-dark-accent/20 to-dark-accent' : 'bg-gradient-to-t from-[#B07552]/20 to-[#B07552]'}`}
+                                        className={`flex-1 rounded-t-sm relative group ${theme === 'dark' ? 'bg-gradient-to-t from-dark-accent/20 to-dark-accent' : 'bg-gradient-to-t from-[#F97316]/20 to-[#F97316]'}`}
                                     >
                                         <div className="absolute -top-6 left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity text-xs font-bold bg-black text-white px-2 py-1 rounded">
                                             {Math.floor(Math.random() * 50) + 10}k

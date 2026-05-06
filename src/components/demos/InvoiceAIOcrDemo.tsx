@@ -35,7 +35,7 @@ const InvoiceAIOcrDemo = () => {
             {/* Window Bar */}
             <div className="h-10 bg-[#0A0A0A] border-b border-orange-500/10 flex items-center px-4 gap-2">
                 <div className="w-3 h-3 rounded-full bg-red-500/80" />
-                <div className="w-3 h-3 rounded-full bg-yellow-500/80" />
+                <div className="w-3 h-3 rounded-full bg-orange-500/80" />
                 <div className="w-3 h-3 rounded-full bg-green-500/80" />
                 <span className="ml-4 text-[10px] font-black uppercase tracking-widest text-zinc-500">Document Processing Model v2.4</span>
             </div>

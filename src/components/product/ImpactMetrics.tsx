@@ -155,7 +155,7 @@ const BarChart = ({ value, label, delay, theme, index: _index = 0 }: { value: st
                     transition={{ duration: 1, delay: delay }}
                 />
                 <motion.div
-                    className="w-8 bg-gradient-to-t from-brand-yellow-500 to-brand-yellow-400 rounded-t-lg relative"
+                    className="w-8 bg-gradient-to-t from-orange-500 to-orange-400 rounded-t-lg relative"
                     initial={{ height: 0 }}
                     whileInView={{ height: `${heightPercent}%` }}
                     viewport={{ once: true }}
@@ -237,7 +237,7 @@ const DashboardWidget = ({ stat, index, theme, activeView }: { stat: ProductStat
     return (
         <div className={`rounded-2xl border shadow-sm p-2 hover:shadow-md transition-shadow duration-300 ${theme === 'dark' ? 'bg-dark-card border-dark-accent/20' : 'bg-white border-gray-100'}`}>
             {/* Widget Header */}
-            <div className={`flex items-center justify-between px-3 py-2 border-b mb-1 ${theme === 'dark' ? 'border-dark-accent/10' : 'border-gray-50'}`}>
+            <div className={`flex items-center justify-between px-3 py-2 border-b mb-1 ${theme === 'dark' ? 'border-zinc-800/50' : 'border-gray-50'}`}>
                 <span className={`text-[10px] font-semibold uppercase tracking-wider ${theme === 'dark' ? 'text-dark-text-muted' : 'text-gray-400'}`}>{stat.label.split(' ')[0]} METRIC</span>
                 <ArrowUpRight className={`w-3 h-3 ${theme === 'dark' ? 'text-dark-accent/50' : 'text-gray-300'}`} />
             </div>

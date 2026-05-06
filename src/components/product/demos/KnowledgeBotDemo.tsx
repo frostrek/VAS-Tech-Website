@@ -48,9 +48,9 @@ const KnowledgeBotDemo = () => {
         <div className={`w-full max-w-5xl mx-auto rounded-2xl border overflow-hidden flex flex-col md:flex-row ${theme === 'dark' ? 'bg-dark-card border-dark-accent/20' : 'bg-white border-gray-200'}`}>
             
             {/* Left: Chat Interface */}
-            <div className={`flex-1 p-6 border-b md:border-b-0 md:border-r flex flex-col ${theme === 'dark' ? 'border-dark-accent/20 bg-[#0a0a0a]' : 'border-gray-200 bg-gray-50'}`}>
+            <div className={`flex-1 p-6 border-b md:border-b-0 md:border-r flex flex-col ${theme === 'dark' ? 'border-zinc-800/50 bg-[#0a0a0a]' : 'border-gray-200 bg-gray-50'}`}>
                 <h3 className={`text-lg font-bold mb-6 flex items-center gap-2 ${theme === 'dark' ? 'text-dark-text' : 'text-gray-900'}`}>
-                    <MessageSquare className={`w-5 h-5 ${theme === 'dark' ? 'text-dark-accent' : 'text-[#B07552]'}`} />
+                    <MessageSquare className={`w-5 h-5 ${theme === 'dark' ? 'text-dark-accent' : 'text-[#F97316]'}`} />
                     Internal Helpdesk Bot
                 </h3>
 
@@ -58,7 +58,7 @@ const KnowledgeBotDemo = () => {
                     <AnimatePresence>
                         {step >= 1 && (
                             <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="flex justify-end">
-                                <div className={`p-3 rounded-xl rounded-tr-none text-sm max-w-[85%] ${theme === 'dark' ? 'bg-dark-accent text-dark-bg' : 'bg-[#B07552] text-white'}`}>
+                                <div className={`p-3 rounded-xl rounded-tr-none text-sm max-w-[85%] ${theme === 'dark' ? 'bg-dark-accent text-dark-bg' : 'bg-[#F97316] text-white'}`}>
                                     What is our budget for home office equipment?
                                 </div>
                             </motion.div>

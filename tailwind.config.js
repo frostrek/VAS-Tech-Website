@@ -12,7 +12,7 @@ export default {
                 'dark-bg': '#050505',        // Hero section background
                 'dark-navbar': '#050505',    // Navbar background (transparent/glass mostly)
                 'dark-card': '#111110',      // Card/bubble background
-                'dark-accent': '#FACC15',    // Button/accent color (golden)
+                'dark-accent': '#F97316',    // Button/accent color (Orange/Amber)
                 'dark-text': '#f9fafb',      // Primary text
                 'dark-text-muted': '#A1A1AA', // Muted text (zinc-400)
 
@@ -152,11 +152,11 @@ export default {
                 pulseGlow: {
                     '0%, 100%': {
                         transform: 'scale(1)',
-                        boxShadow: '0 0 20px rgba(176, 117, 82, 0.2)'
+                        boxShadow: '0 0 20px rgba(249, 115, 22, 0.2)'
                     },
                     '50%': {
                         transform: 'scale(1.05)',
-                        boxShadow: '0 0 40px rgba(176, 117, 82, 0.4)'
+                        boxShadow: '0 0 40px rgba(249, 115, 22, 0.4)'
                     },
                 },
                 // Float keyframe for hero images

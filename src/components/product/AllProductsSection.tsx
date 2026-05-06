@@ -99,7 +99,7 @@ const ProductCard = ({ product, index, isActive, onClick }: {
                     relative overflow-hidden rounded-2xl border transition-all duration-500
                     ${theme === 'dark'
                         ? `bg-dark-card border-dark-accent/20 ${isActive ? 'border-dark-accent shadow-2xl shadow-dark-accent/20' : 'hover:border-dark-accent/50'}`
-                        : `bg-white border-gray-200 ${isActive ? 'border-[#B07552] shadow-2xl shadow-[#B07552]/15' : 'hover:border-[#B07552]/50 hover:shadow-xl'}`
+                        : `bg-white border-gray-200 ${isActive ? 'border-[#F97316] shadow-2xl shadow-[#F97316]/15' : 'hover:border-[#F97316]/50 hover:shadow-xl'}`
                     }
                 `}
             >
@@ -108,7 +108,7 @@ const ProductCard = ({ product, index, isActive, onClick }: {
                     absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500
                     ${theme === 'dark'
                         ? 'bg-gradient-to-br from-dark-accent/5 to-transparent'
-                        : 'bg-gradient-to-br from-[#B07552]/5 to-transparent'
+                        : 'bg-gradient-to-br from-[#F97316]/5 to-transparent'
                     }
                 `} />
 
@@ -119,7 +119,7 @@ const ProductCard = ({ product, index, isActive, onClick }: {
                             initial={{ scaleX: 0 }}
                             animate={{ scaleX: 1 }}
                             exit={{ scaleX: 0 }}
-                            className={`absolute top-0 left-0 w-full h-1 origin-left ${theme === 'dark' ? 'bg-dark-accent' : 'bg-[#B07552]'}`}
+                            className={`absolute top-0 left-0 w-full h-1 origin-left ${theme === 'dark' ? 'bg-dark-accent' : 'bg-[#F97316]'}`}
                         />
                     )}
                 </AnimatePresence>
@@ -146,10 +146,10 @@ const ProductCard = ({ product, index, isActive, onClick }: {
                                     initial={{ scale: 1, opacity: 0.5 }}
                                     animate={{ scale: 1.5, opacity: 0 }}
                                     transition={{ duration: 1.5, repeat: Infinity }}
-                                    className={`absolute inset-0 rounded-2xl ${theme === 'dark' ? 'bg-dark-accent' : 'bg-[#B07552]'}`}
+                                    className={`absolute inset-0 rounded-2xl ${theme === 'dark' ? 'bg-dark-accent' : 'bg-[#F97316]'}`}
                                 />
                             )}
-                            <IconComponent className={`w-7 h-7 relative z-10 ${theme === 'dark' ? 'text-dark-accent' : 'text-[#B07552]'}`} />
+                            <IconComponent className={`w-7 h-7 relative z-10 ${theme === 'dark' ? 'text-dark-accent' : 'text-[#F97316]'}`} />
                         </motion.div>
 
                         <div className="flex-1 min-w-0">
@@ -157,7 +157,7 @@ const ProductCard = ({ product, index, isActive, onClick }: {
                                 text-lg font-bold mb-1 transition-colors duration-300
                                 ${theme === 'dark'
                                     ? `text-dark-text ${isActive ? 'text-dark-accent' : 'group-hover:text-dark-accent'}`
-                                    : `text-gray-900 ${isActive ? 'text-[#B07552]' : 'group-hover:text-[#B07552]'}`
+                                    : `text-gray-900 ${isActive ? 'text-[#F97316]' : 'group-hover:text-[#F97316]'}`
                                 }
                             `}>
                                 {product.name}
@@ -172,10 +172,10 @@ const ProductCard = ({ product, index, isActive, onClick }: {
                             animate={{ x: isActive ? 0 : -5, opacity: isActive ? 1 : 0 }}
                             className={`
                                 w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0
-                                ${theme === 'dark' ? 'bg-dark-accent/20' : 'bg-[#B07552]/10'}
+                                ${theme === 'dark' ? 'bg-dark-accent/20' : 'bg-[#F97316]/10'}
                             `}
                         >
-                            <ChevronRight className={`w-4 h-4 ${theme === 'dark' ? 'text-dark-accent' : 'text-[#B07552]'}`} />
+                            <ChevronRight className={`w-4 h-4 ${theme === 'dark' ? 'text-dark-accent' : 'text-[#F97316]'}`} />
                         </motion.div>
                     </div>
 
@@ -206,7 +206,7 @@ const ProductCard = ({ product, index, isActive, onClick }: {
                                                     px-3 py-1.5 rounded-full text-xs font-medium
                                                     ${theme === 'dark'
                                                         ? 'bg-dark-accent/10 text-dark-accent border border-dark-accent/20'
-                                                        : 'bg-[#B07552]/10 text-[#8A5A35] border border-[#B07552]/20'
+                                                        : 'bg-[#F97316]/10 text-[#EA580C] border border-[#F97316]/20'
                                                     }
                                                 `}
                                             >
@@ -225,7 +225,7 @@ const ProductCard = ({ product, index, isActive, onClick }: {
                                                 flex items-center justify-center gap-2 transition-all duration-300
                                                 ${theme === 'dark'
                                                     ? 'bg-dark-accent text-dark-bg hover:bg-dark-accent/90'
-                                                    : 'bg-[#B07552] text-white hover:bg-[#8A5A35]'
+                                                    : 'bg-[#F97316] text-white hover:bg-[#EA580C]'
                                                 }
                                             `}
                                         >
@@ -255,7 +255,7 @@ const ConnectionLine = ({ isVisible }: { isVisible: boolean }) => {
             animate={{ opacity: isVisible ? 1 : 0 }}
         >
             <motion.div
-                className={`w-0.5 h-full ${theme === 'dark' ? 'bg-dark-accent/30' : 'bg-[#B07552]/20'}`}
+                className={`w-0.5 h-full ${theme === 'dark' ? 'bg-dark-accent/30' : 'bg-[#F97316]/20'}`}
                 initial={{ scaleY: 0 }}
                 animate={{ scaleY: isVisible ? 1 : 0 }}
                 transition={{ duration: 0.5 }}
@@ -263,7 +263,7 @@ const ConnectionLine = ({ isVisible }: { isVisible: boolean }) => {
             {/* Animated dot */}
             {isVisible && (
                 <motion.div
-                    className={`absolute w-2 h-2 rounded-full ${theme === 'dark' ? 'bg-dark-accent' : 'bg-[#B07552]'}`}
+                    className={`absolute w-2 h-2 rounded-full ${theme === 'dark' ? 'bg-dark-accent' : 'bg-[#F97316]'}`}
                     initial={{ y: -20 }}
                     animate={{ y: 20 }}
                     transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
@@ -297,7 +297,7 @@ const AllProductsSection = () => {
                         scale: [1, 1.1, 1]
                     }}
                     transition={{ duration: 20, repeat: Infinity }}
-                    className={`absolute top-20 right-20 w-96 h-96 rounded-full blur-3xl ${theme === 'dark' ? 'bg-dark-accent/5' : 'bg-[#B07552]/5'}`}
+                    className={`absolute top-20 right-20 w-96 h-96 rounded-full blur-3xl ${theme === 'dark' ? 'bg-dark-accent/5' : 'bg-[#F97316]/5'}`}
                 />
                 <motion.div
                     animate={{
@@ -327,19 +327,19 @@ const AllProductsSection = () => {
                             inline-flex items-center gap-2 px-4 py-2 rounded-full mb-6
                             ${theme === 'dark'
                                 ? 'bg-dark-accent/10 border border-dark-accent/20'
-                                : 'bg-[#B07552]/10 border border-[#B07552]/20'
+                                : 'bg-[#F97316]/10 border border-[#F97316]/20'
                             }
                         `}
                     >
-                        <Sparkles className={`w-4 h-4 ${theme === 'dark' ? 'text-dark-accent' : 'text-[#B07552]'}`} />
-                        <span className={`text-sm font-semibold ${theme === 'dark' ? 'text-dark-accent' : 'text-[#8A5A35]'}`}>
+                        <Sparkles className={`w-4 h-4 ${theme === 'dark' ? 'text-dark-accent' : 'text-[#F97316]'}`} />
+                        <span className={`text-sm font-semibold ${theme === 'dark' ? 'text-dark-accent' : 'text-[#EA580C]'}`}>
                             Product Suite
                         </span>
                     </motion.div>
 
                     <h2 className={`text-3xl md:text-4xl lg:text-5xl font-bold mb-5 ${theme === 'dark' ? 'text-dark-text' : 'text-gray-900'}`}>
                         Explore Our{' '}
-                        <span className={theme === 'dark' ? 'text-dark-accent' : 'text-[#B07552]'}>AI Products</span>
+                        <span className={theme === 'dark' ? 'text-dark-accent' : 'text-[#F97316]'}>AI Products</span>
                     </h2>
                     <p className={`max-w-2xl mx-auto text-base md:text-lg ${theme === 'dark' ? 'text-dark-text-muted' : 'text-gray-600'}`}>
                         Click on any product to explore its features and capabilities
@@ -359,8 +359,8 @@ const AllProductsSection = () => {
                                 transition={{ delay: 0.3 }}
                                 className="flex items-center gap-3 mb-6"
                             >
-                                <div className={`w-1.5 h-8 rounded-full ${theme === 'dark' ? 'bg-dark-accent' : 'bg-[#B07552]'}`} />
-                                <span className={`text-sm font-bold uppercase tracking-wider ${theme === 'dark' ? 'text-dark-accent' : 'text-[#B07552]'}`}>
+                                <div className={`w-1.5 h-8 rounded-full ${theme === 'dark' ? 'bg-dark-accent' : 'bg-[#F97316]'}`} />
+                                <span className={`text-sm font-bold uppercase tracking-wider ${theme === 'dark' ? 'text-dark-accent' : 'text-[#F97316]'}`}>
                                     Core AI Agents
                                 </span>
                             </motion.div>
@@ -392,8 +392,8 @@ const AllProductsSection = () => {
                                 transition={{ delay: 0.4 }}
                                 className="flex items-center gap-3 mb-6"
                             >
-                                <div className={`w-1.5 h-8 rounded-full ${theme === 'dark' ? 'bg-dark-accent' : 'bg-[#B07552]'}`} />
-                                <span className={`text-sm font-bold uppercase tracking-wider ${theme === 'dark' ? 'text-dark-accent' : 'text-[#B07552]'}`}>
+                                <div className={`w-1.5 h-8 rounded-full ${theme === 'dark' ? 'bg-dark-accent' : 'bg-[#F97316]'}`} />
+                                <span className={`text-sm font-bold uppercase tracking-wider ${theme === 'dark' ? 'text-dark-accent' : 'text-[#F97316]'}`}>
                                     Enterprise Tools
                                 </span>
                             </motion.div>
@@ -424,7 +424,7 @@ const AllProductsSection = () => {
                                     mt-6 p-6 rounded-2xl border-2 border-dashed
                                     ${theme === 'dark'
                                         ? 'border-dark-accent/30 bg-dark-accent/5'
-                                        : 'border-[#B07552]/30 bg-[#B07552]/5'
+                                        : 'border-[#F97316]/30 bg-[#F97316]/5'
                                     }
                                 `}
                             >
@@ -445,7 +445,7 @@ const AllProductsSection = () => {
                                                 transition-all duration-300
                                                 ${theme === 'dark'
                                                     ? 'bg-dark-accent/20 text-dark-accent border border-dark-accent/30 hover:bg-dark-accent/30'
-                                                    : 'bg-white text-[#B07552] border border-[#B07552]/30 hover:bg-[#B07552]/10'
+                                                    : 'bg-white text-[#F97316] border border-[#F97316]/30 hover:bg-[#F97316]/10'
                                                 }
                                             `}
                                         >

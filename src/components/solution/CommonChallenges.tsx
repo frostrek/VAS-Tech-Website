@@ -22,7 +22,7 @@ const IMAGES = [
 // Mobile Card Component
 const MobileCard = ({ challenge, index, total, theme }: { challenge: Challenge; index: number; total: number; theme: string }) => (
     <div className="flex-shrink-0 w-[85vw] snap-center">
-        <div className={`rounded-2xl border shadow-xl overflow-hidden ${theme === 'dark' ? 'bg-dark-card border-dark-accent/30' : 'bg-[#FDFBF7] border-[#B07552]/20'}`}>
+        <div className={`rounded-2xl border shadow-xl overflow-hidden ${theme === 'dark' ? 'bg-dark-card border-dark-accent/30' : 'bg-orange-50/5 border-orange-500/20'}`}>
             <div className="relative h-40 overflow-hidden">
                 <img
                     src={IMAGES[index % IMAGES.length]}
@@ -30,7 +30,7 @@ const MobileCard = ({ challenge, index, total, theme }: { challenge: Challenge; 
                     className="w-full h-full object-cover"
                     loading="lazy"
                 />
-                <div className="absolute inset-0 bg-gradient-to-br from-[#B07552]/90 to-[#6E4629]/95" />
+                <div className="absolute inset-0 bg-gradient-to-br from-orange-500/90 to-orange-950/95" />
                 <div className="absolute inset-0 p-4 flex flex-col justify-between">
                     <span className="self-start font-mono text-xs tracking-wider bg-white/10 px-3 py-1 rounded-full border border-orange-500/20 text-white">
                         0{index + 1} / 0{total}
@@ -43,10 +43,10 @@ const MobileCard = ({ challenge, index, total, theme }: { challenge: Challenge; 
             </div>
             <div className="p-4">
                 <div className="flex items-center gap-2 mb-3">
-                    <span className="w-6 h-6 rounded-full bg-[#B07552] text-white flex items-center justify-center">
+                    <span className="w-6 h-6 rounded-full bg-orange-500 text-white flex items-center justify-center">
                         <CheckCircle2 size={14} />
                     </span>
-                    <span className="text-[#B07552] font-bold text-xs uppercase tracking-wide">AI Solution</span>
+                    <span className="text-orange-500 font-bold text-xs uppercase tracking-wide">AI Solution</span>
                 </div>
                 <p className={`text-base font-light leading-snug mb-4 ${theme === 'dark' ? 'text-dark-text' : 'text-[#2D241E]'}`}>{challenge.solvedBy}</p>
                 <div className="flex flex-wrap gap-2 mb-4">
@@ -54,10 +54,10 @@ const MobileCard = ({ challenge, index, total, theme }: { challenge: Challenge; 
                         <span key={i} className={`px-2 py-1 border rounded-md text-xs ${theme === 'dark' ? 'bg-dark-bg border-dark-accent/30 text-dark-text-muted' : 'bg-[#FAF6F3] border-[#E6D0C6] text-[#5D5046]'}`}>{tag}</span>
                     ))}
                 </div>
-                <div className={`flex justify-between py-3 border-t ${theme === 'dark' ? 'border-dark-accent/30' : 'border-[#E6D0C6]'}`}>
-                    <div className="text-center"><p className={`text-lg font-bold ${theme === 'dark' ? 'text-dark-accent' : 'text-[#B07552]'}`}>50%+</p><p className={`text-[10px] ${theme === 'dark' ? 'text-dark-text-muted' : 'text-[#8C7E72]'}`}>Cost Cut</p></div>
-                    <div className="text-center"><p className={`text-lg font-bold ${theme === 'dark' ? 'text-dark-accent' : 'text-[#B07552]'}`}>24/7</p><p className={`text-[10px] ${theme === 'dark' ? 'text-dark-text-muted' : 'text-[#8C7E72]'}`}>Uptime</p></div>
-                    <div className="text-center"><p className={`text-lg font-bold ${theme === 'dark' ? 'text-dark-accent' : 'text-[#B07552]'}`}>Ultra-fast</p><p className={`text-[10px] ${theme === 'dark' ? 'text-dark-text-muted' : 'text-[#8C7E72]'}`}>Response</p></div>
+                <div className={`flex justify-between py-3 border-t ${theme === 'dark' ? 'border-dark-accent/30' : 'border-orange-500/10'}`}>
+                    <div className="text-center"><p className={`text-lg font-bold ${theme === 'dark' ? 'text-dark-accent' : 'text-orange-500'}`}>50%+</p><p className={`text-[10px] ${theme === 'dark' ? 'text-dark-text-muted' : 'text-zinc-500'}`}>Cost Cut</p></div>
+                    <div className="text-center"><p className={`text-lg font-bold ${theme === 'dark' ? 'text-dark-accent' : 'text-orange-500'}`}>24/7</p><p className={`text-[10px] ${theme === 'dark' ? 'text-dark-text-muted' : 'text-zinc-500'}`}>Uptime</p></div>
+                    <div className="text-center"><p className={`text-lg font-bold ${theme === 'dark' ? 'text-dark-accent' : 'text-orange-500'}`}>Ultra-fast</p><p className={`text-[10px] ${theme === 'dark' ? 'text-dark-text-muted' : 'text-zinc-500'}`}>Response</p></div>
                 </div>
             </div>
         </div>
@@ -67,11 +67,11 @@ const MobileCard = ({ challenge, index, total, theme }: { challenge: Challenge; 
 // Desktop Card Component
 const DesktopCard = ({ challenge, index, total, theme }: { challenge: Challenge; index: number; total: number; theme: string }) => (
     <div className="challenge-card absolute top-0 left-0 w-full h-full flex items-center justify-center p-4" style={{ zIndex: total - index }}>
-        <div className={`relative w-full max-w-5xl h-[70vh] rounded-2xl border shadow-2xl overflow-hidden flex flex-row group ${theme === 'dark' ? 'bg-dark-card border-dark-accent/30' : 'bg-[#FDFBF7] border-[#B07552]/20'}`}>
+        <div className={`relative w-full max-w-5xl h-[70vh] rounded-2xl border shadow-2xl overflow-hidden flex flex-row group ${theme === 'dark' ? 'bg-dark-card border-dark-accent/30' : 'bg-orange-50/5 border-orange-500/20'}`}>
             <div className="relative h-full w-[42%] overflow-hidden text-white">
                 <div className="absolute inset-0">
                     <img src={IMAGES[index % IMAGES.length]} alt={challenge.title} className="w-full h-full object-cover" loading="lazy" />
-                    <div className="absolute inset-0 bg-gradient-to-br from-[#B07552]/95 to-[#6E4629]/95" />
+                    <div className="absolute inset-0 bg-gradient-to-br from-orange-500/95 to-orange-950/95" />
                 </div>
                 <div className="relative z-10 flex flex-col h-full p-6">
                     <span className="self-start font-mono text-xs tracking-wider bg-white/10 px-3 py-1.5 rounded-full border border-orange-500/20 mb-auto">0{index + 1} / 0{total}</span>
@@ -85,26 +85,26 @@ const DesktopCard = ({ challenge, index, total, theme }: { challenge: Challenge;
                     </div>
                 </div>
             </div>
-            <div className={`relative h-full w-[58%] p-6 flex flex-col ${theme === 'dark' ? 'bg-dark-card' : 'bg-[#FDFBF7]'}`}>
-                <div className={`absolute inset-0 opacity-20 [background-size:20px_20px] ${theme === 'dark' ? 'bg-[radial-gradient(#bf8440_1px,transparent_1px)]' : 'bg-[radial-gradient(#B07552_1px,transparent_1px)]'}`} />
+            <div className={`relative h-full w-[58%] p-6 flex flex-col ${theme === 'dark' ? 'bg-dark-card' : 'bg-white'}`}>
+                <div className={`absolute inset-0 opacity-20 [background-size:20px_20px] ${theme === 'dark' ? 'bg-[radial-gradient(#f97316_1px,transparent_1px)]' : 'bg-[radial-gradient(#f97316_1px,transparent_1px)]'}`} />
                 <div className="relative z-10 flex-1 flex flex-col">
                     <div className="flex items-center gap-2 mb-4">
-                        <span className="w-8 h-8 rounded-full bg-[#B07552] text-white flex items-center justify-center shadow-md"><CheckCircle2 size={16} /></span>
-                        <span className="text-[#B07552] font-bold text-xs uppercase tracking-wide">AI Solution</span>
+                        <span className="w-8 h-8 rounded-full bg-orange-500 text-white flex items-center justify-center shadow-md"><CheckCircle2 size={16} /></span>
+                        <span className="text-orange-500 font-bold text-xs uppercase tracking-wide">AI Solution</span>
                     </div>
                     <p className={`text-xl lg:text-2xl font-light leading-snug mb-5 ${theme === 'dark' ? 'text-dark-text' : 'text-[#2D241E]'}`}>{challenge.solvedBy}</p>
                     <div className="grid grid-cols-2 gap-2 mb-4">
                         {[{ label: 'Instant Deploy', desc: 'Go live fast' }, { label: 'AI-Powered', desc: 'Smart automation' }, { label: 'Enterprise Secure', desc: 'ISO certified' }, { label: 'Real-time', desc: 'Live insights' }].map((tag, i) => (
-                            <div key={i} className={`p-2.5 rounded-lg border ${theme === 'dark' ? 'bg-dark-bg border-dark-accent/30' : 'bg-white border-[#E6D0C6]'}`}>
-                                <div className="flex items-center gap-1.5 mb-0.5"><div className={`w-1.5 h-1.5 rounded-full ${theme === 'dark' ? 'bg-dark-accent' : 'bg-[#B07552]'}`} /><span className={`font-semibold text-xs ${theme === 'dark' ? 'text-dark-text' : 'text-[#2D241E]'}`}>{tag.label}</span></div>
+                            <div key={i} className={`p-2.5 rounded-lg border ${theme === 'dark' ? 'bg-dark-bg border-dark-accent/30' : 'bg-white border-orange-500/10'}`}>
+                                <div className="flex items-center gap-1.5 mb-0.5"><div className={`w-1.5 h-1.5 rounded-full ${theme === 'dark' ? 'bg-dark-accent' : 'bg-orange-500'}`} /><span className={`font-semibold text-xs ${theme === 'dark' ? 'text-dark-text' : 'text-zinc-900'}`}>{tag.label}</span></div>
                                 <p className={`text-[10px] pl-3 ${theme === 'dark' ? 'text-dark-text-muted' : 'text-[#8C7E72]'}`}>{tag.desc}</p>
                             </div>
                         ))}
                     </div>
-                    <div className={`flex gap-5 py-3 border-y mb-4 ${theme === 'dark' ? 'border-dark-accent/30' : 'border-[#E6D0C6]'}`}>
-                        <div><p className={`text-xl font-bold ${theme === 'dark' ? 'text-dark-accent' : 'text-[#B07552]'}`}>50%+</p><p className={`text-[10px] ${theme === 'dark' ? 'text-dark-text-muted' : 'text-[#8C7E72]'}`}>Cost Cut</p></div>
-                        <div><p className={`text-xl font-bold ${theme === 'dark' ? 'text-dark-accent' : 'text-[#B07552]'}`}>24/7</p><p className={`text-[10px] ${theme === 'dark' ? 'text-dark-text-muted' : 'text-[#8C7E72]'}`}>Uptime</p></div>
-                        <div><p className={`text-xl font-bold ${theme === 'dark' ? 'text-dark-accent' : 'text-[#B07552]'}`}>Ultra-fast</p><p className={`text-[10px] ${theme === 'dark' ? 'text-dark-text-muted' : 'text-[#8C7E72]'}`}>Response</p></div>
+                    <div className={`flex gap-5 py-3 border-y mb-4 ${theme === 'dark' ? 'border-dark-accent/30' : 'border-orange-500/10'}`}>
+                        <div><p className={`text-xl font-bold ${theme === 'dark' ? 'text-dark-accent' : 'text-orange-500'}`}>50%+</p><p className={`text-[10px] ${theme === 'dark' ? 'text-dark-text-muted' : 'text-zinc-500'}`}>Cost Cut</p></div>
+                        <div><p className={`text-xl font-bold ${theme === 'dark' ? 'text-dark-accent' : 'text-orange-500'}`}>24/7</p><p className={`text-[10px] ${theme === 'dark' ? 'text-dark-text-muted' : 'text-zinc-500'}`}>Uptime</p></div>
+                        <div><p className={`text-xl font-bold ${theme === 'dark' ? 'text-dark-accent' : 'text-orange-500'}`}>Ultra-fast</p><p className={`text-[10px] ${theme === 'dark' ? 'text-dark-text-muted' : 'text-zinc-500'}`}>Response</p></div>
                     </div>
                 </div>
             </div>
@@ -239,16 +239,16 @@ const CommonChallenges = ({ challenges }: CommonChallengesProps) => {
         <section ref={container} className={`relative ${theme === 'dark' ? 'bg-dark-bg' : 'bg-[#FDFBF7]'}`}>
             {/* Intro */}
             <div className="container mx-auto px-4 py-8 md:py-10 text-center">
-                <div className={`inline-flex items-center gap-2 px-3 py-1.5 rounded-full border font-bold text-[10px] md:text-xs uppercase tracking-widest mb-3 ${theme === 'dark' ? 'border-dark-accent/30 bg-dark-accent/10 text-dark-accent' : 'border-[#B07552]/30 bg-[#B07552]/5 text-[#B07552]'}`}>
+                <div className={`inline-flex items-center gap-2 px-3 py-1.5 rounded-full border font-bold text-[10px] md:text-xs uppercase tracking-widest mb-3 ${theme === 'dark' ? 'border-dark-accent/30 bg-dark-accent/10 text-dark-accent' : 'border-orange-500/30 bg-orange-500/5 text-orange-500'}`}>
                     <Sparkles size={12} /><span>The Solution Stack</span>
                 </div>
-                <h2 className={`text-2xl md:text-5xl font-bold mb-3 ${theme === 'dark' ? 'text-dark-text' : 'text-[#2D241E]'}`}>
-                    Problems, <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#B07552] to-[#8A5A35]">Solved.</span>
+                <h2 className={`text-2xl md:text-5xl font-bold mb-3 ${theme === 'dark' ? 'text-dark-text' : 'text-zinc-900'}`}>
+                    Problems, <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-500 to-orange-700">Solved.</span>
                 </h2>
                 <p className={`text-sm md:text-lg max-w-xl mx-auto mb-3 ${theme === 'dark' ? 'text-dark-text-muted' : 'text-[#5D5046]'}`}>
                     {isMobile ? 'Swipe to explore solutions.' : 'Scroll to explore how our AI tackles your challenges.'}
                 </p>
-                <div className={`animate-bounce text-[#B07552]/50 ${isMobile ? 'hidden' : ''}`}>
+                <div className={`animate-bounce text-orange-500/50 ${isMobile ? 'hidden' : ''}`}>
                     <MousePointer2 size={20} className="mx-auto" />
                 </div>
             </div>
@@ -265,7 +265,7 @@ const CommonChallenges = ({ challenges }: CommonChallengesProps) => {
             {/* Desktop: GSAP Stack - Always rendered, hidden via CSS */}
             <div ref={triggerRef} className={`relative h-screen w-full ${isMobile ? 'hidden' : ''} ${theme === 'dark' ? 'bg-dark-bg' : 'bg-[#FDFBF7]'}`}>
                 <div className="absolute inset-0 pointer-events-none">
-                    <div className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] rounded-full blur-[100px] ${theme === 'dark' ? 'bg-dark-accent/10' : 'bg-[#B07552]/10'}`} />
+                    <div className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] rounded-full blur-[100px] ${theme === 'dark' ? 'bg-dark-accent/10' : 'bg-orange-500/10'}`} />
                 </div>
                 <div className="relative w-full h-full max-w-7xl mx-auto">
                     {challenges.map((challenge, index) => (

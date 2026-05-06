@@ -44,7 +44,7 @@ const FloatingParticle = ({ delay, size, duration }: {
     delay: number; size: number; duration: number;
 }) => (
     <div
-        className="absolute rounded-full bg-[#B07552]/30 animate-ping"
+        className="absolute rounded-full bg-orange-500/30 animate-ping"
         style={{ 
             width: size, 
             height: size,
@@ -65,7 +65,7 @@ const CONFETTI_DATA = Array.from({ length: 10 }, (_, i) => ({
     x: (Math.random() - 0.5) * 100,
     rotate: 360 * (Math.random() > 0.5 ? 1 : -1),
     duration: 2 + Math.random(),
-    color: ['#B07552', '#10B981', '#6366F1', '#EC4899', '#F59E0B'][i % 5],
+    color: ['#F97316', '#10B981', '#6366F1', '#EC4899', '#F59E0B'][i % 5],
 }));
 
 const Confetti = () => (
@@ -128,7 +128,7 @@ const VASTechAdvantage = ({ features: _features }: VASTechAdvantageProps) => {
     const isActive = processedIds.length > 0 || processingId;
 
     return (
-        <section className={`py-16 md:py-24 overflow-hidden ${theme === 'dark' ? 'bg-dark-bg' : 'bg-gradient-to-b from-[#FDFBF7] via-[#FAF6F3] to-[#FDFBF7]'}`}>
+        <section className={`py-16 md:py-24 overflow-hidden ${theme === 'dark' ? 'bg-dark-bg' : 'bg-gradient-to-b from-orange-50/20 via-white to-orange-50/20'}`}>
             <div className="container mx-auto px-4 md:px-6">
 
                 {/* Header with Animated Badge */}
@@ -138,22 +138,22 @@ const VASTechAdvantage = ({ features: _features }: VASTechAdvantageProps) => {
                         whileInView={{ opacity: 1, scale: 1 }}
                         viewport={{ once: true }}
                         whileHover={{ scale: 1.05 }}
-                        className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-[#B07552]/10 to-[#8A5A35]/10 border border-[#B07552]/20 text-[#B07552] font-bold text-[11px] uppercase tracking-wider mb-4 cursor-default"
+                        className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-orange-500/10 to-orange-600/10 border border-orange-500/20 text-orange-600 font-bold text-[11px] uppercase tracking-wider mb-4 cursor-default"
                     >
                         <div className="animate-wiggle">
                             <Workflow size={14} />
                         </div>
                         <span>Interactive Demo</span>
-                        <div className="w-2 h-2 rounded-full bg-[#B07552] animate-pulse" />
+                        <div className="w-2 h-2 rounded-full bg-orange-500 animate-pulse" />
                     </motion.div>
 
                     <motion.h2
                         initial={{ opacity: 0, y: 20 }}
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true }}
-                        className={`text-2xl md:text-4xl font-bold mb-3 ${theme === 'dark' ? 'text-dark-text' : 'text-[#2D241E]'}`}
+                        className={`text-2xl md:text-4xl font-bold mb-3 ${theme === 'dark' ? 'text-dark-text' : 'text-zinc-900'}`}
                     >
-                        The VAS Tech <span className="bg-gradient-to-r from-[#B07552] to-[#8A5A35] bg-clip-text text-transparent">Advantage</span>
+                        The VAS Tech <span className="bg-gradient-to-r from-orange-500 to-orange-700 bg-clip-text text-transparent">Advantage</span>
                     </motion.h2>
 
                     <motion.p
@@ -176,14 +176,14 @@ const VASTechAdvantage = ({ features: _features }: VASTechAdvantageProps) => {
                 >
                     {showConfetti && <Confetti />}
 
-                    <div className={`rounded-2xl shadow-2xl shadow-[#B07552]/10 overflow-hidden ${theme === 'dark' ? 'bg-dark-card border border-dark-accent/30' : 'bg-white border border-[#E6D0C6]'}`}>
+                    <div className={`rounded-2xl shadow-2xl shadow-orange-500/10 overflow-hidden ${theme === 'dark' ? 'bg-dark-card border border-dark-accent/30' : 'bg-white border border-orange-500/10'}`}>
                         <div className="grid grid-cols-1 lg:grid-cols-[1fr_280px_1fr]">
 
                             {/* LEFT: Input Challenges */}
                             <div className={`p-5 md:p-6 ${theme === 'dark' ? 'bg-dark-card' : 'bg-gradient-to-br from-[#FAF6F3] to-[#F5EDE6]'}`}>
                                 <div className="flex items-center gap-2 mb-5">
                                     <motion.div
-                                        className="w-8 h-8 rounded-xl bg-gradient-to-br from-[#B07552] to-[#8A5A35] flex items-center justify-center shadow-lg"
+                                        className="w-8 h-8 rounded-xl bg-gradient-to-br from-orange-500 to-orange-700 flex items-center justify-center shadow-lg"
                                         whileHover={{ rotate: 10 }}
                                     >
                                         <Layers size={16} className="text-white" />
@@ -218,8 +218,8 @@ const VASTechAdvantage = ({ features: _features }: VASTechAdvantageProps) => {
                                                     ${isProcessed
                                                         ? theme === 'dark' ? 'bg-green-900/30 border-green-500' : 'bg-gradient-to-r from-green-50 to-emerald-50 border-green-300'
                                                         : isProcessing
-                                                            ? theme === 'dark' ? 'bg-dark-accent/20 border-dark-accent shadow-lg' : 'bg-gradient-to-r from-[#B07552]/5 to-[#B07552]/10 border-[#B07552] shadow-lg'
-                                                            : theme === 'dark' ? 'bg-dark-bg border-dark-accent/30 hover:border-dark-accent cursor-pointer' : 'bg-white border-[#E6D0C6] hover:border-[#B07552] cursor-pointer'}
+                                                    ? theme === 'dark' ? 'bg-dark-accent/20 border-dark-accent shadow-lg' : 'bg-gradient-to-r from-orange-500/5 to-orange-500/10 border-orange-500 shadow-lg'
+                                                    : theme === 'dark' ? 'bg-dark-bg border-dark-accent/30 hover:border-dark-accent cursor-pointer' : 'bg-white border-orange-500/10 hover:border-orange-500 cursor-pointer'}
                                                 `}
                                             >
                                                 {/* Shimmer Effect on Hover */}
@@ -239,8 +239,8 @@ const VASTechAdvantage = ({ features: _features }: VASTechAdvantageProps) => {
                                                             ${isProcessed
                                                                 ? 'bg-gradient-to-br from-green-400 to-emerald-500 text-white'
                                                                 : isProcessing
-                                                                    ? 'bg-gradient-to-br from-[#B07552] to-[#8A5A35] text-white'
-                                                                    : 'bg-gradient-to-br from-[#B07552]/10 to-[#B07552]/20 text-[#B07552] group-hover:from-[#B07552] group-hover:to-[#8A5A35] group-hover:text-white'}
+                                                            ? 'bg-gradient-to-br from-orange-500 to-orange-700 text-white'
+                                                            : 'bg-gradient-to-br from-orange-500/10 to-orange-500/20 text-orange-600 group-hover:from-orange-500 group-hover:to-orange-700 group-hover:text-white'}
                                                         `}
                                                         animate={isProcessing ? { rotate: [0, 5, -5, 0] } : {}}
                                                         transition={{ duration: 0.3, repeat: isProcessing ? Infinity : 0 }}
@@ -285,7 +285,7 @@ const VASTechAdvantage = ({ features: _features }: VASTechAdvantageProps) => {
                                     </div>
                                     <div className="relative w-full h-2 bg-[#E6D0C6]/40 rounded-full overflow-hidden">
                                         <motion.div
-                                            className="absolute inset-y-0 left-0 bg-gradient-to-r from-[#B07552] to-[#8A5A35] rounded-full"
+                                            className="absolute inset-y-0 left-0 bg-gradient-to-r from-orange-500 to-orange-700 rounded-full"
                                             initial={{ width: 0 }}
                                             animate={{ width: `${(processedIds.length / WORKFLOW_STEPS.length) * 100}%` }}
                                             transition={{ type: 'spring', stiffness: 100 }}
@@ -342,7 +342,7 @@ const VASTechAdvantage = ({ features: _features }: VASTechAdvantageProps) => {
                                                 className="absolute inset-1"
                                             >
                                                 <div
-                                                    className="w-full h-full rounded-full border-[3px] border-transparent border-t-[#B07552] border-r-[#B07552]/30 animate-spin"
+                                                    className="w-full h-full rounded-full border-[3px] border-transparent border-t-orange-500 border-r-orange-500/30 animate-spin"
                                                 />
                                             </motion.div>
                                         )}
@@ -359,7 +359,7 @@ const VASTechAdvantage = ({ features: _features }: VASTechAdvantageProps) => {
                                                 w-14 h-14 mx-auto rounded-2xl flex items-center justify-center shadow-xl mb-2
                                                 ${allProcessed
                                                     ? 'bg-gradient-to-br from-green-400 to-emerald-500'
-                                                    : 'bg-gradient-to-br from-[#B07552] to-[#8A5A35]'}
+                                                    : 'bg-gradient-to-br from-orange-500 to-orange-700'}
                                             `}
                                         >
                                             {allProcessed ? (
@@ -398,7 +398,7 @@ const VASTechAdvantage = ({ features: _features }: VASTechAdvantageProps) => {
                                     <motion.div
                                         className={`
                                             absolute -top-1 -right-1 w-6 h-6 rounded-full flex items-center justify-center text-[11px] font-bold shadow-lg
-                                            ${allProcessed ? 'bg-green-500 text-white' : 'bg-[#B07552] text-white'}
+                                            ${allProcessed ? 'bg-green-500 text-white' : 'bg-orange-500 text-white'}
                                         `}
                                         animate={{ scale: processedIds.length > 0 ? [1, 1.2, 1] : 1 }}
                                         transition={{ duration: 0.3 }}
@@ -451,8 +451,8 @@ const VASTechAdvantage = ({ features: _features }: VASTechAdvantageProps) => {
                                                         <div className="flex-1">
                                                             <h4 className={`font-bold text-sm ${theme === 'dark' ? 'text-dark-text' : 'text-[#2D241E]'}`}>{item.outcome.title}</h4>
                                                             <p className={`text-[11px] mt-0.5 ${theme === 'dark' ? 'text-dark-text-muted' : 'text-[#5D5046]'}`}>{item.outcome.desc}</p>
-                                                            <div className="mt-2 inline-flex items-center gap-1 px-2 py-1 rounded-lg bg-gradient-to-r from-[#B07552]/10 to-[#B07552]/5 border border-[#B07552]/20">
-                                                                <span className="text-sm font-bold text-[#B07552]">{item.outcome.stat}</span>
+                                                            <div className="mt-2 inline-flex items-center gap-1 px-2 py-1 rounded-lg bg-gradient-to-r from-orange-500/10 to-orange-500/5 border border-orange-500/20">
+                                                                <span className="text-sm font-bold text-orange-600">{item.outcome.stat}</span>
                                                                 <span className="text-[10px] text-[#8C7E72]">{item.outcome.statLabel}</span>
                                                             </div>
                                                         </div>
@@ -486,15 +486,15 @@ const VASTechAdvantage = ({ features: _features }: VASTechAdvantageProps) => {
                                         <motion.div
                                             initial={{ opacity: 0 }}
                                             animate={{ opacity: 1 }}
-                                            className={`h-[220px] flex items-center justify-center rounded-xl border-2 ${theme === 'dark' ? 'border-dark-accent/50 bg-dark-accent/10' : 'border-[#B07552]/30 bg-gradient-to-br from-[#B07552]/5 to-transparent'}`}
+                                            className={`h-[220px] flex items-center justify-center rounded-xl border-2 ${theme === 'dark' ? 'border-dark-accent/50 bg-dark-accent/10' : 'border-orange-500/30 bg-gradient-to-br from-orange-500/5 to-transparent'}`}
                                         >
                                             <div className="text-center">
                                                 <div
-                                                    className="w-12 h-12 bg-[#B07552]/10 rounded-full mx-auto mb-3 flex items-center justify-center animate-spin"
+                                                    className="w-12 h-12 bg-orange-500/10 rounded-full mx-auto mb-3 flex items-center justify-center animate-spin"
                                                 >
-                                                    <Activity className="text-[#B07552]" size={20} />
+                                                    <Activity className="text-orange-500" size={20} />
                                                 </div>
-                                                <p className="text-xs text-[#B07552] font-medium">Generating solution...</p>
+                                                <p className="text-xs text-orange-500 font-medium">Generating solution...</p>
                                             </div>
                                         </motion.div>
                                     )}
@@ -520,8 +520,8 @@ const VASTechAdvantage = ({ features: _features }: VASTechAdvantageProps) => {
                                 className="text-center flex items-center gap-3"
                                 whileHover={{ scale: 1.05 }}
                             >
-                                <div className={`w-10 h-10 rounded-xl flex items-center justify-center ${theme === 'dark' ? 'bg-dark-accent/20' : 'bg-[#B07552]/10'}`}>
-                                    <stat.icon size={18} className="text-[#B07552]" />
+                                <div className={`w-10 h-10 rounded-xl flex items-center justify-center ${theme === 'dark' ? 'bg-dark-accent/20' : 'bg-orange-500/10'}`}>
+                                    <stat.icon size={18} className="text-orange-500" />
                                 </div>
                                 <div className="text-left">
                                     <p className={`text-lg md:text-xl font-bold ${theme === 'dark' ? 'text-dark-text' : 'text-[#2D241E]'}`}>{stat.value}</p>

@@ -153,7 +153,7 @@ const ContactPage = () => {
                             </div>
 
                             <div className="p-6 space-y-4">
-                                {/* Phone — featured */}
+                                {/* Phone - featured */}
                                 <a href="tel:+12894384445"
                                     className="group flex items-center gap-4 p-5 rounded-2xl transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_8px_32px_rgba(249,115,22,0.15)] bg-white/[0.02]"
                                     style={{ background: 'linear-gradient(135deg, rgba(249,115,22,0.15), rgba(251,191,36,0.05))' }}>
@@ -269,7 +269,7 @@ const ContactPage = () => {
                                     {/* Email */}
                                     <InputGroup label="Work email*" name="workEmail" type="email" value={formData.workEmail} onChange={handleChange as any} placeholder="arjun@company.com" />
 
-                                    {/* Inquiry type — pill buttons */}
+                                    {/* Inquiry type - pill buttons */}
                                     <div className="space-y-3">
                                         <label className="text-[11.5px] font-bold uppercase tracking-wider text-zinc-400">
                                             What are you reaching out about? <span className="text-orange-500">*</span>

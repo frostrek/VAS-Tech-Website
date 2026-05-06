@@ -61,7 +61,7 @@ const SeoAutomationDemo = () => {
     return (
         <div className={`w-full max-w-4xl mx-auto rounded-2xl border p-6 md:p-8 ${theme === 'dark' ? 'bg-dark-card border-dark-accent/20' : 'bg-white border-gray-200'}`}>
             <h3 className={`text-xl font-bold mb-6 flex items-center gap-3 ${theme === 'dark' ? 'text-dark-text' : 'text-gray-900'}`}>
-                <Globe className={`w-6 h-6 ${theme === 'dark' ? 'text-dark-accent' : 'text-[#B07552]'}`} />
+                <Globe className={`w-6 h-6 ${theme === 'dark' ? 'text-dark-accent' : 'text-[#F97316]'}`} />
                 Programmatic SEO Pipeline
             </h3>
 
@@ -105,11 +105,11 @@ const SeoAutomationDemo = () => {
                             <div 
                                 key={idx} 
                                 className={`flex items-center gap-4 p-3 rounded-lg border transition-all duration-500
-                                    ${isCurrent ? (theme === 'dark' ? 'bg-dark-accent/10 border-dark-accent shadow-lg shadow-dark-accent/10 scale-[1.02]' : 'bg-[#B07552]/10 border-[#B07552] scale-[1.02]') : 'border-transparent'}
+                                    ${isCurrent ? (theme === 'dark' ? 'bg-dark-accent/10 border-dark-accent shadow-lg shadow-dark-accent/10 scale-[1.02]' : 'bg-[#F97316]/10 border-[#F97316] scale-[1.02]') : 'border-transparent'}
                                     ${!isCurrent && !isPast ? 'opacity-30 grayscale' : ''}
                                 `}
                             >
-                                <div className={`w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 ${isPast ? 'bg-green-500 text-white' : (isCurrent ? (theme === 'dark' ? 'bg-dark-accent text-dark-bg animate-pulse' : 'bg-[#B07552] text-white animate-pulse') : 'bg-gray-300 text-gray-500')}`}>
+                                <div className={`w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 ${isPast ? 'bg-green-500 text-white' : (isCurrent ? (theme === 'dark' ? 'bg-dark-accent text-dark-bg animate-pulse' : 'bg-[#F97316] text-white animate-pulse') : 'bg-gray-300 text-gray-500')}`}>
                                     {isPast ? <CheckCircle className="w-4 h-4" /> : <Search className="w-4 h-4" />}
                                 </div>
                                 <div>

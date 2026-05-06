@@ -114,7 +114,7 @@ const CTASection = () => {
                         <div className="h-10 border-b border-orange-500/20 flex items-center px-4 justify-between bg-white/[0.02]">
                             <div className="flex gap-2">
                                 <span className="w-2.5 h-2.5 rounded-full bg-red-500/80" />
-                                <span className="w-2.5 h-2.5 rounded-full bg-yellow-500/80" />
+                                <span className="w-2.5 h-2.5 rounded-full bg-orange-500/80" />
                                 <span className="w-2.5 h-2.5 rounded-full bg-green-500/80" />
                             </div>
                             <span className="text-[10px] font-mono text-zinc-500 tracking-widest">VAS_TECH_TERMINAL_v2.0</span>
@@ -134,7 +134,7 @@ const CTASection = () => {
 
                             {/* Main Messaging */}
                             <h2 className="text-3xl md:text-4xl font-bold mb-4 text-center tracking-tight text-white">
-                                Ready to <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-400 via-yellow-500 to-orange-500">Transform?</span>
+                                Ready to <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-400 via-orange-500 to-orange-600">Transform?</span>
                             </h2>
                             <p className="text-base md:text-lg text-zinc-400 text-center mb-8 max-w-xl leading-relaxed">
                                 Don't let your competitors out-automate you. Step into the future of enterprise intelligence.
@@ -145,7 +145,7 @@ const CTASection = () => {
                                 <Link 
                                     to="/schedule-demo" 
                                     ref={buttonsRef}
-                                    className="relative group/btn rounded-xl bg-gradient-to-r from-orange-600 to-yellow-500 w-full sm:w-auto hover:scale-105 transition-all duration-300 shadow-[0_0_20px_rgba(249,115,22,0.3)] hover:shadow-[0_0_40px_rgba(249,115,22,0.6)] px-6 py-3 flex items-center justify-center gap-2"
+                                    className="relative group/btn rounded-xl bg-gradient-to-r from-orange-600 to-orange-500 w-full sm:w-auto hover:scale-105 transition-all duration-300 shadow-[0_0_20px_rgba(249,115,22,0.3)] hover:shadow-[0_0_40px_rgba(249,115,22,0.6)] px-6 py-3 flex items-center justify-center gap-2"
                                 >
                                     <div className="absolute inset-0 bg-white/20 opacity-0 group-hover/btn:opacity-100 transition-opacity duration-300 rounded-xl" />
                                     <Zap className="text-white relative z-10" size={18} />

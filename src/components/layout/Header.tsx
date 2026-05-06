@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Menu, X, ChevronDown } from 'lucide-react';
+import { Menu, X, ChevronDown, ChevronRight } from 'lucide-react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { NAV_ITEMS } from '../../utils/constants';
 import Button from '../ui/Button';
@@ -15,7 +15,6 @@ const Header = () => {
 
     useEffect(() => {
         const handleScroll = () => {
-            // Throttle scroll events using requestAnimationFrame
             if (!ticking.current) {
                 requestAnimationFrame(() => {
                     setIsScrolled(window.scrollY > 20);
@@ -27,6 +26,18 @@ const Header = () => {
         window.addEventListener('scroll', handleScroll, { passive: true });
         return () => window.removeEventListener('scroll', handleScroll);
     }, []);
+
+    // Prevent body scroll when mobile menu is open
+    useEffect(() => {
+        if (mobileMenuOpen) {
+            document.body.style.overflow = 'hidden';
+        } else {
+            document.body.style.overflow = 'unset';
+        }
+        return () => {
+            document.body.style.overflow = 'unset';
+        };
+    }, [mobileMenuOpen]);
 
 
     return (
@@ -109,36 +120,101 @@ const Header = () => {
             <AnimatePresence>
                 {mobileMenuOpen && (
                     <motion.div
-                        initial={{ opacity: 0, y: -20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        exit={{ opacity: 0, y: -20 }}
-                        transition={{ duration: 0.2 }}
+                        initial={{ opacity: 0, height: 0 }}
+                        animate={{ opacity: 1, height: 'auto' }}
+                        exit={{ opacity: 0, height: 0 }}
+                        transition={{ duration: 0.3, ease: "easeInOut" }}
                         className="xl:hidden absolute top-full left-0 w-full border-b shadow-2xl z-50 bg-black/95 backdrop-blur-xl border-orange-500/20"
                     >
-                        <div className="container mx-auto px-6 py-8 flex flex-col gap-6 max-h-[85vh] overflow-y-auto">
-                            {NAV_ITEMS.map((item) => (
-                                <div key={item.label}>
-                                    <Link
-                                        to={item.href}
-                                        className="font-medium block py-2 border-b border-orange-500/20 text-gray-300 hover:text-white"
-                                        onClick={() => setMobileMenuOpen(false)}
-                                    >
-                                        {item.label}
-                                    </Link>
-                                </div>
+                        <div className="container mx-auto px-6 py-8 flex flex-col gap-2 max-h-[calc(100vh-64px)] overflow-y-auto overscroll-contain pb-24">
+                            {NAV_ITEMS.map((item, idx) => (
+                                <MobileMenuItem key={item.label} item={item} idx={idx} setMobileMenuOpen={setMobileMenuOpen} />
                             ))}
-                            <div className="mt-4">
+                            <motion.div 
+                                initial={{ opacity: 0, y: 10 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                transition={{ delay: 0.1 + (NAV_ITEMS.length * 0.05) }}
+                                className="mt-6"
+                            >
                                 <Link to="/schedule-demo" onClick={() => setMobileMenuOpen(false)}>
-                                    <Button className="w-full justify-center bg-white text-black font-bold h-12 rounded-xl shadow-lg">
+                                    <Button className="w-full justify-center bg-white text-black font-bold h-12 rounded-xl shadow-lg hover:bg-orange-500 hover:text-white transition-all">
                                         Request a demo
                                     </Button>
                                 </Link>
-                            </div>
+                            </motion.div>
                         </div>
                     </motion.div>
                 )}
             </AnimatePresence>
         </header >
+    );
+};
+
+const MobileMenuItem = ({ item, idx, setMobileMenuOpen }: { item: any, idx: number, setMobileMenuOpen: (o: boolean) => void }) => {
+    const [isOpen, setIsOpen] = useState(false);
+    const hasSubItems = item.megaMenu && item.megaMenu.length > 0;
+
+    return (
+        <motion.div 
+            initial={{ opacity: 0, x: -10 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ delay: idx * 0.05 }}
+            className="border-b border-white/5 last:border-0"
+        >
+            <div className="flex items-center justify-between py-4">
+                <Link
+                    to={item.href}
+                    className="font-medium text-lg text-gray-200 hover:text-orange-400 transition-colors"
+                    onClick={() => !hasSubItems && setMobileMenuOpen(false)}
+                >
+                    {item.label}
+                </Link>
+                {hasSubItems && (
+                    <button 
+                        onClick={() => setIsOpen(!isOpen)}
+                        className="p-2 -mr-2 text-zinc-500 hover:text-white transition-colors"
+                    >
+                        <ChevronDown size={20} className={cn("transition-transform duration-300", isOpen && "rotate-180")} />
+                    </button>
+                )}
+            </div>
+
+            <AnimatePresence>
+                {isOpen && hasSubItems && (
+                    <motion.div
+                        initial={{ height: 0, opacity: 0 }}
+                        animate={{ height: 'auto', opacity: 1 }}
+                        exit={{ height: 0, opacity: 0 }}
+                        transition={{ duration: 0.3 }}
+                        className="overflow-hidden bg-white/5 rounded-xl mb-4"
+                    >
+                        <div className="p-4 flex flex-col gap-4">
+                            {item.megaMenu.map((section: any) => (
+                                <div key={section.title} className="space-y-3">
+                                    <h4 className="text-[10px] font-black uppercase tracking-[0.2em] text-orange-500/70 pl-1">{section.title}</h4>
+                                    <div className="grid grid-cols-1 gap-1">
+                                        {section.items.map((subItem: any) => (
+                                            <Link
+                                                key={subItem.name}
+                                                to={subItem.href}
+                                                className="flex items-center gap-3 p-2 rounded-lg hover:bg-white/5 transition-colors group"
+                                                onClick={() => setMobileMenuOpen(false)}
+                                            >
+                                                <div className="w-8 h-8 rounded-lg bg-black/40 border border-white/5 flex items-center justify-center text-zinc-500 group-hover:text-orange-400 group-hover:border-orange-500/30 transition-all">
+                                                    {/* We could map icon strings to Lucide components here, but keeping it simple for now */}
+                                                    <ChevronRight size={14} />
+                                                </div>
+                                                <span className="text-sm text-zinc-400 group-hover:text-white transition-colors">{subItem.name}</span>
+                                            </Link>
+                                        ))}
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+                    </motion.div>
+                )}
+            </AnimatePresence>
+        </motion.div>
     );
 };
 

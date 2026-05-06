@@ -106,7 +106,7 @@ const ProductsMegaMenu: React.FC<{ sections: Section[]; onClose?: () => void }> 
                 to="/schedule-demo"
                 onClick={onClose}
                 className="flex items-center gap-1.5 px-4 py-1.5 rounded-full text-[11px] font-black text-black transition-all hover:scale-105"
-                style={{ background: 'linear-gradient(135deg, #F97316, #FBBF24)', boxShadow: '0 0 16px rgba(249,115,22,0.3)' }}
+                style={{ background: 'linear-gradient(135deg, #F97316, #EA580C)', boxShadow: '0 0 16px rgba(249,115,22,0.3)' }}
             >
                 Book Free Demo <ArrowRight size={11} />
             </Link>
@@ -168,7 +168,7 @@ const SolutionsMegaMenu: React.FC<{ sections: Section[]; onClose?: () => void }>
                 to="/schedule-demo"
                 onClick={onClose}
                 className="flex items-center gap-1.5 px-4 py-1.5 rounded-full text-[11px] font-black text-black transition-all hover:scale-105"
-                style={{ background: 'linear-gradient(135deg, #F97316, #FBBF24)', boxShadow: '0 0 16px rgba(249,115,22,0.3)' }}
+                style={{ background: 'linear-gradient(135deg, #F97316, #EA580C)', boxShadow: '0 0 16px rgba(249,115,22,0.3)' }}
             >
                 Book Free Demo <ArrowRight size={11} />
             </Link>

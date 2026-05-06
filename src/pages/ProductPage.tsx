@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { useSEO } from '../hooks/useSEO';
 import { useParams, useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Plus, Minus, Loader2, ArrowLeft } from 'lucide-react';
@@ -6,11 +7,11 @@ import { getProductBySlug, type ProductData } from '../utils/productData';
 import { WorkflowBuilder } from '../components/product/WorkflowBuilder';
 import { CapabilitiesSystem } from '../components/product/CapabilitiesSystem';
 import ProductDemoRegistry from '../components/product/ProductDemoRegistry';
-import MediaGallery from '../components/product/MediaGallery';
 import Specifications from '../components/product/Specifications';
 import Variants from '../components/product/Variants';
 import RelatedProducts from '../components/product/RelatedProducts';
 import { Link } from 'react-router-dom';
+
 
 /* ─── PRODUCT DETAIL HERO (dark, futuristic) ─────────────────────────────── */
 const DetailHero = ({ product }: { product: ProductData }) => (
@@ -126,17 +127,25 @@ const DetailHero = ({ product }: { product: ProductData }) => (
                         transition={{ duration: 0.9, delay: 0.2 }}
                         className="relative"
                     >
-                        <div className="relative rounded-3xl overflow-hidden border border-orange-500/15 shadow-[0_0_60px_rgba(249,115,22,0.08)]">
+                        <motion.div 
+                            animate={{ y: [0, -15, 0] }}
+                            transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
+                            className={`relative rounded-3xl overflow-hidden border border-orange-500/15 shadow-[0_0_60px_rgba(249,115,22,0.12)] ${(product.slug === 'ai-calling-agent' || product.slug === 'workflow-builder' || product.slug === 'email-automation' || product.slug === 'whatsapp-bot' || product.slug === 'ai-chatbot' || product.slug === 'web-scraping' || product.slug === 'content-generation' || product.slug === 'hr-onboarding' || product.slug === 'seo-automation' || product.slug === 'lead-generation' || product.slug === 'knowledge-bot' || product.slug === 'ai-analytics' || product.slug === 'invoice-document-ai' || product.slug === 'crm-automation') ? 'bg-[#030303]' : ''}`}
+                        >
                             <img
                                 src={product.heroImage}
                                 alt={product.title}
-                                className="w-full h-auto object-cover"
+                                className={`w-full h-auto object-cover ${(product.slug === 'ai-calling-agent' || product.slug === 'workflow-builder' || product.slug === 'email-automation' || product.slug === 'whatsapp-bot' || product.slug === 'ai-chatbot' || product.slug === 'web-scraping' || product.slug === 'content-generation' || product.slug === 'hr-onboarding' || product.slug === 'seo-automation' || product.slug === 'lead-generation' || product.slug === 'knowledge-bot' || product.slug === 'ai-analytics' || product.slug === 'invoice-document-ai' || product.slug === 'crm-automation') ? 'opacity-95 mix-blend-screen brightness-110 contrast-105' : ''}`}
+                                decoding="async"
                             />
-                            <div className="absolute inset-0 bg-gradient-to-t from-[#060606]/60 to-transparent" />
-                        </div>
+                            <div className="absolute inset-0 bg-gradient-to-t from-[#060606] via-transparent to-transparent opacity-40" />
+                            {(product.slug === 'ai-calling-agent' || product.slug === 'workflow-builder' || product.slug === 'email-automation' || product.slug === 'whatsapp-bot' || product.slug === 'ai-chatbot' || product.slug === 'web-scraping' || product.slug === 'content-generation' || product.slug === 'hr-onboarding' || product.slug === 'seo-automation' || product.slug === 'lead-generation' || product.slug === 'knowledge-bot' || product.slug === 'ai-analytics' || product.slug === 'invoice-document-ai' || product.slug === 'crm-automation') && (
+                                <div className="absolute inset-0 bg-gradient-to-r from-[#060606]/30 via-transparent to-[#060606]/30" />
+                            )}
+                        </motion.div>
 
                         {/* Decorative glow behind image */}
-                        <div className="absolute -inset-8 rounded-full blur-[80px] bg-orange-500/10 pointer-events-none -z-10" />
+                        <div className="absolute -inset-12 rounded-full blur-[100px] bg-orange-500/10 pointer-events-none -z-10 animate-pulse" />
                     </motion.div>
                 )}
             </div>
@@ -193,6 +202,27 @@ const ProductPage = () => {
     const [loading, setLoading] = useState(true);
     const [openFaqIndex, setOpenFaqIndex] = useState<number | null>(null);
 
+    const productSchema = product ? {
+        "@context": "https://schema.org/",
+        "@type": "Product",
+        "name": product.title,
+        "description": product.description,
+        "image": `https://vastechconsulting.com${product.heroImage || ''}`,
+        "brand": {
+            "@type": "Brand",
+            "name": "VAS Tech"
+        },
+        "url": `https://vastechconsulting.com/products/${slug}`
+    } : undefined;
+
+    useSEO({
+        title: product ? `${product.title} - ${product.subtitle}` : 'Product Details',
+        description: product?.description,
+        canonical: `https://vastechconsulting.com/products/${slug}`,
+        schema: productSchema,
+        ogImage: product?.heroImage ? `https://vastechconsulting.com${product.heroImage}` : undefined
+    });
+
     useEffect(() => {
         window.scrollTo(0, 0);
         setLoading(true);
@@ -229,10 +259,6 @@ const ProductPage = () => {
 
 
 
-                {/* 3. Media Gallery */}
-                {product.mediaGallery.length > 0 && (
-                    <MediaGallery items={product.mediaGallery} />
-                )}
 
                 {/* 4. Variants / Deployment Options */}
                 {product.variants.length > 0 && (
@@ -256,7 +282,7 @@ const ProductPage = () => {
                                     Simplify Your <span className="bg-gradient-to-r from-orange-400 to-yellow-400 bg-clip-text text-transparent">Workflow</span>
                                 </h2>
                                 <p className="text-zinc-400 text-base mt-3 max-w-lg mx-auto">
-                                    From concept to execution — we streamline every step.
+                                    From concept to execution - we streamline every step.
                                 </p>
                             </motion.div>
                             <WorkflowBuilder steps={product.process} />

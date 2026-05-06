@@ -23,7 +23,7 @@ export const TIMELINE_DATA: TimelineItem[] = [
     {
         year: '2021',
         title: 'Inception',
-        description: 'Founded with a clear vision—to bridge the gap between deep industrial expertise and the rapidly evolving world of technology.',
+        description: 'Founded with a clear vision-to bridge the gap between deep industrial expertise and the rapidly evolving world of technology.',
         icon: Sparkles,
         image: '/inception.png',
         color: { border: 'rgb(176, 117, 82)', shadow: 'rgba(176, 117, 82, 0.2)', bg: 'bg-brand-green-50', text: 'text-brand-green-700', iconColor: 'text-brand-green-500' }
@@ -55,7 +55,7 @@ export const TIMELINE_DATA: TimelineItem[] = [
     {
         year: 'Next Era',
         title: 'Trusted Partner',
-        description: 'Serving as a trusted partner for enterprises—helping them navigate complexity, embrace innovation, and unlock growth.',
+        description: 'Serving as a trusted partner for enterprises-helping them navigate complexity, embrace innovation, and unlock growth.',
         icon: Award,
         image: '/marketLeader.png',
         color: { border: 'rgb(212, 187, 117)', shadow: 'rgba(212, 187, 117, 0.2)', bg: 'bg-brand-yellow-50', text: 'text-brand-yellow-700', iconColor: 'text-brand-yellow-600' }

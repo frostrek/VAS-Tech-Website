@@ -124,48 +124,67 @@ const Counter = memo(({ value, suffix = '', text }: { value?: number; suffix?: s
 import geoData from '../utils/world-110m.json';
 
 const InteractiveGlobe = memo(() => {
-    const [hoveredCanada, setHoveredCanada] = useState(false);
+    const [hoveredPlace, setHoveredPlace] = useState<string | null>(null);
+    const [windowWidth, setWindowWidth] = useState(typeof window !== 'undefined' ? window.innerWidth : 1200);
+
+    useEffect(() => {
+        const handleResize = () => setWindowWidth(window.innerWidth);
+        window.addEventListener('resize', handleResize);
+        return () => window.removeEventListener('resize', handleResize);
+    }, []);
+
+    const isMobile = windowWidth < 768;
+
+    const locations = {
+        CAN: { name: "St Catharines, ON", type: "Global HQ", address: "McNicholl Circle, ON L2N 7C5, Canada", flag: "https://flagcdn.com/w40/ca.png" },
+        GBR: { name: "London, UK", type: "Regional Office", address: "Arcadia Ave, London, UK", flag: "https://flagcdn.com/w40/gb.png" },
+        USA: { name: "Austin, TX", type: "Tech Hub", address: "701 Tillery St, Austin, TX 78702, USA", flag: "https://flagcdn.com/w40/us.png" }
+    };
 
     return (
-        <div className="relative w-full h-[500px] lg:h-[800px] flex items-center justify-center">
+        <div className="relative w-full h-[450px] sm:h-[600px] lg:h-[800px] flex items-center justify-center">
             {/* Animated rings for extra flair */}
-            <div className="absolute w-[60%] h-[60%] border-2 border-dashed border-brand-green-500/10 rounded-full animate-spin-slow pointer-events-none" />
-            <div className="absolute w-[50%] h-[50%] border border-dashed border-brand-yellow-500/10 rounded-full animate-spin-slow-reverse pointer-events-none" />
+            <div className="absolute w-[80%] h-[80%] lg:w-[60%] lg:h-[60%] border-2 border-dashed border-orange-500/10 rounded-full animate-spin-slow pointer-events-none" />
+            <div className="absolute w-[70%] h-[70%] lg:w-[50%] lg:h-[50%] border border-dashed border-orange-500/05 rounded-full animate-spin-slow-reverse pointer-events-none" />
 
             <ComposableMap
                 projection="geoOrthographic"
                 projectionConfig={{
-                    rotate: [100, -50, 0], // Center on Canada
-                    scale: 350,
+                    rotate: [60, -40, 0], // Balanced rotation to show Canada, US and UK
+                    scale: isMobile ? 220 : 380,
                 }}
-                className="w-full h-full drop-shadow-2xl pointer-events-none"
+                className="w-full h-full drop-shadow-2xl"
             >
-                {/* Globe Background with glow */}
                 <Sphere stroke="#f97316" strokeWidth={0.5} strokeOpacity={0.2} fill="#0a0705" id="sphere" />
                 <Graticule stroke="#f97316" strokeWidth={0.5} strokeOpacity={0.1} />
                 <Geographies geography={geoData}>
                     {({ geographies }) =>
                         geographies.map((geo) => {
-                            const isCanada = geo.properties.name === "Canada" || geo.id === "CAN" || geo.properties.ISO_A3 === "CAN";
+                            const iso = geo.id || geo.properties.ISO_A3 || geo.properties.ISO_A2;
+                            const isCanada = iso === "CAN";
+                            const isUSA = iso === "USA" || geo.properties.name === "United States";
+                            const isUK = iso === "GBR" || iso === "GB" || geo.properties.name === "United Kingdom";
+                            const isTarget = isCanada || isUSA || isUK;
+                            const countryId = isCanada ? "CAN" : isUSA ? "USA" : isUK ? "GBR" : null;
+
                             return (
                                 <Geography
                                     key={geo.rsmKey}
                                     geography={geo}
-                                    onPointerEnter={() => { if (isCanada) setHoveredCanada(true); }}
-                                    onPointerLeave={() => { if (isCanada) setHoveredCanada(false); }}
-                                    fill={isCanada ? "rgba(249, 115, 22, 0.5)" : "rgba(17, 17, 16, 0.8)"}
+                                    onPointerEnter={() => { if (countryId) setHoveredPlace(countryId); }}
+                                    onPointerLeave={() => { setHoveredPlace(null); }}
+                                    fill={isTarget ? "rgba(249, 115, 22, 0.6)" : "rgba(17, 17, 16, 0.8)"}
                                     stroke="#f97316"
-                                    strokeWidth={isCanada ? 1 : 0.5}
-                                    strokeOpacity={isCanada ? 0.8 : 0.4}
-                                    className={isCanada ? "pointer-events-auto" : ""}
+                                    strokeWidth={isTarget ? 1.5 : 0.5}
+                                    strokeOpacity={isTarget ? 0.9 : 0.4}
+                                    className={isTarget ? "pointer-events-auto cursor-pointer" : ""}
                                     style={{
                                         default: { outline: "none", transition: "all 300ms ease" },
                                         hover: {
-                                            fill: isCanada ? "rgba(249, 115, 22, 0.9)" : "rgba(249, 115, 22, 0.3)",
+                                            fill: isTarget ? "rgba(249, 115, 22, 1)" : "rgba(249, 115, 22, 0.2)",
                                             outline: "none",
-                                            cursor: "pointer",
                                             transition: "all 300ms ease",
-                                            filter: isCanada ? "drop-shadow(0 0 10px rgba(249,115,22,0.8))" : "none"
+                                            filter: isTarget ? "drop-shadow(0 0 15px rgba(249,115,22,0.8))" : "none"
                                         },
                                         pressed: { outline: "none" },
                                     }}
@@ -178,39 +197,48 @@ const InteractiveGlobe = memo(() => {
             
             {/* Hover Tooltip */}
             <AnimatePresence>
-                {hoveredCanada && (
+                {hoveredPlace && locations[hoveredPlace as keyof typeof locations] && (
                     <motion.div
-                        initial={{ opacity: 0, scale: 0.95, y: 10 }}
+                        initial={{ opacity: 0, scale: 0.9, y: 20 }}
                         animate={{ opacity: 1, scale: 1, y: 0 }}
-                        exit={{ opacity: 0, scale: 0.95, y: 10 }}
-                        transition={{ duration: 0.2 }}
-                        className="absolute top-[35%] lg:top-[30%] right-[30%] lg:right-[35%] pointer-events-none bg-[#111110]/95 backdrop-blur-xl p-4 lg:p-5 rounded-2xl border border-orange-500/40 shadow-[0_20px_50px_rgba(249,115,22,0.2)] flex flex-col gap-3 z-30 min-w-[240px]"
+                        exit={{ opacity: 0, scale: 0.9, y: 20 }}
+                        transition={{ duration: 0.2, ease: "easeOut" }}
+                        className="absolute bottom-[10%] lg:bottom-auto lg:top-[30%] left-1/2 -translate-x-1/2 lg:translate-x-0 lg:right-[15%] pointer-events-none bg-[#0D0D0D]/95 backdrop-blur-2xl p-5 rounded-2xl border border-orange-500/40 shadow-[0_25px_60px_rgba(0,0,0,0.8),0_0_20px_rgba(249,115,22,0.15)] flex flex-col gap-3 z-30 min-w-[280px]"
                     >
-                        <div className="flex items-center gap-3 border-b border-orange-500/20 pb-3">
-                            <img src="https://flagcdn.com/w40/ca.png" alt="Canada" className="w-8 h-5 rounded-sm shadow-sm" />
+                        <div className="flex items-center gap-4 border-b border-orange-500/20 pb-4">
+                            <div className="w-12 h-8 rounded shadow-lg overflow-hidden border border-white/10">
+                                <img src={locations[hoveredPlace as keyof typeof locations].flag} alt="Flag" className="w-full h-full object-cover" />
+                            </div>
                             <div>
-                                <h4 className="font-bold text-white text-base leading-none mb-1">St Catharines, ON</h4>
-                                <span className="text-[10px] text-orange-400 font-bold uppercase tracking-widest">Global HQ</span>
+                                <h4 className="font-black text-white text-lg leading-none mb-1.5 tracking-tight">{locations[hoveredPlace as keyof typeof locations].name}</h4>
+                                <span className="text-[10px] text-orange-500 font-black uppercase tracking-[0.2em]">{locations[hoveredPlace as keyof typeof locations].type}</span>
                             </div>
                         </div>
                         <div className="pt-1">
-                            <p className="text-xs text-zinc-300 leading-relaxed mb-3">McNicholl Circle, St Catharines<br/>Ontario L2N 7C5, Canada</p>
-                            <div className="flex items-center gap-2 text-[11px] text-orange-400 bg-orange-500/10 px-2 py-1.5 rounded-lg border border-orange-500/20 w-fit">
-                                <span className="w-1.5 h-1.5 rounded-full bg-brand-green-500 animate-pulse shadow-[0_0_8px_rgba(34,197,94,0.8)]" />
-                                <span className="font-bold tracking-widest uppercase">Systems Online</span>
+                            <p className="text-xs text-zinc-300 leading-relaxed mb-4 font-medium">{locations[hoveredPlace as keyof typeof locations].address}</p>
+                            <div className="flex items-center gap-2.5 text-[10px] text-orange-400 bg-orange-500/10 px-3 py-2 rounded-xl border border-orange-500/20 w-fit">
+                                <span className="w-2 h-2 rounded-full bg-orange-500 animate-pulse shadow-[0_0_10px_rgba(249,115,22,0.8)]" />
+                                <span className="font-black tracking-[0.15em] uppercase">Enterprise Hub Online</span>
                             </div>
                         </div>
                     </motion.div>
                 )}
             </AnimatePresence>
 
-            <div className="absolute inset-0 pointer-events-none rounded-full" style={{ boxShadow: "inset 0 0 100px 20px rgba(5,5,5,0.9)" }} />
+            <div className="absolute inset-0 pointer-events-none rounded-full" style={{ boxShadow: "inset 0 0 120px 30px rgba(5,5,5,0.95)" }} />
         </div>
     );
 });
 
 // ============ MAIN COMPONENT ============
+import { useSEO } from '../hooks/useSEO';
+
 const About = () => {
+    useSEO({
+        title: 'About Us - Our Mission & Vision',
+        description: 'Learn about VAS Tech\'s mission to empower industries through AI, automation, and innovation. Discover our global presence and core values.',
+        canonical: 'https://vastechconsulting.com/about'
+    });
     const navigate = useNavigate();
     const ref = useRef<HTMLDivElement>(null);
     const { scrollYProgress } = useScroll({ target: ref });
@@ -273,6 +301,26 @@ const About = () => {
             address: 'McNicholl Circle, St Catharines, Ontario L2N 7C5',
             mapUrl: 'https://www.google.com/maps/search/?api=1&query=McNicholl+Circle+St+Catharines+Ontario+L2N+7C5+Canada'
         },
+        {
+            name: 'United Kingdom',
+            city: 'London',
+            country: 'UK',
+            flagImg: 'https://flagcdn.com/w40/gb.png',
+            image: '/Arcadia-Office-1-.jpeg',
+            companyName: 'Regional Office',
+            address: 'Arcadia Ave, London',
+            mapUrl: 'https://www.google.com/maps/search/?api=1&query=Arcadia+Ave+London'
+        },
+        {
+            name: 'United States',
+            city: 'Austin',
+            country: 'USA',
+            flagImg: 'https://flagcdn.com/w40/us.png',
+            image: '/701 Tillery St 12 3227, Austin, TX 78702, USA.jpg',
+            companyName: 'Tech Hub',
+            address: '701 Tillery St, Austin, TX 78702',
+            mapUrl: 'https://www.google.com/maps/search/?api=1&query=701+Tillery+St+Austin+TX'
+        },
     ], []);
 
     return (
@@ -309,7 +357,7 @@ const About = () => {
                             </h1>
 
                             <p className="text-base md:text-lg mb-12 max-w-lg text-zinc-400 leading-relaxed font-medium">
-                                VAS Tech Consulting was founded with a clear vision—to bridge the gap between deep industrial expertise and the rapidly evolving world of technology and artificial intelligence.
+                                VAS Tech Consulting was founded with a clear vision-to bridge the gap between deep industrial expertise and the rapidly evolving world of technology and artificial intelligence.
                             </p>
 
                             <div className="flex flex-wrap gap-4">
@@ -353,7 +401,7 @@ const About = () => {
 
                             {/* Panel 2 (Offset Back) */}
                             <motion.div 
-                                className="absolute top-10 lg:top-32 right-[-20px] lg:right-[60%] w-[220px] lg:w-[280px] h-[220px] lg:h-[300px] bg-[#2A2A2A]/40 backdrop-blur-xl rounded-[2rem] border border-yellow-500/20 p-6 shadow-[inset_0_1px_2px_rgba(255,255,255,0.05),0_20px_40px_rgba(0,0,0,0.5)] z-10 flex flex-col justify-end hidden sm:flex"
+                                className="absolute top-10 lg:top-32 right-[-20px] lg:right-[60%] w-[220px] lg:w-[280px] h-[220px] lg:h-[300px] bg-[#2A2A2A]/40 backdrop-blur-xl rounded-[2rem] border border-orange-500/20 p-6 shadow-[inset_0_1px_2px_rgba(255,255,255,0.05),0_20px_40px_rgba(0,0,0,0.5)] z-10 flex flex-col justify-end hidden sm:flex"
                                 animate={{ y: [10, -10, 10], rotateZ: [-2, 4, -2] }}
                                 transition={{ duration: 9, repeat: Infinity, ease: "easeInOut" }}
                             >
@@ -409,7 +457,7 @@ const About = () => {
                             initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6, delay: 0.1 }}
                             className="md:col-span-1 lg:col-span-1 md:row-span-2 relative rounded-[2rem] overflow-hidden border border-orange-500/20 shadow-[0_20px_40px_rgba(0,0,0,0.5)] group hidden lg:block h-full"
                         >
-                            <img src="/campus-4.jpg" alt="VAS Tech Team" className="w-full h-full object-cover scale-105 group-hover:scale-100 transition-transform duration-700" loading="lazy" />
+                            <img src="/campus-4.jpg" alt="VAS Tech Team" className="w-full h-full object-cover scale-105 group-hover:scale-100 transition-transform duration-700" loading="lazy" decoding="async" />
                             <div className="absolute inset-0 bg-gradient-to-t from-[#0A0705] via-transparent to-transparent opacity-80" />
                             <div className="absolute bottom-6 left-6 text-white font-black text-2xl drop-shadow-md">
                                 Team <br/><span className="text-orange-400">VAS Tech</span>
@@ -514,7 +562,7 @@ const About = () => {
                                     </div>
                                     
                                     <div className="w-full md:w-[45%] rounded-[1.5rem] overflow-hidden aspect-video border border-orange-500/20 relative shadow-lg bg-[#000]">
-                                        <img src={item.image} alt={item.title} className="w-full h-full object-cover grayscale brightness-75 hover:grayscale-0 hover:brightness-100 transition-all duration-700" />
+                                        <img src={item.image} alt={item.title} className="w-full h-full object-cover grayscale brightness-75 hover:grayscale-0 hover:brightness-100 transition-all duration-700" loading="lazy" decoding="async" />
                                         <div className="absolute inset-0 bg-gradient-to-tr from-orange-500/40 mix-blend-overlay pointer-events-none" />
                                     </div>
                                 </div>
@@ -587,7 +635,7 @@ const About = () => {
                                     {/* Image Background */}
                                     {v.image && (
                                         <div className={`absolute inset-0 transition-opacity duration-1000 ${isActive ? 'opacity-40' : 'opacity-0'}`}>
-                                            <img src={v.image} alt={v.title} className="w-full h-full object-cover grayscale-[30%] mix-blend-luminosity" />
+                                            <img src={v.image} alt={v.title} className="w-full h-full object-cover grayscale-[30%] mix-blend-luminosity" loading="lazy" decoding="async" />
                                             <div className="absolute inset-0 bg-gradient-to-t from-[#111110] via-[#111110]/60 to-transparent" />
                                             <div className="absolute inset-0 bg-orange-500/20 mix-blend-overlay" />
                                         </div>
@@ -641,13 +689,13 @@ const About = () => {
                                     key={i}
                                     className="group relative bg-[#111110] border border-orange-500/20 rounded-2xl p-6 md:p-8 cursor-pointer overflow-hidden transition-all duration-500 hover:bg-[#150D08] hover:border-orange-500/30 hover:scale-[1.02] shadow-xl hover:shadow-[0_20px_40px_rgba(249,115,22,0.1)]"
                                 >
-                                    <div className="absolute left-0 top-0 bottom-0 w-1 bg-gradient-to-b from-orange-400 to-yellow-500 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                                    <div className="absolute left-0 top-0 bottom-0 w-1 bg-gradient-to-b from-orange-400 to-orange-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                                     
                                     <div className="flex items-center gap-6 relative z-10">
                                         <div className="w-16 h-16 rounded-2xl bg-[#1A1A1A] border border-orange-500/20 flex items-center justify-center text-3xl font-serif text-zinc-700 group-hover:text-orange-400 group-hover:border-orange-500/30 transition-all duration-300 shadow-inner group-hover:shadow-[inset_0_2px_15px_rgba(249,115,22,0.3)]">
                                             {f.num}
                                         </div>
-                                        <div>
+                                        <div className="flex-1 pr-12">
                                             <h3 className="text-xl font-bold text-white mb-2">{f.title}</h3>
                                             <p className="text-zinc-500 text-sm">{f.desc}</p>
                                         </div>
@@ -683,7 +731,7 @@ const About = () => {
                                 animate={{ rotate: 360 }}
                                 transition={{ duration: 40, repeat: Infinity, ease: "linear" }}
                             >
-                                <div className="absolute w-[80%] h-[80%] rounded-full border border-yellow-500/10 border-dashed" />
+                                <div className="absolute w-[80%] h-[80%] rounded-full border border-orange-500/10 border-dashed" />
                                 <div className="w-16 h-16 rounded-full bg-orange-500 blur-xl absolute top-0 -translate-y-1/2" />
                             </motion.div>
                             
@@ -731,7 +779,7 @@ const About = () => {
                                     className="group relative bg-[#111110] p-4 rounded-2xl border border-orange-500/20 flex items-center justify-between hover:border-orange-500/30 transition-colors shadow-sm hover:shadow-[0_10px_20px_rgba(249,115,22,0.1)]"
                                 >
                                     <div className="flex items-center gap-4">
-                                        <img src={o.flagImg} alt={o.city} className="w-8 h-6 rounded-sm shadow-sm opacity-80 group-hover:opacity-100" />
+                                        <img src={o.flagImg} alt={o.city} className="w-8 h-6 rounded-sm shadow-sm opacity-80 group-hover:opacity-100" loading="lazy" decoding="async" />
                                         <div>
                                             <h4 className="font-bold text-white text-base leading-none mb-1">{o.city}</h4>
                                             <span className="text-[10px] text-zinc-500 font-medium uppercase tracking-widest">{o.name}</span>
@@ -746,9 +794,9 @@ const About = () => {
                     </div>
 
                     {/* Globe Visualization */}
-                    <div className="lg:w-2/3 h-[500px] lg:h-[800px] w-full relative perspective-1000">
-                        <div className="absolute inset-0 bg-gradient-to-r from-[#0A0705] via-transparent to-transparent z-10 pointer-events-none" />
-                        <div className="absolute right-0 top-1/2 -translate-y-1/2 w-full h-full lg:scale-[1.2] origin-right pointer-events-none mix-blend-screen opacity-50">
+                    <div className="lg:w-2/3 h-[450px] sm:h-[600px] lg:h-[800px] w-full relative perspective-1000">
+                        <div className="absolute inset-0 bg-gradient-to-r from-[#0A0705] via-transparent to-transparent z-10 pointer-events-none hidden lg:block" />
+                        <div className="absolute inset-0 lg:right-0 lg:top-1/2 lg:-translate-y-1/2 w-full h-full lg:scale-[1.2] lg:origin-right mix-blend-screen opacity-70 lg:opacity-50">
                             <InteractiveGlobe />
                         </div>
                     </div>

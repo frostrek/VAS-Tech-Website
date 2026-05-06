@@ -10,7 +10,7 @@ const ScheduleDemo = () => {
     const [calendarLoaded, setCalendarLoaded] = useState(false);
 
     return (
-        <div className={`min-h-screen pt-32 pb-24 relative overflow-hidden ${theme === 'dark' ? 'bg-[#050505]' : 'bg-[#FAFAFA]'}`}>
+        <div className={`min-h-screen pt-24 md:pt-32 pb-24 relative overflow-hidden ${theme === 'dark' ? 'bg-[#050505]' : 'bg-[#FAFAFA]'}`}>
             {theme === 'dark' && <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_rgba(249,115,22,0.06)_0%,_transparent_70%)] pointer-events-none" />}
             {theme !== 'dark' && <CuteBackground />}
             
@@ -79,7 +79,7 @@ const ScheduleDemo = () => {
 
                     {/* Right Column - Google Calendar Booking */}
                     <div className={`relative rounded-[2.5rem] shadow-2xl p-2 md:p-3 overflow-hidden border transition-all ${theme === 'dark' ? 'bg-[#0F0F0F] border-orange-500/20' : 'bg-white border-gray-100'}`}>
-                        {theme === 'dark' && <div className="absolute top-1/4 -right-20 w-64 h-64 bg-yellow-500/10 rounded-full blur-[80px] pointer-events-none" />}
+                        {theme === 'dark' && <div className="absolute top-1/4 -right-20 w-64 h-64 bg-orange-500/10 rounded-full blur-[80px] pointer-events-none" />}
                         
                         <div className={`relative w-full min-h-[500px] md:min-h-[640px] rounded-[2rem] overflow-hidden ${theme === 'dark' ? 'bg-black' : 'bg-[#FAFAFA]'}`}>
                             {/* Loading state indicator */}
@@ -104,7 +104,7 @@ const ScheduleDemo = () => {
                                 width="100%"
                                 height="640"
                                 title="Schedule a Demo"
-                                className="w-full min-h-[500px] md:min-h-[640px] rounded-[2rem]"
+                                className="w-full min-h-[550px] sm:min-h-[640px] rounded-[2rem]"
                                 loading="eager"
                                 onLoad={() => setCalendarLoaded(true)}
                             ></iframe>

@@ -159,7 +159,7 @@ const HeroSupportUI = () => {
             <div className="w-full px-4 py-3 border-b border-orange-500/20 flex items-center justify-between bg-zinc-900/40 backdrop-blur-xl z-20 shrink-0 h-14 pt-6">
                 <div className="flex items-center gap-2.5">
                     <div className="w-8 h-8 rounded-full overflow-hidden shrink-0 border border-orange-500/30">
-                        <img src="/VAS_logo.png" alt="Support" className="w-full h-full object-contain p-1.5 bg-black" />
+                        <img src="/VAS_logo.png" alt="Support" className="w-full h-full object-contain p-1.5 bg-black" loading="lazy" decoding="async" />
                     </div>
                     <div>
                         <h3 className="text-white text-[13px] font-bold tracking-tight leading-none">VAS Tech Assistant</h3>
@@ -241,7 +241,7 @@ const HeroSupportUI = () => {
             <div className="w-full px-4 py-3 bg-[#0D1418] border-b border-orange-500/20 flex items-center gap-3 shrink-0 shadow-lg z-10 pt-6">
                 <button className="text-zinc-500 hover:text-white transition-colors shrink-0"><ChevronLeft size={20} /></button>
                 <div className="w-10 h-10 rounded-full overflow-hidden shrink-0 border border-orange-500/20">
-                    <img src="https://i.pravatar.cc/150?img=33" alt="Avatar" className="w-full h-full object-cover" />
+                    <img src="https://i.pravatar.cc/150?img=33" alt="Avatar" className="w-full h-full object-cover" loading="lazy" decoding="async" />
                 </div>
                 <div className="flex-1 overflow-hidden">
                     <h3 className="text-zinc-100 text-[13px] font-bold leading-tight truncate">VAS Tech Support</h3>
@@ -440,7 +440,7 @@ const HeroSupportUI = () => {
                 className="relative z-10 flex shrink-0"
             >
                 {/* Device Hardware Bezel - Refined & Thinner */}
-                <div className="relative w-[280px] sm:w-[305px] h-[600px] bg-[#0A0A0A] rounded-[3.2rem] border-[5px] border-[#1A1A1A] shadow-[0_40px_100px_rgba(0,0,0,0.8),inset_0_0_2px_rgba(255,255,255,0.1)] shrink-0 ring-1 ring-white/10 overflow-hidden">
+                <div className="relative w-full max-w-[305px] h-[580px] sm:h-[600px] bg-[#0A0A0A] rounded-[3.2rem] border-[5px] border-[#1A1A1A] shadow-[0_40px_100px_rgba(0,0,0,0.8),inset_0_0_2px_rgba(255,255,255,0.1)] shrink-0 ring-1 ring-white/10 overflow-hidden mx-auto">
                     
                     {/* Hardware Buttons - Sleeker */}
                     <div className="absolute top-[100px] -right-[5px] w-[2px] h-[50px] bg-[#222222] rounded-r-sm z-50"></div>

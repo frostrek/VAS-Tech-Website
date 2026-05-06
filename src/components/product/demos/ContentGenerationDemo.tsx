@@ -46,11 +46,11 @@ const ContentGenerationDemo = () => {
         <div className={`w-full max-w-4xl mx-auto rounded-2xl border p-6 md:p-10 ${theme === 'dark' ? 'bg-dark-card border-dark-accent/20' : 'bg-gray-50 border-gray-200'}`}>
             <div className="flex items-center justify-between mb-8">
                 <h3 className={`text-xl font-bold flex items-center gap-3 ${theme === 'dark' ? 'text-dark-text' : 'text-gray-900'}`}>
-                    <PenTool className={`w-6 h-6 ${theme === 'dark' ? 'text-dark-accent' : 'text-[#B07552]'}`} />
+                    <PenTool className={`w-6 h-6 ${theme === 'dark' ? 'text-dark-accent' : 'text-[#F97316]'}`} />
                     AI Content Generator
                 </h3>
                 
-                <div className={`px-4 py-1.5 rounded-full text-xs font-semibold flex items-center gap-2 ${theme === 'dark' ? 'bg-dark-bg text-dark-accent border border-dark-accent/20' : 'bg-white border text-[#B07552] border-[#B07552]/20'}`}>
+                <div className={`px-4 py-1.5 rounded-full text-xs font-semibold flex items-center gap-2 ${theme === 'dark' ? 'bg-dark-bg text-dark-accent border border-dark-accent/20' : 'bg-white border text-[#F97316] border-[#F97316]/20'}`}>
                     <Sparkles className="w-3 h-3" />
                     Tone: Energetic & Persuasive
                 </div>
@@ -84,7 +84,7 @@ const ContentGenerationDemo = () => {
 
                 {/* Editor Area */}
                 <div className={`col-span-1 lg:col-span-2 rounded-xl border flex flex-col ${theme === 'dark' ? 'bg-[#0a0a0a] border-dark-accent/20 shadow-inner' : 'bg-white border-gray-200 shadow-sm'}`}>
-                    <div className={`px-4 py-3 border-b flex items-center justify-between ${theme === 'dark' ? 'border-dark-accent/20 bg-dark-card' : 'border-gray-200 bg-gray-50'}`}>
+                    <div className={`px-4 py-3 border-b flex items-center justify-between ${theme === 'dark' ? 'border-zinc-800/50 bg-dark-card' : 'border-gray-200 bg-gray-50'}`}>
                         <div className="flex gap-2">
                             <FileText className={`w-4 h-4 ${theme === 'dark' ? 'text-dark-text-muted' : 'text-gray-400'}`} />
                             <span className={`text-xs font-semibold ${theme === 'dark' ? 'text-dark-text' : 'text-gray-600'}`}>product_description.txt</span>
@@ -99,7 +99,7 @@ const ContentGenerationDemo = () => {
                                 <motion.span 
                                     animate={{ opacity: [1, 0] }} 
                                     transition={{ repeat: Infinity, duration: 0.8 }}
-                                    className={`inline-block w-2h-5 ml-1 align-middle ${theme === 'dark' ? 'bg-dark-accent' : 'bg-[#B07552]'}`}
+                                    className={`inline-block w-2h-5 ml-1 align-middle ${theme === 'dark' ? 'bg-dark-accent' : 'bg-[#F97316]'}`}
                                     style={{ width: '8px', height: '1.2em' }}
                                 />
                             )}

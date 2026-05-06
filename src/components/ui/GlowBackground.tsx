@@ -27,7 +27,7 @@ const GlowBackground = () => {
                 initial={{ opacity: 0.4, y: 0 }}
                 animate={{ opacity: [0.4, 0.6, 0.4], y: [-20, 20, -20] }}
                 transition={{ duration: 15, repeat: Infinity, ease: "easeInOut" }}
-                className="absolute top-[40%] -right-[20%] w-[1000px] h-[1000px] rounded-full bg-brand-yellow-500/15 blur-[150px]"
+                className="absolute top-[40%] -right-[20%] w-[1000px] h-[1000px] rounded-full bg-orange-500/15 blur-[150px]"
             />
 
             {/* Subtle White central glow */}

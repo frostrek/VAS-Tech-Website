@@ -12,7 +12,7 @@ import {
 } from 'lucide-react';
 
 /* ─── BRAND PALETTE ──────────────────────────────────────────────────────── */
-// Unified orange/yellow brand theme — all categories share this accent
+// Unified orange/yellow brand theme - all categories share this accent
 const BRAND = {
     primary: '#F97316',          // orange-500
     secondary: '#FBBF24',        // amber-400
@@ -31,8 +31,8 @@ const CATEGORIES = [
         number: '01',
         label: 'Communication Automation',
         icon: MessageSquare,
-        tagline: 'Never miss a customer touchpoint — across every channel.',
-        description: 'Reach your customers where they are. From calls to chats to emails — AI handles every conversation at scale, 24/7.',
+        tagline: 'Never miss a customer touchpoint - across every channel.',
+        description: 'Reach your customers where they are. From calls to chats to emails - AI handles every conversation at scale, 24/7.',
         live: true,
         products: [
             {
@@ -40,7 +40,7 @@ const CATEGORIES = [
                 name: 'AI Calling Agent',
                 slug: 'ai-calling-agent',
                 short: 'Outbound & inbound voice AI for reminders, follow-ups, and customer queries',
-                industry: { label: 'For Clinics', text: 'Automated appointment reminders & no-show follow-ups — reducing front desk load by 70%.' },
+                industry: { label: 'For Clinics', text: 'Automated appointment reminders & no-show follow-ups - reducing front desk load by 70%.' },
                 tags: ['Voice AI', 'Inbound', 'Outbound'],
                 live: true,
             },
@@ -49,7 +49,7 @@ const CATEGORIES = [
                 name: 'WhatsApp Bot',
                 slug: 'whatsapp-bot',
                 short: 'Automated conversational flows on WhatsApp Business API',
-                industry: { label: 'For Retail', text: 'Real-time order tracking, return initiation & delivery updates — zero app downloads needed.' },
+                industry: { label: 'For Retail', text: 'Real-time order tracking, return initiation & delivery updates - zero app downloads needed.' },
                 tags: ['WhatsApp API', 'Messaging'],
                 live: true,
             },
@@ -67,7 +67,7 @@ const CATEGORIES = [
                 name: 'Email Automation Agent',
                 slug: 'email-automation',
                 short: 'AI that reads, categorizes, drafts, and sends emails automatically',
-                industry: { label: 'For SaaS', text: 'Automated follow-up sequences triggered by user actions — free trial to paid, on autopilot.' },
+                industry: { label: 'For SaaS', text: 'Automated follow-up sequences triggered by user actions - free trial to paid, on autopilot.' },
                 tags: ['Email', 'Sequences'],
                 live: false,
             },
@@ -79,7 +79,7 @@ const CATEGORIES = [
         label: 'Sales & CRM Automation',
         icon: Users,
         tagline: 'Turn your pipeline into a self-managing revenue engine.',
-        description: 'AI agents that find, qualify, and close leads — while syncing every interaction back to your CRM without lifting a finger.',
+        description: 'AI agents that find, qualify, and close leads - while syncing every interaction back to your CRM without lifting a finger.',
         live: false,
         products: [
             {
@@ -107,7 +107,7 @@ const CATEGORIES = [
         number: '03',
         label: 'Operations Automation',
         icon: Workflow,
-        tagline: 'Eliminate back-office bottlenecks — permanently.',
+        tagline: 'Eliminate back-office bottlenecks - permanently.',
         description: 'Automate repetitive, error-prone operational tasks. Process invoices, build workflows, and connect your entire tech stack.',
         live: false,
         products: [
@@ -137,7 +137,7 @@ const CATEGORIES = [
         label: 'Data & Intelligence',
         icon: BarChart3,
         tagline: 'Turn your data from a liability into a competitive advantage.',
-        description: 'AI-powered dashboards, web scrapers, and analytics engines that surface insights driving decisions — in real time, every time.',
+        description: 'AI-powered dashboards, web scrapers, and analytics engines that surface insights driving decisions - in real time, every time.',
         live: false,
         products: [
             {
@@ -166,7 +166,7 @@ const CATEGORIES = [
         label: 'Content Automation',
         icon: PenTool,
         tagline: 'Scale content output without scaling headcount.',
-        description: 'AI writing agents that produce product copy, blog posts, social content, and SEO pages at scale — in your brand voice.',
+        description: 'AI writing agents that produce product copy, blog posts, social content, and SEO pages at scale - in your brand voice.',
         live: false,
         products: [
             {
@@ -312,7 +312,7 @@ const CategorySection = ({ category, index }: { category: typeof CATEGORIES[0]; 
 
     return (
         <section id={category.id} className="relative py-24 overflow-hidden">
-            {/* Subtle ambient glow — alternates side */}
+            {/* Subtle ambient glow - alternates side */}
             <div className={`absolute top-1/2 -translate-y-1/2 ${isEven ? '-left-40' : '-right-40'} w-[600px] h-[400px] rounded-full blur-[130px] opacity-[0.07] pointer-events-none`}
                 style={{ background: 'radial-gradient(circle, #F97316, #FBBF24)' }} />
 
@@ -335,7 +335,7 @@ const CategorySection = ({ category, index }: { category: typeof CATEGORIES[0]; 
                         <div className="flex items-center gap-2.5 px-3 py-1.5 rounded-full border border-orange-500/25 bg-orange-500/08">
                             <CatIcon size={13} className="text-orange-400" />
                             <span className="text-[10px] font-black uppercase tracking-[0.3em] text-orange-400">
-                                {category.number} — {category.label}
+                                {category.number} - {category.label}
                             </span>
                         </div>
                         {category.live && (
@@ -361,7 +361,7 @@ const CategorySection = ({ category, index }: { category: typeof CATEGORIES[0]; 
                     <div className="mt-8 h-px w-full" style={{ background: 'linear-gradient(to right, rgba(249,115,22,0.4), rgba(251,191,36,0.2), transparent)' }} />
                 </motion.div>
 
-                {/* Products grid — 2 columns, featured card spans */}
+                {/* Products grid - 2 columns, featured card spans */}
                 <div className={`grid gap-5 ${category.products.length === 4 ? 'grid-cols-1 md:grid-cols-2' : 'grid-cols-1 md:grid-cols-2'}`}>
                     {category.products.map((product, i) => (
                         <ProductCard key={product.name} product={product} index={i} />
@@ -463,7 +463,7 @@ const HeroSection = () => {
 
                 <motion.p initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.65, delay: 0.3 }}
                     className="text-base md:text-lg text-zinc-400 max-w-xl leading-relaxed mb-10">
-                    Products we can offer to clients — for website & sales. Pick the category that matches your biggest bottleneck and qualify for a demo in seconds.
+                    Products we can offer to clients - for website & sales. Pick the category that matches your biggest bottleneck and qualify for a demo in seconds.
                 </motion.p>
 
                 {/* Category pills */}
@@ -498,7 +498,14 @@ const HeroSection = () => {
 };
 
 /* ─── MAIN PAGE ──────────────────────────────────────────────────────────── */
+import { useSEO } from '../hooks/useSEO';
+
 const ProductsPage = () => {
+    useSEO({
+        title: 'Our AI Products - Enterprise Automation Suite',
+        description: 'Explore our comprehensive suite of AI products, from calling agents and chatbots to workflow builders and document AI.',
+        canonical: 'https://vastechconsulting.com/products'
+    });
     const [activeId, setActiveId] = useState('communication');
 
     useEffect(() => {

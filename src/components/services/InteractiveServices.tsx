@@ -124,7 +124,7 @@ const InteractiveServicesWorkflow = () => {
             {/* BACKGROUND */}
             <div className="absolute inset-0 pointer-events-none z-0">
                 <div className={`absolute top-0 right-0 w-[600px] h-[600px] rounded-full blur-[150px] opacity-10 bg-orange-500 transition-all duration-1000 ${isOverdrive ? 'scale-150 opacity-30 bg-red-500' : ''}`} />
-                <div className="absolute bottom-0 left-0 w-[800px] h-[800px] rounded-full blur-[150px] opacity-5 bg-yellow-500" />
+                <div className="absolute bottom-0 left-0 w-[800px] h-[800px] rounded-full blur-[150px] opacity-5 bg-orange-600" />
                 <div
                     className="absolute inset-0 opacity-[0.03]"
                     style={{ backgroundImage: `linear-gradient(#ffffff 1px, transparent 1px), linear-gradient(90deg, #ffffff 1px, transparent 1px)`, backgroundSize: '40px 40px', maskImage: 'radial-gradient(ellipse at center, white 0%, transparent 80%)' }}
@@ -141,11 +141,11 @@ const InteractiveServicesWorkflow = () => {
                         </span>
                     </motion.div>
                     <motion.h2 initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.1 }}
-                        className="text-4xl md:text-5xl lg:text-7xl font-serif text-white mb-6 drop-shadow-xl tracking-tight"
+                        className="text-4xl md:text-6xl font-serif text-white mb-6 tracking-tight"
                     >
-                        Core System <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-400 to-yellow-500 italic">Capabilities</span>
+                        Core System <span className="bg-gradient-to-r from-orange-400 to-yellow-400 bg-clip-text text-transparent">Capabilities</span>
                     </motion.h2>
-                    <p className="text-zinc-400 max-w-2xl mx-auto text-lg leading-relaxed shadow-sm">
+                    <p className="text-zinc-500 max-w-2xl mx-auto text-lg leading-relaxed">
                         Total freedom simulation. <span className="text-white font-bold">Drag and drop the interface panels.</span> Inject execution payload by activating System Overdrive.
                     </p>
                 </div>
@@ -167,7 +167,7 @@ const InteractiveServicesWorkflow = () => {
                                     }`}
                                 >
                                     {isActive && <motion.div layoutId="active-bg" className="absolute inset-0 bg-gradient-to-r from-orange-500/10 to-transparent z-0" />}
-                                    {isActive && <motion.div layoutId="active-indicator" className="absolute left-0 top-0 bottom-0 w-1.5 bg-gradient-to-b from-orange-400 to-yellow-500 shadow-[0_0_15px_#f97316]" />}
+                                    {isActive && <motion.div layoutId="active-indicator" className="absolute left-0 top-0 bottom-0 w-1.5 bg-gradient-to-b from-orange-400 to-orange-600 shadow-[0_0_15px_#f97316]" />}
 
                                     <div className="relative z-10 flex items-center gap-5">
                                         <div className={`w-14 h-14 rounded-2xl flex items-center justify-center border transition-all duration-500 shrink-0 ${isActive ? 'bg-orange-500/20 border-orange-500/40 shadow-[0_0_20px_rgba(249,115,22,0.4)]' : 'bg-black border-white/10'}`}>
@@ -175,7 +175,7 @@ const InteractiveServicesWorkflow = () => {
                                         </div>
                                         <div>
                                             <div className={`text-[10px] font-black uppercase tracking-[0.2em] mb-1.5 ${isActive ? 'text-orange-400' : 'text-zinc-600'}`}>Module 0{i+1}</div>
-                                            <div className={`font-bold text-xl md:text-2xl ${isActive ? 'text-white' : 'text-zinc-400'}`}>{cap.title}</div>
+                                            <div className={`font-serif text-xl md:text-2xl ${isActive ? 'text-white' : 'text-zinc-400'}`}>{cap.title}</div>
                                         </div>
                                     </div>
                                 </button>
@@ -202,7 +202,7 @@ const InteractiveServicesWorkflow = () => {
                     </div>
 
                     {/* -- RIGHT: 2D HUD COMMAND CENTER -- */}
-                    <div ref={consoleRef} className={`relative w-full h-[650px] md:h-[750px] rounded-[3rem] border shadow-2xl overflow-hidden flex transition-colors duration-1000 ${
+                    <div ref={consoleRef} className={`relative w-full h-[550px] sm:h-[650px] md:h-[750px] rounded-[2.5rem] sm:rounded-[3rem] border shadow-2xl overflow-hidden flex transition-colors duration-1000 ${
                         isOverdrive ? 'bg-[#150202] border-red-500/40 shadow-[0_0_80px_rgba(239,68,68,0.2)]' : 'bg-[#070707] border-orange-500/20 shadow-[0_0_60px_rgba(249,115,22,0.15)]'
                     }`}>
                         
@@ -216,7 +216,7 @@ const InteractiveServicesWorkflow = () => {
                         <div className={`absolute top-0 left-0 right-0 h-14 border-b bg-[#0A0A0A]/80 backdrop-blur-md flex items-center justify-between px-6 z-30 transition-colors duration-1000 ${isOverdrive ? 'border-red-500/40' : 'border-orange-500/20'}`}>
                             <div className="flex items-center gap-2">
                                 <div className="w-3 h-3 rounded-full bg-red-500/80" />
-                                <div className="w-3 h-3 rounded-full bg-yellow-500/80" />
+                                <div className="w-3 h-3 rounded-full bg-orange-400/80" />
                                 <div className={`w-3 h-3 rounded-full shadow-[0_0_10px_rgba(249,115,22,0.8)] ${isOverdrive ? 'bg-red-500' : 'bg-orange-500/80 animate-pulse'}`} />
                             </div>
                             <div className="text-[11px] font-bold text-zinc-500 uppercase tracking-[0.2em] flex items-center gap-2">
@@ -232,7 +232,7 @@ const InteractiveServicesWorkflow = () => {
                             <motion.div animate={{ rotate: -360 }} transition={{ duration: isOverdrive ? 3 : 40, repeat: Infinity, ease: 'linear' }}
                                         className={`absolute w-[380px] h-[380px] rounded-full border ${isOverdrive ? 'border-red-600/30' : 'border-orange-500/10'}`} />
                             <motion.div animate={{ rotate: 360 }} transition={{ duration: isOverdrive ? 1.5 : 20, repeat: Infinity, ease: 'linear' }}
-                                        className={`absolute w-[260px] h-[260px] rounded-full border-2 border-dotted ${isOverdrive ? 'border-red-500/60' : 'border-yellow-500/30'}`} />
+                                        className={`absolute w-[260px] h-[260px] rounded-full border-2 border-dotted ${isOverdrive ? 'border-red-500/60' : 'border-orange-500/30'}`} />
                             
                             <AnimatePresence mode="wait">
                                 <motion.div key={activeCap.id} initial={{ scale: 0.5, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} exit={{ scale: 1.5, opacity: 0 }} transition={{ type: "spring" }}
@@ -280,7 +280,7 @@ const InteractiveServicesWorkflow = () => {
                                 
                                 <div className="text-[10px] font-black uppercase text-zinc-500 tracking-widest mb-4 flex items-center justify-between pb-3 border-b border-white/5 pr-6">
                                     <div className="flex items-center gap-2 text-white">
-                                        <Activity size={12} className={isOverdrive ? 'text-red-500 animate-spin' : 'text-yellow-400 animate-pulse'} /> 
+                                        <Activity size={12} className={isOverdrive ? 'text-red-500 animate-spin' : 'text-orange-400 animate-pulse'} /> 
                                         Execution Log
                                     </div>
                                     <span className="font-mono text-[9px] text-green-400">T+{randomSeed.toString().substring(2, 6)}</span>

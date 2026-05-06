@@ -459,6 +459,8 @@ const Chatbot: React.FC = () => {
                             src="/bot.png"
                             alt="Chat"
                             className="w-full h-full object-contain filter drop-shadow-md"
+                            loading="lazy"
+                            decoding="async"
                         />
                     </div>
                 )}
@@ -502,7 +504,7 @@ const Chatbot: React.FC = () => {
                             >
                                 <div className="flex items-center gap-3 pointer-events-none">
                                     <div className="w-12 h-12 bg-black/40 backdrop-blur-md rounded-full flex items-center justify-center border border-orange-500/20 shadow-lg">
-                                        <img src="/bot.png" className="w-9 h-9 object-contain" alt="Robot" />
+                                        <img src="/bot.png" className="w-9 h-9 object-contain" alt="Robot" loading="lazy" decoding="async" />
                                     </div>
                                     <div>
                                         <h3 className="font-semibold text-sm">VAS Tech Assistant</h3>
@@ -564,7 +566,7 @@ const Chatbot: React.FC = () => {
                                             transition={{ duration: 0.5 }}
                                             className="text-center px-6 py-6"
                                         >
-                                            <img src="/bot.png" className="w-32 mx-auto mb-4 object-contain" alt="Robot" />
+                                            <img src="/bot.png" className="w-32 mx-auto mb-4 object-contain" alt="Robot" loading="lazy" decoding="async" />
                                             <h4 className="text-lg font-bold" style={{ color: COLORS.text }}>
                                                 Hi, I'm VAS Tech AI 👋
                                             </h4>
@@ -597,7 +599,7 @@ const Chatbot: React.FC = () => {
                                             {msg.type === 'user' ? (
                                                 <span>You</span>
                                             ) : (
-                                                <img src="/bot.png" alt="Bot" className="w-7 h-7 object-contain" />
+                                                <img src="/bot.png" alt="Bot" className="w-7 h-7 object-contain" loading="lazy" decoding="async" />
                                             )}
                                         </div>
                                         <div
@@ -630,7 +632,7 @@ const Chatbot: React.FC = () => {
                                             )}
                                             {msg.image && (
                                                 <div className="mt-2 rounded-lg overflow-hidden border border-gray-200">
-                                                    <img src={msg.image} alt="Generated" className="w-full h-auto" />
+                                                    <img src={msg.image} alt="Generated" className="w-full h-auto" loading="lazy" decoding="async" />
                                                 </div>
                                             )}
                                         </div>

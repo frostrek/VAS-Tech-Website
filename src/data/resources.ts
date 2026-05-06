@@ -143,7 +143,7 @@ export const CASE_STUDIES: CaseStudy[] = [
         duration: '5 months',
         team: '60 Collectors | 8 Supervisors',
         description: 'Diverse mobile-based image, video, and audio data collection across varied environments.',
-        challenge: 'The client needed real-world datasets that reflected diverse lighting, accents, and acoustics—data that cannot be scraped from the web. Privacy and consent compliance were critical blockers.',
+        challenge: 'The client needed real-world datasets that reflected diverse lighting, accents, and acoustics-data that cannot be scraped from the web. Privacy and consent compliance were critical blockers.',
         solution: 'We deployed 60 field data collectors managed by 8 supervisors. The scope included mobile-based image/video capture, speech recording across demographics, and handwritten document collection for OCR. We handled all contributor onboarding and consent forms.',
         outcome: [
             'Collected diverse datasets across multiple environments and demographics.',
@@ -260,7 +260,7 @@ export const BLOG_POSTS: BlogPost[] = [
     {
         id: 'blog-rlhf-explained',
         title: 'Why RLHF is Critical for Enterprise Model Safety',
-        excerpt: 'Reinforcement Learning from Human Feedback (RLHF) isn\'t just a buzzword—it\'s the safety valve for deploying LLMs in enterprise environments. We break down the process and its impact.',
+        excerpt: 'Reinforcement Learning from Human Feedback (RLHF) isn\'t just a buzzword-it\'s the safety valve for deploying LLMs in enterprise environments. We break down the process and its impact.',
         date: 'April, 2026',
         readTime: '8 min read',
         author: 'AI Safety Team',

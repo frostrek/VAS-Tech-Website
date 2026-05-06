@@ -27,11 +27,11 @@ const ProductHero = ({
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.6 }}
-                    className={`inline-flex items-center gap-2 px-4 py-1.5 rounded-full border backdrop-blur-md text-sm font-medium mb-8 shadow-sm ${theme === 'dark' ? 'bg-dark-card/50 border-dark-accent/30 text-dark-accent' : 'bg-brand-green-100/50 border-brand-green-200 text-brand-green-800'}`}
+                    className={`inline-flex items-center gap-2 px-4 py-1.5 rounded-full border backdrop-blur-md text-sm font-medium mb-8 shadow-sm ${theme === 'dark' ? 'bg-dark-card/50 border-dark-accent/30 text-dark-accent' : 'bg-orange-50 border-orange-200 text-orange-600'}`}
                 >
-                    <span className={`flex h-2 w-2 rounded-full animate-pulse ${theme === 'dark' ? 'bg-dark-accent' : 'bg-brand-green-600'}`} />
+                    <span className={`flex h-2 w-2 rounded-full animate-pulse ${theme === 'dark' ? 'bg-dark-accent' : 'bg-orange-500'}`} />
                     {tagline}
-                    <ChevronRight className={`w-3 h-3 ml-1 ${theme === 'dark' ? 'text-dark-accent/50' : 'text-brand-green-600/50'}`} />
+                    <ChevronRight className={`w-3 h-3 ml-1 ${theme === 'dark' ? 'text-dark-accent/50' : 'text-orange-500/50'}`} />
                 </motion.div>
 
                 {/* Main Headline */}
@@ -39,10 +39,10 @@ const ProductHero = ({
                     initial={{ opacity: 0, y: 30 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.8, delay: 0.1 }}
-                    className={`text-5xl md:text-7xl lg:text-8xl font-sans font-bold mb-8 tracking-tight max-w-5xl mx-auto leading-[1.1] ${theme === 'dark' ? 'text-dark-text' : 'text-brand-green-900'}`}
+                    className={`text-5xl md:text-7xl lg:text-8xl font-sans font-bold mb-8 tracking-tight max-w-5xl mx-auto leading-[1.1] ${theme === 'dark' ? 'text-dark-text' : 'text-zinc-900'}`}
                 >
                     AI-Powered Solutions for <br />
-                    <span className="text-transparent bg-clip-text bg-gradient-to-r from-brand-yellow-600 via-brand-green-600 to-brand-green-800">
+                    <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-400 via-orange-600 to-orange-800">
                         Every Kind of Industry
                     </span>
                 </motion.h1>
@@ -67,14 +67,14 @@ const ProductHero = ({
                     <Button
                         size="lg"
                         onClick={() => navigate('/schedule-demo')}
-                        className={`font-semibold rounded-full px-8 h-14 text-lg shadow-lg hover:shadow-xl hover:-translate-y-1 transition-all duration-300 ${theme === 'dark' ? 'bg-dark-accent text-dark-bg hover:bg-dark-accent/90' : 'bg-brand-green-600 text-white hover:bg-brand-green-700'}`}
+                        className={`font-semibold rounded-full px-8 h-14 text-lg shadow-lg hover:shadow-xl hover:-translate-y-1 transition-all duration-300 ${theme === 'dark' ? 'bg-dark-accent text-dark-bg hover:bg-dark-accent/90' : 'bg-orange-500 text-white hover:bg-orange-600'}`}
                     >
                         Get Started
                     </Button>
                     <Button
                         size="lg"
                         variant="ghost"
-                        className={`rounded-full px-8 h-14 text-lg border backdrop-blur-sm ${theme === 'dark' ? 'text-dark-text border-dark-accent/30 hover:bg-dark-card' : 'text-brand-green-800 hover:bg-brand-green-50 border-brand-green-200/50'}`}
+                        className={`rounded-full px-8 h-14 text-lg border backdrop-blur-sm ${theme === 'dark' ? 'text-dark-text border-dark-accent/30 hover:bg-dark-card' : 'text-orange-700 hover:bg-orange-50 border-orange-200/50'}`}
                     >
                         14-days Free Trial
                     </Button>
@@ -82,7 +82,7 @@ const ProductHero = ({
             </div>
 
             {/* Soft fade at the bottom to transition to next section */}
-            <div className={`absolute bottom-0 left-0 right-0 h-24 pointer-events-none ${theme === 'dark' ? 'bg-gradient-to-t from-dark-card to-transparent' : 'bg-gradient-to-t from-brand-green-50 to-transparent'}`} />
+            <div className={`absolute bottom-0 left-0 right-0 h-24 pointer-events-none ${theme === 'dark' ? 'bg-gradient-to-t from-dark-card to-transparent' : 'bg-gradient-to-t from-orange-50 to-transparent'}`} />
         </section>
     );
 };

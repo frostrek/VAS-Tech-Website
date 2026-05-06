@@ -30,9 +30,9 @@ const FLOW: FlowStep[] = [
     { type: 'bot', text: "Hello! 👋 Welcome to VasT AI Support.\n\nI'm your intelligent WhatsApp assistant powered by enterprise-grade AI.", delay: 1400 },
     { type: 'bot', text: "What would you like to explore?", delay: 900, buttons: ['🚀 Our Products', '📅 Book a Demo', '💬 Talk to a Human'] },
     { type: 'user', text: "🚀 Our Products", delay: 3000 },
-    { type: 'bot', text: "Here are our top AI solutions:\n\n🤖 AI Chatbot — 24/7 support\n📞 AI Calling Agent — Voice AI\n📊 Smart Analytics — NLP insights\n⚡ Workflow Builder — No-code", delay: 1200, buttons: ['Learn More', 'Book a Demo'] },
+    { type: 'bot', text: "Here are our top AI solutions:\n\n🤖 AI Chatbot - 24/7 support\n📞 AI Calling Agent - Voice AI\n📊 Smart Analytics - NLP insights\n⚡ Workflow Builder - No-code", delay: 1200, buttons: ['Learn More', 'Book a Demo'] },
     { type: 'user', text: "Learn More", delay: 2800 },
-    { type: 'bot', text: "Our AI Chatbot resolves 90% of queries autonomously — cutting costs by up to 60%.", delay: 1000, isImage: true, imageLabel: "AI Chatbot Overview" },
+    { type: 'bot', text: "Our AI Chatbot resolves 90% of queries autonomously - cutting costs by up to 60%.", delay: 1000, isImage: true, imageLabel: "AI Chatbot Overview" },
     { type: 'bot', text: "Want to see it live? We can set up a 15-min personalized demo. ✨", delay: 1100, buttons: ['Yes, Book Demo', 'Maybe Later'] },
     { type: 'user', text: "Yes, Book Demo", delay: 3000 },
     { type: 'bot', text: "Perfect! 🎉 A specialist will reach out within 30 minutes.\n\nAnything else I can help with?", delay: 1400, buttons: ['No, thanks!', 'Another question'] },
@@ -99,20 +99,20 @@ const WhatsAppDemo = () => {
         }
     }, [messages, isTyping]);
 
-    // Main step engine — only handles bot/system messages. User messages are ONLY sent via clicks.
+    // Main step engine - only handles bot/system messages. User messages are ONLY sent via clicks.
     useEffect(() => {
         if (currentStep >= FLOW.length) { setIsComplete(true); return; }
-        if (waitingForUser) return; // Paused — waiting for user click
+        if (waitingForUser) return; // Paused - waiting for user click
 
         const step = FLOW[currentStep];
 
-        // Skip user steps in the engine — they are handled by button clicks
+        // Skip user steps in the engine - they are handled by button clicks
         if (step.type === 'user') {
             setWaitingForUser(true);
             return;
         }
 
-        // Bot or system message — auto-play with typing indicator
+        // Bot or system message - auto-play with typing indicator
         if (step.type === 'bot') setIsTyping(true);
 
         const timer = setTimeout(() => {
@@ -128,7 +128,7 @@ const WhatsAppDemo = () => {
         return () => clearTimeout(timer);
     }, [currentStep, waitingForUser]);
 
-    // User clicks a button — send their message & resume the bot flow
+    // User clicks a button - send their message & resume the bot flow
     const handleButtonClick = (btnText: string) => {
         if (!waitingForUser) return;
 
@@ -180,10 +180,10 @@ const WhatsAppDemo = () => {
                 {/* Feature Cards */}
                 <div className="space-y-3">
                     {[
-                        { icon: Sparkles, title: 'Quick Reply Templates', desc: 'Deploy rich templates with buttons, lists, and CTAs — your customers tap to respond instantly.' },
+                        { icon: Sparkles, title: 'Quick Reply Templates', desc: 'Deploy rich templates with buttons, lists, and CTAs - your customers tap to respond instantly.' },
                         { icon: MessageSquare, title: 'Catalog & Media', desc: 'Send product catalogs, images, and documents. Customers browse and order without leaving WhatsApp.' },
                         { icon: Bot, title: 'Context-Aware NLP', desc: 'Understands intent across 30+ languages. Remembers conversation history for natural follow-ups.' },
-                        { icon: Zap, title: 'CRM Auto-Sync', desc: 'Every conversation logs to Salesforce, HubSpot, or your custom CRM — zero manual effort.' },
+                        { icon: Zap, title: 'CRM Auto-Sync', desc: 'Every conversation logs to Salesforce, HubSpot, or your custom CRM - zero manual effort.' },
                     ].map((feat, i) => (
                         <motion.div
                             key={i}
@@ -389,7 +389,7 @@ const WhatsAppDemo = () => {
                     </div>
                 </div>
 
-                {/* Restart — properly below the phone */}
+                {/* Restart - properly below the phone */}
                 <AnimatePresence>
                     {isComplete && (
                         <motion.button
