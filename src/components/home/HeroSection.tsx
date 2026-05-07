@@ -43,12 +43,12 @@ const HeroSection = () => {
 
     return (
         <section className="relative min-h-[90vh] flex items-center overflow-hidden pt-24 lg:pt-32 pb-8 bg-transparent">
-            <div className="container mx-auto px-4 md:px-8 xl:px-0 relative z-10">
-                <div className="grid grid-cols-1 xl:grid-cols-[1.1fr_0.9fr] gap-16 lg:gap-24 items-center w-full max-w-[1300px] mx-auto">
+            <div className="max-w-[1400px] mx-auto px-6 md:px-12 lg:px-16 relative z-10">
+                <div className="grid grid-cols-1 xl:grid-cols-[1.1fr_0.9fr] gap-16 lg:gap-24 items-center w-full mx-auto">
                     
                     {/* Left Column: Text Content */}
                     <div className="flex flex-col items-center lg:items-start text-center lg:text-left w-full mx-auto lg:mx-0 z-20">
-                        <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-serif text-white leading-[1.1] tracking-tight mb-6 w-full flex flex-col items-center lg:items-start">
+                        <h1 className="text-[clamp(2.5rem,5vw,4.5rem)] font-serif text-white leading-[1.1] tracking-tight mb-6 w-full flex flex-col items-center lg:items-start">
                             <span className="block mb-2">Transforming</span>
                             
                             <div className="h-[1.2em] relative overflow-hidden flex items-center justify-center lg:justify-start w-fit min-w-full mb-1">

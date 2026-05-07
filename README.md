@@ -1,10 +1,10 @@
-# Frostrek - Next Gen AI Solutions
+# VAS Tech - Next Gen AI Solutions
 
-Frostrek is a cutting-edge web application showcasing advanced AI solutions for businesses, featuring a modern, high-performance interface built with React, TypeScript, and GSAP.
+VAS Tech is a cutting-edge web application showcasing advanced AI solutions for businesses, featuring a modern, high-performance interface built with React, TypeScript, and GSAP.
 
 ## 🚀 Overview
 
-This project represents the frontend interface for Frostrek, an AI agency specializing in:
+This project represents the frontend interface for VAS Tech, an AI agency specializing in:
 - AI Agents & Copilots
 - Voice AI Solutions
 - Workflow Automation
@@ -44,8 +44,8 @@ Follow these steps to set up the project locally:
 
 1. **Clone the repository:**
    ```bash
-   git clone https://github.com/frostrek/Frostrek-Website.git
-   cd Frostrek
+   git clone https://github.com/vastech/VAS-Tech-Website.git
+   cd VAS-Tech
    ```
 
 2. **Install dependencies:**
@@ -79,7 +79,7 @@ src/
 
 ## 🤝 Contribution
 
-This is a private repository for **Frostrek**.
+This is a private repository for **VAS Tech**.
 1. Create a new branch for your feature (`git checkout -b feature/amazing-feature`).
 2. Commit your changes (`git commit -m 'Add amazing feature'`).
 3. Push to the branch (`git push origin feature/amazing-feature`).
@@ -87,4 +87,4 @@ This is a private repository for **Frostrek**.
 
 ## 📄 License
 
-All rights reserved © 2026 Frostrek.
+All rights reserved © 2026 VAS Tech.

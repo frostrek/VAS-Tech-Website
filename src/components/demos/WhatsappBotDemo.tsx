@@ -126,13 +126,42 @@ const WhatsappBotDemo = () => {
                 </div>
             </div>
 
-            {/* Chat Area */}
             <div 
                 ref={chatContainerRef}
+                onWheel={(e) => {
+                    const container = e.currentTarget;
+                    const isAtTop = container.scrollTop === 0;
+                    const isAtBottom = Math.abs(container.scrollHeight - container.clientHeight - container.scrollTop) < 1;
+                    const isScrollingUp = e.deltaY < 0;
+                    const isScrollingDown = e.deltaY > 0;
+
+                    if ((isScrollingUp && !isAtTop) || (isScrollingDown && !isAtBottom)) {
+                        e.stopPropagation();
+                    }
+                }}
                 style={{ backgroundColor: bgChat }} 
-                className="flex-1 overflow-y-auto overscroll-y-contain min-h-0 relative scroll-smooth [&::-webkit-scrollbar]:w-[5px] [&::-webkit-scrollbar-thumb]:bg-gray-400/30 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-track]:bg-transparent"
+                className="flex-1 overflow-y-auto min-h-0 relative scroll-smooth scrollbar-whatsapp"
                 tabIndex={0}
             >
+                <style>{`
+                    .scrollbar-whatsapp::-webkit-scrollbar {
+                        width: 6px;
+                    }
+                    .scrollbar-whatsapp::-webkit-scrollbar-track {
+                        background: transparent;
+                    }
+                    .scrollbar-whatsapp::-webkit-scrollbar-thumb {
+                        background: ${isDark ? 'rgba(134, 150, 160, 0.2)' : 'rgba(0, 0, 0, 0.1)'};
+                        border-radius: 10px;
+                    }
+                    .scrollbar-whatsapp::-webkit-scrollbar-thumb:hover {
+                        background: ${isDark ? 'rgba(134, 150, 160, 0.4)' : 'rgba(0, 0, 0, 0.2)'};
+                    }
+                    .scrollbar-whatsapp {
+                        scrollbar-width: thin;
+                        scrollbar-color: ${isDark ? 'rgba(134, 150, 160, 0.2)' : 'rgba(0, 0, 0, 0.1)'} transparent;
+                    }
+                `}</style>
                 {/* Background Pattern */}
                 <div className="absolute inset-0 opacity-[0.04] pointer-events-none" style={{ backgroundImage: 'url("https://web.whatsapp.com/img/bg-chat-tile-dark_a4be512e7195b6b733d9110b408f075d.png")', backgroundRepeat: 'repeat' }}></div>
 

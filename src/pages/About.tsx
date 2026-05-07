@@ -136,9 +136,7 @@ const InteractiveGlobe = memo(() => {
     const isMobile = windowWidth < 768;
 
     const locations = {
-        CAN: { name: "St Catharines, ON", type: "Global HQ", address: "McNicholl Circle, ON L2N 7C5, Canada", flag: "https://flagcdn.com/w40/ca.png" },
-        GBR: { name: "London, UK", type: "Regional Office", address: "Arcadia Ave, London, UK", flag: "https://flagcdn.com/w40/gb.png" },
-        USA: { name: "Austin, TX", type: "Tech Hub", address: "701 Tillery St, Austin, TX 78702, USA", flag: "https://flagcdn.com/w40/us.png" }
+        CAN: { name: "St Catharines, ON", type: "Global HQ", address: "McNicholl Circle, ON L2N 7C5, Canada", flag: "https://flagcdn.com/w40/ca.png" }
     };
 
     return (
@@ -150,8 +148,8 @@ const InteractiveGlobe = memo(() => {
             <ComposableMap
                 projection="geoOrthographic"
                 projectionConfig={{
-                    rotate: [60, -40, 0], // Balanced rotation to show Canada, US and UK
-                    scale: isMobile ? 220 : 380,
+                    rotate: [79, -43, 0], // Perfectly centered on St Catharines, Canada
+                    scale: isMobile ? 220 : 420, // Making the globe bigger
                 }}
                 className="w-full h-full drop-shadow-2xl"
             >
@@ -161,11 +159,9 @@ const InteractiveGlobe = memo(() => {
                     {({ geographies }) =>
                         geographies.map((geo) => {
                             const iso = geo.id || geo.properties.ISO_A3 || geo.properties.ISO_A2;
-                            const isCanada = iso === "CAN";
-                            const isUSA = iso === "USA" || geo.properties.name === "United States";
-                            const isUK = iso === "GBR" || iso === "GB" || geo.properties.name === "United Kingdom";
-                            const isTarget = isCanada || isUSA || isUK;
-                            const countryId = isCanada ? "CAN" : isUSA ? "USA" : isUK ? "GBR" : null;
+                            const isCanada = iso === "CAN" || iso === 124 || geo.properties.name === "Canada";
+                            const isTarget = isCanada;
+                            const countryId = isCanada ? "CAN" : null;
 
                             return (
                                 <Geography
@@ -301,26 +297,6 @@ const About = () => {
             address: 'McNicholl Circle, St Catharines, Ontario L2N 7C5',
             mapUrl: 'https://www.google.com/maps/search/?api=1&query=McNicholl+Circle+St+Catharines+Ontario+L2N+7C5+Canada'
         },
-        {
-            name: 'United Kingdom',
-            city: 'London',
-            country: 'UK',
-            flagImg: 'https://flagcdn.com/w40/gb.png',
-            image: '/Arcadia-Office-1-.jpeg',
-            companyName: 'Regional Office',
-            address: 'Arcadia Ave, London',
-            mapUrl: 'https://www.google.com/maps/search/?api=1&query=Arcadia+Ave+London'
-        },
-        {
-            name: 'United States',
-            city: 'Austin',
-            country: 'USA',
-            flagImg: 'https://flagcdn.com/w40/us.png',
-            image: '/701 Tillery St 12 3227, Austin, TX 78702, USA.jpg',
-            companyName: 'Tech Hub',
-            address: '701 Tillery St, Austin, TX 78702',
-            mapUrl: 'https://www.google.com/maps/search/?api=1&query=701+Tillery+St+Austin+TX'
-        },
     ], []);
 
     return (
@@ -452,54 +428,39 @@ const About = () => {
                             </div>
                         </motion.div>
 
-                        {/* Image Block (Spans 1 col, 2 rows) */}
+                        {/* Image Block (Spans 2 cols, 2 rows) */}
                         <motion.div 
                             initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6, delay: 0.1 }}
-                            className="md:col-span-1 lg:col-span-1 md:row-span-2 relative rounded-[2rem] overflow-hidden border border-orange-500/20 shadow-[0_20px_40px_rgba(0,0,0,0.5)] group hidden lg:block h-full"
+                            className="md:col-span-1 lg:col-span-2 md:row-span-2 relative rounded-[2rem] overflow-hidden border border-orange-500/20 shadow-[0_20px_40px_rgba(0,0,0,0.5)] group h-full"
                         >
-                            <img src="/campus-4.jpg" alt="VAS Tech Team" className="w-full h-full object-cover scale-105 group-hover:scale-100 transition-transform duration-700" loading="lazy" decoding="async" />
-                            <div className="absolute inset-0 bg-gradient-to-t from-[#0A0705] via-transparent to-transparent opacity-80" />
+                            <img src="/campus-4.png" alt="VAS Tech Team" className="w-full h-full object-cover scale-105 group-hover:scale-100 transition-transform duration-700 brightness-[0.7] group-hover:brightness-90" loading="lazy" decoding="async" />
+                            <div className="absolute inset-0 bg-gradient-to-t from-[#0A0705] via-transparent to-transparent opacity-60" />
                             <div className="absolute bottom-6 left-6 text-white font-black text-2xl drop-shadow-md">
                                 Team <br/><span className="text-orange-400">VAS Tech</span>
                             </div>
                         </motion.div>
 
-                        {/* Small Stat Block 1 */}
-                        <motion.div 
-                            initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6, delay: 0.2 }}
-                            className="bg-[#111110] rounded-[2rem] border border-orange-500/20 p-8 flex flex-col justify-end shadow-xl relative overflow-hidden group min-h-[200px]"
-                        >
-                            <div className="absolute top-6 right-6 w-10 h-10 bg-orange-500/10 rounded-full flex items-center justify-center">
-                                <Zap className="w-5 h-5 text-orange-400" />
-                            </div>
-                            <div className="text-3xl font-serif text-white mb-2 group-hover:text-amber-400 transition-colors"><Counter value={undefined} suffix="+" text="15+" /></div>
-                            <div className="text-xs font-bold tracking-widest uppercase text-zinc-500">Years Experience</div>
-                        </motion.div>
-
-                        {/* Small Stat Block 2 */}
-                        <motion.div 
-                            initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6, delay: 0.3 }}
-                            className="bg-[#111110] rounded-[2rem] border border-orange-500/20 p-8 flex flex-col justify-end shadow-xl relative overflow-hidden group min-h-[200px]"
-                        >
-                            <div className="absolute top-6 right-6 w-10 h-10 bg-amber-500/10 rounded-full flex items-center justify-center">
-                                <Award className="w-5 h-5 text-amber-400" />
-                            </div>
-                            <div className="text-3xl font-serif text-white mb-2 group-hover:text-amber-400 transition-colors"><Counter value={undefined} suffix="+" text="Trusted" /></div>
-                            <div className="text-xs font-bold tracking-widest uppercase text-zinc-500">Industry Partner</div>
-                        </motion.div>
                         
                         {/* Wide Stat Block (Spans 2 cols, 1 row) */}
                         <motion.div 
                             initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6, delay: 0.4 }}
-                            className="md:col-span-2 lg:col-span-2 bg-[#1A1A1A] rounded-[2rem] border border-orange-500/20 p-8 flex flex-col justify-end shadow-[inset_0_1px_1px_rgba(255,255,255,0.05),0_10px_30px_rgba(0,0,0,0.5)] relative overflow-hidden min-h-[200px]"
+                            className="md:col-span-2 lg:col-span-2 bg-[#1A1A1A] rounded-[2rem] border border-orange-500/20 p-8 flex flex-col justify-end shadow-[inset_0_1px_1px_rgba(255,255,255,0.05),0_10px_30px_rgba(0,0,0,0.5)] relative overflow-hidden min-h-[200px] group"
                         >
-                            <div className="absolute top-0 right-0 w-64 h-64 bg-orange-500/20 rounded-full blur-[80px] -translate-y-1/2 translate-x-1/4 pointer-events-none" />
-                            <div className="flex items-end justify-between relative z-10 w-full">
-                                <div>
-                                    <div className="text-4xl font-serif text-transparent bg-clip-text bg-supportiq-button mb-2">Practical</div>
-                                    <div className="text-xs font-bold tracking-widest uppercase text-zinc-400">Results-Driven Solutions</div>
+                            <img 
+                                src="/Practical.png" 
+                                alt="Practical Solutions" 
+                                className="absolute inset-0 w-full h-full object-cover scale-105 group-hover:scale-100 transition-transform duration-700 brightness-[0.5] group-hover:brightness-75" 
+                            />
+                            <div className="absolute inset-0 bg-gradient-to-t from-[#0A0705] via-[#0A0705]/80 to-transparent opacity-90" />
+                            <div className="absolute top-0 right-0 w-64 h-64 bg-orange-500/10 rounded-full blur-[80px] -translate-y-1/2 translate-x-1/4 pointer-events-none" />
+                            <div className="flex items-end justify-between relative z-10 w-full p-6 h-full">
+                                <div className="drop-shadow-2xl">
+                                    <div className="text-2xl md:text-3xl font-black text-white leading-none uppercase tracking-tighter">Practical <br/><span className="text-orange-500">Solutions</span></div>
+                                    <div className="text-[9px] font-black tracking-[0.25em] uppercase text-zinc-500 mt-3 border-l border-orange-500/40 pl-3">Results-Driven Approach</div>
                                 </div>
-                                <Globe className="w-16 h-16 text-orange-500/30" />
+                                <div className="p-3 bg-[#0A0705]/40 backdrop-blur-md rounded-2xl border border-white/5 shadow-2xl">
+                                    <Globe className="w-8 h-8 text-orange-500/60 group-hover:text-orange-500 transition-colors" />
+                                </div>
                             </div>
                         </motion.div>
                         
@@ -508,11 +469,25 @@ const About = () => {
                             initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6, delay: 0.5 }}
                             className="md:col-span-1 lg:col-span-2 bg-[#111110] rounded-[2rem] border border-orange-500/20 p-8 flex flex-col justify-end shadow-xl relative overflow-hidden group min-h-[200px]"
                         >
-                            <div className="absolute top-6 right-6 w-10 h-10 bg-orange-500/10 rounded-full flex items-center justify-center">
-                                <Shield className="w-5 h-5 text-orange-400" />
+                            <img 
+                                src="/Smart_ops.png" 
+                                alt="Smart Operations" 
+                                className="absolute inset-0 w-full h-full object-cover scale-105 group-hover:scale-100 transition-transform duration-700 brightness-[0.5] group-hover:brightness-75" 
+                            />
+                            <div className="absolute inset-0 bg-gradient-to-t from-[#0A0705] via-[#0A0705]/80 to-transparent opacity-90" />
+                            <div className="relative z-10 drop-shadow-2xl p-6 h-full flex flex-col justify-end">
+                                <div className="absolute top-6 right-6 w-12 h-12 bg-[#0A0705]/40 backdrop-blur-md rounded-2xl flex items-center justify-center border border-white/5 shadow-2xl">
+                                    <Shield className="w-6 h-6 text-orange-500/60 group-hover:text-orange-500 transition-colors" />
+                                </div>
+                                <div>
+                                    <div className="text-2xl md:text-3xl font-black text-white leading-none uppercase tracking-tighter">
+                                        Smarter <br/><span className="text-orange-500">Operations</span>
+                                    </div>
+                                    <div className="text-[9px] font-black tracking-[0.25em] uppercase text-zinc-500 mt-3 border-l border-orange-500/40 pl-3">
+                                        <Counter value={undefined} suffix="%" text="Efficiency Gain" />
+                                    </div>
+                                </div>
                             </div>
-                            <div className="text-3xl font-serif text-white mb-2 group-hover:text-amber-400 transition-colors"><Counter value={undefined} suffix="%" text="Smarter" /></div>
-                            <div className="text-xs font-bold tracking-widest uppercase text-zinc-500">Operations</div>
                         </motion.div>
                     </div>
                 </div>
@@ -759,15 +734,15 @@ const About = () => {
                             className="inline-flex w-max items-center px-4 py-2 rounded-full text-xs font-black tracking-widest uppercase mb-6 bg-orange-500/10 text-orange-400 border border-orange-500/20 shadow-[0_0_15px_rgba(249,115,22,0.15)]"
                         >
                             <Globe className="inline w-4 h-4 mr-2" />
-                            Our Reach
+                            Our Headquarters
                         </motion.span>
 
                         <h2 className="text-3xl md:text-4xl lg:text-5xl font-serif mb-6 text-white tracking-tight leading-tight">
-                            Worldwide <br/> Presence.
+                            Canadian <br/> Innovation Hub.
                         </h2>
 
                         <p className="text-lg text-zinc-400 mb-12 leading-relaxed">
-                            Serving enterprises across three continents. Our localized infrastructure ensures low latency and robust compliance for AI deployment.
+                            Based in Ontario, Canada, our central hub coordinates AI innovation and industrial automation across North America.
                         </p>
                         
                         <div className="flex flex-col gap-4">
@@ -794,9 +769,9 @@ const About = () => {
                     </div>
 
                     {/* Globe Visualization */}
-                    <div className="lg:w-2/3 h-[450px] sm:h-[600px] lg:h-[800px] w-full relative perspective-1000">
+                    <div className="lg:w-1/2 h-[450px] sm:h-[600px] lg:h-[700px] w-full relative perspective-1000">
                         <div className="absolute inset-0 bg-gradient-to-r from-[#0A0705] via-transparent to-transparent z-10 pointer-events-none hidden lg:block" />
-                        <div className="absolute inset-0 lg:right-0 lg:top-1/2 lg:-translate-y-1/2 w-full h-full lg:scale-[1.2] lg:origin-right mix-blend-screen opacity-70 lg:opacity-50">
+                        <div className="absolute inset-0 lg:translate-x-[25%] lg:top-1/2 lg:-translate-y-1/2 w-full h-full lg:scale-[1.3] lg:origin-right mix-blend-screen opacity-70 lg:opacity-60">
                             <InteractiveGlobe />
                         </div>
                     </div>

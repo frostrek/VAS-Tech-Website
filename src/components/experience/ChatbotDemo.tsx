@@ -216,7 +216,37 @@ const ChatbotDemo: React.FC = () => {
             </div>
 
             {/* Messages */}
-            <div ref={chatContainerRef} className={`flex-1 overflow-y-auto p-4 flex flex-col gap-3 ${theme === 'dark' ? 'bg-dark-bg' : 'bg-gray-50'}`}>
+            <div 
+                ref={chatContainerRef} 
+                onWheel={(e) => {
+                    const container = e.currentTarget;
+                    const isAtTop = container.scrollTop === 0;
+                    const isAtBottom = Math.abs(container.scrollHeight - container.clientHeight - container.scrollTop) < 1;
+                    const isScrollingUp = e.deltaY < 0;
+                    const isScrollingDown = e.deltaY > 0;
+
+                    if ((isScrollingUp && !isAtTop) || (isScrollingDown && !isAtBottom)) {
+                        e.stopPropagation();
+                    }
+                }}
+                className={`flex-1 overflow-y-auto p-4 flex flex-col gap-3 scrollbar-custom scroll-smooth ${theme === 'dark' ? 'bg-dark-bg' : 'bg-gray-50'}`}
+            >
+                <style>{`
+                    .scrollbar-custom::-webkit-scrollbar {
+                        width: 6px;
+                    }
+                    .scrollbar-custom::-webkit-scrollbar-track {
+                        background: transparent;
+                    }
+                    .scrollbar-custom::-webkit-scrollbar-thumb {
+                        background: ${theme === 'dark' ? 'rgba(249, 115, 22, 0.3)' : 'rgba(0, 0, 0, 0.2)'};
+                        border-radius: 10px;
+                    }
+                    .scrollbar-custom {
+                        scrollbar-width: thin;
+                        scrollbar-color: ${theme === 'dark' ? 'rgba(249, 115, 22, 0.3)' : 'rgba(0, 0, 0, 0.2)'} transparent;
+                    }
+                `}</style>
                 {messages.map((msg, idx) => (
                     <motion.div
                         key={idx}

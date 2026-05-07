@@ -1,11 +1,11 @@
 {
-    "name": "Frostrek Schedule Demo (Fixed)",
+    "name": "VAS Tech Schedule Demo (Fixed)",
     "nodes": [
         {
             "parameters": {
                 "sendTo": "={{ $('Webhook1').item.json.body.email }}",
                 "subject": "✅ Demo Scheduled – Google Meet Link Inside",
-                "message": "=<h3>Hi{{ $('Webhook1').item.json.body.name }} ,</h3>\n<p>Your demo has been successfully scheduled.</p>\n<p>\n  <b>🗓 Date:</b>{{ $('Webhook1').item.json.body.date }} <br>\n  <b>⏰ Time:</b> {{ $('Webhook1').item.json.body.time }}\n</p>\n<p>\n  <b>🔗 <a href=\"{{ $json.hangoutLink }}\">Click here to join the Google Meet</a></b>\n</p>\n<p>Looking forward to speaking with you!</p>\n<p>– Team Frostrek</p>",
+                "message": "=<h3>Hi{{ $('Webhook1').item.json.body.name }} ,</h3>\n<p>Your demo has been successfully scheduled.</p>\n<p>\n  <b>🗓 Date:</b>{{ $('Webhook1').item.json.body.date }} <br>\n  <b>⏰ Time:</b> {{ $('Webhook1').item.json.body.time }}\n</p>\n<p>\n  <b>🔗 <a href=\"{{ $json.hangoutLink }}\">Click here to join the Google Meet</a></b>\n</p>\n<p>Looking forward to speaking with you!</p>\n<p>– Team VAS Tech</p>",
                 "options": {}
             },
             "name": "Gmail - Client",
@@ -26,7 +26,7 @@
         },
         {
             "parameters": {
-                "sendTo": "contact@frostrek.com",
+                "sendTo": "contact@vastechconsulting.com",
                 "subject": "📢 New Demo Scheduled",
                 "message": "=A new demo has been scheduled.\n\nName: {{ $('Webhook1').item.json.body.name }}\nEmail: {{ $('Webhook1').item.json.body.email }}\nDate: {{ $('Webhook1').item.json.body.date }}\nTime: {{ $('Webhook1').item.json.body.time }}\n\nMeet Link:\n{{$node[\"Google Calendar1\"].json[\"conferenceData\"][\"entryPoints\"][0][\"uri\"]}}",
                 "options": {}
@@ -36,7 +36,7 @@
             "typeVersion": 2,
             "position": [
                 400,
-                240
+                320
             ],
             "id": "dbeffa20-4105-429f-878b-29a6dc41491c",
             "webhookId": "57133009-7dcb-4017-8713-b73af9570303",
@@ -74,7 +74,7 @@
                 "end": "={{$json.body.date}}T{{$json.body.endTime}}",
                 "additionalFields": {
                     "attendees": [
-                        "={{ $json.body.email }}, contact@frostrek.com"
+                        "={{ $json.body.email }}, contact@vastechconsulting.com"
                     ],
                     "conferenceDataUi": {
                         "conferenceDataValues": {
@@ -82,7 +82,7 @@
                         }
                     },
                     "description": "=Demo meeting with {{ $json.body.name }}|Client Email:{{ $json.body.email }} Notes: {{ $json.body.notes }}",
-                    "summary": "=Frostrek Demo – {{ $json.body.name }}"
+                    "summary": "=VAS Tech Demo – {{ $json.body.name }}"
                 }
             },
             "name": "Google Calendar1",

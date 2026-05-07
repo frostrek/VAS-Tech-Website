@@ -47,7 +47,7 @@ const Header = () => {
                 ? "h-16 bg-black/70 border-orange-500/20 shadow-[0_4px_30px_rgba(0,0,0,0.5)]"
                 : "h-24 bg-transparent border-transparent"
         )}>
-            <div className="container mx-auto px-4 md:px-6 h-full flex items-center justify-between">
+            <div className="max-w-[1400px] mx-auto px-6 md:px-12 lg:px-16 h-full flex items-center justify-between">
                 {/* 1. Logo (Left) */}
                 <Link to="/" className="flex items-center group">
                     <img

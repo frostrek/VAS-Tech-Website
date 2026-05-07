@@ -101,7 +101,7 @@ const InvoiceAIOcrDemo = () => {
                             </div>
 
                             {/* Right: The Extracted JSON Data */}
-                            <div className="flex-1 bg-[#050505] border border-orange-500/20 rounded-lg p-4 font-mono text-[11px] overflow-y-auto overscroll-contain relative shadow-inner">
+                            <div className="flex-1 bg-[#050505] border border-orange-500/20 rounded-lg p-4 font-mono text-[11px] overflow-y-auto overscroll-contain relative shadow-inner scrollbar-thin scrollbar-thumb-orange-500/40 scrollbar-track-transparent">
                                 {state === 'scanning' ? (
                                     <div className="h-full flex flex-col items-center justify-center gap-3 text-orange-400">
                                         <Scan className="animate-[spin_3s_linear_infinite] w-8 h-8" />

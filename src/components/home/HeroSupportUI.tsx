@@ -440,7 +440,7 @@ const HeroSupportUI = () => {
                 className="relative z-10 flex shrink-0"
             >
                 {/* Device Hardware Bezel - Refined & Thinner */}
-                <div className="relative w-full max-w-[305px] h-[580px] sm:h-[600px] bg-[#0A0A0A] rounded-[3.2rem] border-[5px] border-[#1A1A1A] shadow-[0_40px_100px_rgba(0,0,0,0.8),inset_0_0_2px_rgba(255,255,255,0.1)] shrink-0 ring-1 ring-white/10 overflow-hidden mx-auto">
+                <div className="relative w-[320px] sm:w-[380px] h-[620px] sm:h-[680px] bg-[#0A0A0A] rounded-[3.2rem] border-[5px] border-[#1A1A1A] shadow-[0_40px_100px_rgba(0,0,0,0.5),inset_0_0_2px_rgba(255,255,255,0.1)] shrink-0 ring-1 ring-white/10 overflow-hidden mx-auto">
                     
                     {/* Hardware Buttons - Sleeker */}
                     <div className="absolute top-[100px] -right-[5px] w-[2px] h-[50px] bg-[#222222] rounded-r-sm z-50"></div>

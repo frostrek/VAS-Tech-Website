@@ -1,7 +1,7 @@
 # SPEC
 
 ## §G GOAL
-Frostrek VAS Tech website — enterprise AI showcase. Interactive demos demonstrate product capabilities. All demos ! behave correctly on all input devices.
+VAS Tech website — enterprise AI showcase. Interactive demos demonstrate product capabilities. All demos ! behave correctly on all input devices.
 
 ## §C CONSTRAINTS
 - Stack: React + TypeScript + Vite + Tailwind CSS + Framer Motion

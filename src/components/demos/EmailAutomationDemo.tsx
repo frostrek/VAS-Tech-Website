@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Mail, Sparkles, Send, User, ChevronLeft, MoreHorizontal, Bot } from 'lucide-react';
 
@@ -7,6 +7,8 @@ const EmailAutomationDemo = () => {
     const [typedText, setTypedText] = useState('');
 
     const fullDraft = `Hi Sarah,\n\nThank you for reaching out regarding the CS pipeline automation.\n\nBased on your volume, I recommend our multi-agent tier which can reduce ticket load by 60%. I've attached a high-level proposal and pricing sheet for your review.\n\nAvailable for a quick sync this Thursday?\n\nBest,\nVAS AI Agent`;
+
+    const scrollRef = useRef<HTMLDivElement>(null);
 
     const handleDraft = () => {
         setState('drafting');
@@ -22,6 +24,13 @@ const EmailAutomationDemo = () => {
             setTypedText('');
         }, 3000);
     };
+
+    // Auto-scroll to bottom during typing
+    useEffect(() => {
+        if (scrollRef.current) {
+            scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
+        }
+    }, [typedText, state]);
 
     useEffect(() => {
         if (state === 'drafted') {
@@ -50,7 +59,42 @@ const EmailAutomationDemo = () => {
             </div>
 
             {/* Email Body */}
-            <div className="flex-1 overflow-y-auto overscroll-contain p-4 sm:p-6 bg-[#050505]">
+            <div 
+                ref={scrollRef}
+                onWheel={(e) => {
+                    const container = e.currentTarget;
+                    const isAtTop = container.scrollTop === 0;
+                    const isAtBottom = Math.abs(container.scrollHeight - container.clientHeight - container.scrollTop) < 1;
+                    const isScrollingUp = e.deltaY < 0;
+                    const isScrollingDown = e.deltaY > 0;
+
+                    if ((isScrollingUp && !isAtTop) || (isScrollingDown && !isAtBottom)) {
+                        // We are in the middle of a scroll, stop it from moving the page
+                        e.stopPropagation();
+                    }
+                    // Otherwise, let it bubble to the page
+                }}
+                className="flex-1 overflow-y-auto p-4 sm:p-6 bg-[#050505] scrollbar-custom scroll-smooth"
+            >
+                <style>{`
+                    .scrollbar-custom::-webkit-scrollbar {
+                        width: 6px;
+                    }
+                    .scrollbar-custom::-webkit-scrollbar-track {
+                        background: transparent;
+                    }
+                    .scrollbar-custom::-webkit-scrollbar-thumb {
+                        background: rgba(249, 115, 22, 0.3);
+                        border-radius: 10px;
+                    }
+                    .scrollbar-custom::-webkit-scrollbar-thumb:hover {
+                        background: rgba(249, 115, 22, 0.5);
+                    }
+                    .scrollbar-custom {
+                        scrollbar-width: thin;
+                        scrollbar-color: rgba(249, 115, 22, 0.3) transparent;
+                    }
+                `}</style>
                 {/* Incoming Email */}
                 {state !== 'sent' ? (
                     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="mb-6">

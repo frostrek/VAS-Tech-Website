@@ -21,28 +21,12 @@ export interface TimelineItem {
 // ============ TIMELINE DATA ============
 export const TIMELINE_DATA: TimelineItem[] = [
     {
-        year: '2021',
+        year: '2025',
         title: 'Inception',
         description: 'Founded with a clear vision-to bridge the gap between deep industrial expertise and the rapidly evolving world of technology.',
         icon: Sparkles,
         image: '/inception.png',
         color: { border: 'rgb(176, 117, 82)', shadow: 'rgba(176, 117, 82, 0.2)', bg: 'bg-brand-green-50', text: 'text-brand-green-700', iconColor: 'text-brand-green-500' }
-    },
-    {
-        year: '2025',
-        title: 'Identifying Disconnects',
-        description: 'Observing the common challenge: businesses were either operationally strong but technologically behind, or vice versa.',
-        icon: Building2,
-        image: '/firstDeployment.png',
-        color: { border: 'rgb(212, 187, 117)', shadow: 'rgba(212, 187, 117, 0.2)', bg: 'bg-brand-yellow-50', text: 'text-brand-yellow-700', iconColor: 'text-brand-yellow-500' }
-    },
-    {
-        year: '2025',
-        title: 'Technology-First Evolution',
-        description: 'Evolved into a technology-first organization offering a wide range of IT and AI services, automation, and digital transformation.',
-        icon: Globe,
-        image: '/global.png',
-        color: { border: 'rgb(138, 90, 53)', shadow: 'rgba(138, 90, 53, 0.2)', bg: 'bg-stone-100', text: 'text-stone-700', iconColor: 'text-stone-600' }
     },
     {
         year: '2026',
